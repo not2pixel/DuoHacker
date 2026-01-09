@@ -1,5 +1,4 @@
-# update to 1.1
+# update to 1.2
 **🔥Changelog**
-- Added Lesson Shortner ( credit to freepentestz )
-- Added Webhook Feature
-- Changed some UI to improve DuoHacker performace
+- Removed Superlinks Checker & XP/Gems Booster
+- Added Safe Streaks ( Maybe not working sometimes)
