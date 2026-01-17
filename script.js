@@ -1,7 +1,55 @@
-const VERSION = "1.1.0";
+const VERSION = "1.3.0";
 const SAFE_DELAY = 2000;
 const FAST_DELAY = 300;
 const STORAGE_KEY = 'duohacker_accounts';
+const AVATAR_KEY_PREFIX = 'duohacker_avatar_';
+const normalizeAvatarUrl = (url) => {
+    if (!url || typeof url !== 'string') return '';
+    let u = url.trim();
+    if (!/^https?:\/\//i.test(u)) {
+        if (u.startsWith('//')) u = 'https:' + u;
+        else if (u.startsWith('/')) u = 'https://www.duolingo.com' + u;
+        else u = 'https:' + u;
+    }
+    u = u.replace(/\/(medium|large|small)$/, '/xlarge');
+    if (!u.endsWith('/xlarge') && u.includes('duolingo.com/ssr-avatars')) {
+        u += '/xlarge';
+    }
+    return u;
+};
+
+const getStoredAvatarUrl = (username) => {
+    if (!username) return '';
+    return normalizeAvatarUrl(localStorage.getItem(`${AVATAR_KEY_PREFIX}${username}`) || '');
+};
+
+const setStoredAvatarUrl = (username, url) => {
+    if (!username) return;
+    try {
+        localStorage.setItem(`${AVATAR_KEY_PREFIX}${username}`, normalizeAvatarUrl(url) || '');
+    } catch (e) {}
+};
+
+const getAccountAvatarUrl = (account) => {
+    const fromAccount = normalizeAvatarUrl(account?.picture || '');
+    return fromAccount || getStoredAvatarUrl(account?.username);
+};
+
+const getAccountAvatarHTML = (account, size = 20) => {
+    const url = getAccountAvatarUrl(account);
+    return url
+        ? `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" draggable="false">`
+        : `<span style="font-size: ${size}px;">👤</span>`;
+};
+const shopIcons = {
+    xp: "https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg",
+    streak: "https://d35aaqx5ub95lt.cloudfront.net/images/icons/216ddc11afcbb98f44e53d565ccf479e.svg",
+    heart: "https://d35aaqx5ub95lt.cloudfront.net/images/hearts/547ffcf0e6256af421ad1a32c26b8f1a.svg",
+    gem: "https://d35aaqx5ub95lt.cloudfront.net/images/gems/45c14e05be9c1af1d7d0b54c6eed7eee.svg",
+    outfit: "https://d35aaqx5ub95lt.cloudfront.net/vendor/0cecd302cf0bcd0f73d51768feff75fe.svg",
+    free: "https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg",
+    misc: "https://d35aaqx5ub95lt.cloudfront.net/images/leagues/9fadb349c2ece257386a0e576359c867.svg"
+};
 const SESSION_KEY = 'duohacker_session';
 const SCRIPT_ID = '551444';
 const TARGET_FOLLOW_USER_ID = '561583074752767';
@@ -14,10 +62,10 @@ let solvingIntervalId = null;
 let solverUI = null;
 let isInLesson = false;
 let SOLVE_SPEED = 1.0;
-let INJECT_SOLVER_ENABLED = localStorage.getItem('duohacker_inject_solver') === 'true';
-let autoSolveEnabled = localStorage.getItem('duohacker_auto_solve') === 'true';
-let LESSON_SHORTNER_ENABLED = localStorage.getItem('duohacker_lesson_shortner') === 'true';
-let hideAnimationEnabled = localStorage.getItem('duohacker_hide_animation') === 'true';
+window.INJECT_SOLVER_ENABLED = localStorage.getItem('duohacker_inject_solver') === 'true';
+window.autoSolveEnabled = localStorage.getItem('duohacker_auto_solve') === 'true';
+window.LESSON_SHORTNER_ENABLED = localStorage.getItem('duohacker_lesson_shortner') === 'true';
+window.hideAnimationEnabled = localStorage.getItem('duohacker_hide_animation') === 'true';
 let hideImageInterval = null;
 let isRunning = false;
 let currentMode = 'safe';
@@ -56,8 +104,25 @@ let farmingInterval = null;
 let savedAccounts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let duolingoMaxEnabled = localStorage.getItem('duohacker_duolingo_max') === 'true';
 let sessionData = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
+let currentLessonCount = Number(sessionData.currentLessonCount ?? 0);
+let lessonsToSolve = Number(sessionData.lessonsToSolve ?? 0);
 let autoNameEnabled = localStorage.getItem('duohacker_auto_name') !== 'false';
 let duolingoSuperEnabled = localStorage.getItem('duohacker_duolingo_super') === 'true';
+let skillId = null;
+const extractSkillId = (currentCourse) => {
+    const sections = currentCourse?.pathSectioned || [];
+    for (const section of sections) {
+        const units = section.units || [];
+        for (const unit of units) {
+            const levels = unit.levels || [];
+            for (const level of levels) {
+                const skillId = level.pathLevelMetadata?.skillId || level.pathLevelClientData?.skillId;
+                if (skillId) return skillId;
+            }
+        }
+    }
+    return null;
+};
 if (sessionData && sessionData.currentLessonCount !== undefined) {
     currentLessonCount = sessionData.currentLessonCount;
     lessonsToSolve = sessionData.lessonsToSolve;
@@ -957,196 +1022,175 @@ const solve = () => {
         }
     }
 };
-const SHOP_ITEMS = [{
-        label: "3 Day Super Trial",
-        value: "immersive_subscription",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Streak Freeze (Max-6)",
-        value: "society_streak_freeze",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/216ddc11afcbb98f44e53d565ccf479e.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Heart Segment",
-        value: "heart_segment",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/hearts/547ffcf0e6256af421ad1a32c26b8f1a.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Health Refill",
-        value: "health_refill",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/hearts/547ffcf0e6256af421ad1a32c26b8f1a.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "XP Boost Stackable",
-        value: "xp_boost_stackable",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "General XP Boost",
-        value: "general_xp_boost",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "XP Boost x2 15 Mins",
-        value: "xp_boost_15",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "XP Boost x2 60 Mins",
-        value: "xp_boost_60",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "XP Boost x3 15 Mins",
-        value: "xp_boost_refill",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Early Bird XP Boost",
-        value: "early_bird_xp_boost",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Row Blaster 150",
-        value: "row_blaster_150",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/leagues/9fadb349c2ece257386a0e576359c867.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
-    },
-    {
-        label: "Row Blaster 250",
-        value: "row_blaster_250",
-        icon: "<img src='https://d35aaqx5ub95lt.cloudfront.net/images/leagues/9fadb349c2ece257386a0e576359c867.svg' style='width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));'>"
+const categorizeItems = (items) => {
+    return items
+        .filter(i => i.currencyType === "XGM" && !i.id.includes('gift'))
+        .map(i => {
+            let category = "Misc";
+            let icon = shopIcons.misc;
+            let displayName = formatItemName(i.id, i.name);
+
+            if (i.id.includes('streak_freeze')) {
+                category = "Streak Freezes";
+                icon = shopIcons.streak;
+            } else if (i.id.includes('xp_boost')) {
+                category = "XP Boosts";
+                icon = shopIcons.xp;
+                const match = i.id.match(/\d+$/);
+                if (match) displayName += ` (${match[0]} min)`;
+            } else if (i.id.includes('health') || i.id.includes('heart')) {
+                category = "Hearts";
+                icon = shopIcons.heart;
+                if (i.id.includes('partial')) {
+                    const num = i.id.match(/\d$/);
+                    if (num) displayName = `Health Refill Partial (${num[0]} Heart)`;
+                }
+            } else if (i.id.includes('gem')) {
+                category = "Gems";
+                icon = shopIcons.gem;
+            } else if (i.type === "outfit") {
+                category = "Outfits";
+                icon = shopIcons.outfit;
+            } else if (i.id.includes('free_taste') || i.id.includes('immersive')) {
+                category = "Free Trials";
+                icon = shopIcons.free;
+            }
+
+            return {
+                ...i,
+                category,
+                icon,
+                displayName
+            };
+        })
+        .sort((a, b) => {
+            const catOrder = ["Streak Freezes", "XP Boosts", "Hearts", "Gems", "Outfits", "Free Trials", "Misc"];
+            const catA = catOrder.indexOf(a.category);
+            const catB = catOrder.indexOf(b.category);
+
+            if (catA !== catB) return catA - catB;
+            return a.displayName.localeCompare(b.displayName);
+        });
+};
+const getShopItems = async (headers) => {
+    try {
+        const res = await fetch('https://www.duolingo.com/2023-05-23/shop-items', {
+            method: 'GET',
+            headers: headers,
+            credentials: 'include'
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            return data.shopItems || [];
+        } else {
+            console.error('Failed to fetch shop items:', res.status);
+            return [];
+        }
+    } catch (e) {
+        console.error('Error fetching shop items:', e);
+        return [];
     }
-];
-const buyItem = async (itemId) => {
+};
+const formatItemName = (id, name) => {
+    if (name) return name;
+
+    return id.split('_').map(word => {
+        if (word === 'xp') return 'XP';
+        if (!isNaN(word)) return word;
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+};
+const buyItem = async (itemId, itemData = null) => {
     if (!userInfo || !sub || !jwt || !defaultHeaders) {
         logToConsole('❌ Not logged in or user data missing', 'error');
         alert('❌ Error: User data missing. Please refresh the page.');
         return false;
     }
-    const item = SHOP_ITEMS.find(i => i.value === itemId);
-    if (!item) {
-        logToConsole('❌ Item not found', 'error');
-        return false;
-    }
+
     try {
-        logToConsole(`⏳ Purchasing ${item.label}...`, 'info');
-        let response;
-        if (itemId === "xp_boost_refill") {
-            const innerBody = {
-                "isFree": false,
-                "learningLanguage": userInfo.learningLanguage,
-                "subscriptionFeatureGroupId": 0,
-                "xpBoostSource": "REFILL",
-                "xpBoostMinutes": 15,
-                "xpBoostMultiplier": 3,
-                "id": itemId
-            };
+        logToConsole(`⏳ Purchasing ${itemData?.displayName || itemId}...`, 'info');
+        if (itemId === "immersive_subscription" || itemId.includes('free_taste')) {
             const payload = {
-                "includeHeaders": true,
-                "requests": [{
-                    "url": `/2023-05-23/users/${sub}/shop-items`,
-                    "extraHeaders": {},
-                    "method": "POST",
-                    "body": JSON.stringify(innerBody)
-                }]
-            };
-            const batchHeaders = {
-                ...defaultHeaders,
-                "host": "ios-api-2.duolingo.com",
-                "x-amzn-trace-id": `User=${sub}`,
-                "Content-Type": "application/json"
-            };
-            response = await fetch("https://ios-api-2.duolingo.com/2023-05-23/batch", {
-                method: "POST",
-                headers: batchHeaders,
-                body: JSON.stringify(payload),
-                credentials: 'include'
-            });
-        } else if (itemId === "immersive_subscription") {
-            if (userInfo.hasPlus) {
-                logToConsole('⚠️ Already have Super', 'warning');
-                alert('⚠️ You already have Super Duolingo active!');
-                return false;
-            }
-            const data = {
-                itemName: "immersive_subscription",
-                productId: "com.duolingo.immersive_free_trial_subscription"
-            };
-            const shopHeaders = {
-                ...defaultHeaders,
-                "User-Agent": "Duodroid/6.26.2 Dalvik/2.1.0 (Linux; U; Android 13; Pixel 7 Build/TQ3A.230805.001)"
-            };
-            response = await fetch(
-                `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`, {
-                    method: "POST",
-                    headers: shopHeaders,
-                    body: JSON.stringify(data),
-                    credentials: 'include'
-                }
-            );
-            if (response && response.ok) {
-                const resData = await response.json();
-                if (resData.purchaseId) {
-                    userInfo.hasPlus = true;
-                    logToConsole('✅ Super Trial activated!', 'success');
-                    alert('✅ SUCCESS! 3-Day Super Trial Activated.\nThe page will now refresh.');
-                    window.location.reload();
-                    return true;
-                } else {
-                    logToConsole('❌ Activation failed (No purchaseId)', 'error');
-                    alert('❌ Failed: Server did not return a purchase ID.');
-                    return false;
-                }
-            } else {
-                const errText = await response.text();
-                logToConsole(`❌ Activation failed (HTTP ${response.status})`, 'error');
-                alert(`❌ Failed (HTTP ${response.status}):\n${errText}`);
-                return false;
-            }
-        } else {
-            const data = {
                 "itemName": itemId,
                 "isFree": true,
                 "consumed": true,
                 "fromLanguage": userInfo.fromLanguage,
-                "learningLanguage": userInfo.learningLanguage
+                "learningLanguage": userInfo.learningLanguage,
+                "productId": "com.duolingo.immersive_free_trial_subscription"
             };
-            const shopHeaders = {
-                ...defaultHeaders,
-                "User-Agent": "Duodroid/6.26.2 Dalvik/2.1.0 (Linux; U; Android 13; Pixel 7 Build/TQ3A.230805.001)"
-            };
-            response = await fetch(
-                `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`, {
+
+            const response = await fetch(
+                `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`,
+                {
                     method: "POST",
-                    headers: shopHeaders,
-                    body: JSON.stringify(data),
+                    headers: defaultHeaders,
+                    body: JSON.stringify(payload),
                     credentials: 'include'
                 }
             );
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.purchaseId) {
+                    logToConsole('✅ Super Trial activated!', 'success');
+                    return true;
+                }
+            }
+
+            logToConsole(`❌ Purchase failed (HTTP ${response.status})`, 'error');
+            return false;
         }
-        if (response && response.status === 200) {
-            logToConsole(`✅ SUCCESS! Received ${item.label}!`, 'success');
+        const payload = {
+            "itemName": itemId,
+            "isFree": true,
+            "consumed": true,
+            "fromLanguage": userInfo.fromLanguage,
+            "learningLanguage": userInfo.learningLanguage
+        };
+
+        const response = await fetch(
+            `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`,
+            {
+                method: "POST",
+                headers: defaultHeaders,
+                body: JSON.stringify(payload),
+                credentials: 'include'
+            }
+        );
+
+        if (response.status === 200) {
+            logToConsole(`✅ SUCCESS! Acquired ${itemData?.displayName || itemId}!`, 'success');
             return true;
-        } else if (response) {
+        } else {
             const errorText = await response.text();
             logToConsole(`❌ Failed (HTTP ${response.status}): ${errorText}`, 'error');
             return false;
-        } else {
-            logToConsole('❌ No response from server', 'error');
-            return false;
         }
+
     } catch (error) {
         logToConsole(`❌ Purchase error: ${error.message}`, 'error');
-        alert(`❌ Error: ${error.message}`);
         return false;
     }
 };
 const showMonthlyBadges = async () => {
     'use strict';
     const existingPanel = document.getElementById('duo-qt-panel');
+    const openQuestModal = (panel) => {
+        panel.style.display = 'flex';
+        // trigger transition
+        requestAnimationFrame(() => panel.classList.add('qt-open'));
+    };
+    const closeQuestModal = (panel) => {
+        panel.classList.remove('qt-open');
+        panel.classList.add('qt-closing');
+        setTimeout(() => {
+            panel.style.display = 'none';
+            panel.classList.remove('qt-closing');
+        }, 360);
+    };
     if (existingPanel) {
-        existingPanel.style.display = 'flex';
+        openQuestModal(existingPanel);
         return;
     }
     if (typeof sub === 'undefined' || !sub || typeof jwt === 'undefined' || !jwt) {
@@ -1215,7 +1259,7 @@ const showMonthlyBadges = async () => {
             font-size: 16px;
             cursor: pointer;
             box-shadow: 0 4px 0 #46a302;
-            transition: transform 0.1s, filter 0.2s;
+            transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.2, 1), filter 0.22s cubic-bezier(0.2, 0.9, 0.2, 1); will-change: transform;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1228,26 +1272,65 @@ const showMonthlyBadges = async () => {
         }
 #duo-qt-panel {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* căn giữa màn hình */
-  width: 420px;
-  height: 640px;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  font-family: 'DIN Next Rounded LT Pro', 'Nunito', sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#duo-qt-panel.qt-open { opacity: 1; pointer-events: auto; }
+#duo-qt-panel .qt-modal-container {
+  width: 460px;
+  height: 680px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 32px);
   display: flex;
   flex-direction: column;
-  background: var(--duo-panel-bg);
-  border-radius: 24px;
-  border: 2px solid var(--duo-border);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  font-family: inherit;
-  color: var(--duo-text-main);
-  animation: slideIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-    position: fixed !important;
-    z-index: 2147483647 !important; /* max int của browser */
-    isolation: isolate !important;
+  contain: layout paint;
+  backface-visibility: hidden;
+  transform: scale(0.96) translateY(18px);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+#duo-qt-panel.qt-open .qt-modal-container { transform: scale(1) translateY(0); opacity: 1; }
+#duo-qt-panel.qt-closing .qt-modal-container { transform: scale(0.98) translateY(10px); opacity: 0; }
+#duo-qt-panel ._modal_container { animation: none !important; }
+#duo-qt-panel {
+  --duo-panel-bg: var(--bg-card);
+  --duo-item-bg: var(--bg-card);
+  --duo-border: var(--border-color);
+  --duo-text-main: var(--text-primary);
+  --duo-text-sub: var(--text-secondary);
+  --duo-input-bg: var(--bg-secondary);
+}
+#duo-qt-panel .qt-header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+#duo-qt-panel .qt-header h3 { color: var(--text-primary); }
+#duo-qt-panel .qt-close {
+  padding: 6px 10px;
+  border-radius: 10px;
+  transition: var(--transition);
+}
+#duo-qt-panel .qt-close:hover {
+  background: rgba(229, 57, 53, 0.12);
+  color: var(--error-color);
+}
+@media (prefers-reduced-motion: reduce) {
+  #duo-qt-panel, #duo-qt-panel .qt-modal-container { transition: none !important; }
 }
         .qt-header {
             padding: 15px 20px;
@@ -1264,7 +1347,7 @@ const showMonthlyBadges = async () => {
             cursor: pointer; color: var(--duo-text-sub); font-weight: bold; font-size: 20px;
             transition: color 0.2s, transform 0.2s;
         }
-        .qt-close:hover { color: var(--duo-text-main); transform: rotate(90deg); }
+        .qt-close:hover { color: var(--duo-text-main); transform: none; }
         .qt-status-bar {
             padding: 8px 20px;
             background: var(--duo-panel-bg);
@@ -1376,7 +1459,7 @@ const showMonthlyBadges = async () => {
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: transform 0.1s, filter 0.2s;
+            transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.2, 1), filter 0.22s cubic-bezier(0.2, 0.9, 0.2, 1); will-change: transform;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1448,6 +1531,8 @@ const showMonthlyBadges = async () => {
             background: var(--duo-border);
             border-radius: 10px;
             overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
             position: relative;
         }
         .qt-progress-bar-fill {
@@ -1791,10 +1876,13 @@ const showMonthlyBadges = async () => {
     function createUI() {
         const panel = document.createElement('div');
         panel.id = 'duo-qt-panel';
+        panel.className = '_modal_root qt-modal-root';
         panel.innerHTML = `
+            <div class="_modal_overlay"></div>
+            <div class="_modal_container qt-modal-container">
             <div class="qt-header">
                 <h3>Duolingo Quest Tool</h3>
-                <span class="qt-close" id="qt-close-btn">✕</span>
+                <span class="qt-close" id="qt-close-btn">❌</span>
             </div>
             <div class="qt-status-bar">
                 <div>
@@ -1835,8 +1923,12 @@ const showMonthlyBadges = async () => {
             <div class="qt-footer">
                 Credits: <a href="https://github.com/apersongithub/" target="_blank">apersongithub</a>
             </div>
+            </div>
+        </div>
         `;
         document.body.appendChild(panel);
+        openQuestModal(panel);
+        panel.querySelector('._modal_overlay')?.addEventListener('click', () => closeQuestModal(panel));
 
         const header = panel.querySelector('.qt-header');
         let isDragging = false;
@@ -1845,7 +1937,7 @@ const showMonthlyBadges = async () => {
         document.onmousemove = () => {};
         document.onmouseup = () => {};
 
-        document.getElementById('qt-close-btn').onclick = () => panel.style.display = 'none';
+        document.getElementById('qt-close-btn').onclick = () => closeQuestModal(panel);
         document.getElementById('qt-load-btn').onclick = loadData;
         document.getElementById('qt-claim-all-btn').onclick = claimAllMonthly;
 
@@ -2070,255 +2162,321 @@ styleSheet.innerText = `
 `;
 document.head.appendChild(styleSheet);
 const showItemShop = async () => {
-    console.log("🎁 Opening Item Shop...");
-    if (!userInfo || !sub || !jwt || !defaultHeaders) {
-        console.log("📊 User not loaded yet, initializing...");
-        logToConsole('Initializing user data for shop...', 'info');
-        const success = await initializeFarming();
-        if (!success || !userInfo || !sub || !jwt) {
-            logToConsole('❌ Failed to load user data. Please try again.', 'error');
-            alert('Failed to load user data. Please reload the page and try again.');
-            return;
-        }
-        logToConsole('✅ User data loaded successfully', 'success');
+  console.log("🎁 Opening Item Shop...");
+
+  // Initialize user data if needed
+  if (!userInfo || !sub || !jwt || !defaultHeaders) {
+    console.log("📊 User not loaded yet, initializing...");
+    logToConsole("Initializing user data for shop...", "info");
+    const success = await initializeFarming();
+    if (!success || !userInfo || !sub || !jwt) {
+      logToConsole("❌ Failed to load user data. Please try again.", "error");
+      alert("Failed to load user data. Please reload the page and try again.");
+      return;
     }
-    console.log("✅ User data ready:", {
-        userInfo,
-        sub,
-        jwt: !!jwt
-    });
-    const modal = document.createElement('div');
-    modal.id = '_item_shop_modal';
-    modal.className = '_modal';
-    modal.style.display = 'flex';
-    modal.innerHTML = `
-        <div class="_modal_overlay"></div>
-        <div class="_modal_container _wide">
-            <div class="_modal_header">
-                <h2>
-                    <span style="font-size: 24px; display:inline-block;vertical-align:middle;margin-right:8px">🎁</span>
-                    Free Item Shop
-                </h2>
-                <button class="_close_modal_btn" id="_close_item_shop">
-                    <span style="font-size: 18px;">❌</span>
-                </button>
-            </div>
-            <div class="_modal_content">
-                <div class="_shop_grid" id="_shop_items_grid">
-                    ${SHOP_ITEMS.map(item => `
-                        <div class="_shop_item_card">
-                            <div class="_shop_item_icon">${item.icon}</div>
-                            <div class="_shop_item_name">${item.label}</div>
-<button class="_shop_buy_btn" data-item-id="${item.value}">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-        <path d="M12 7V20M12 7H8.46429C7.94332 7 7.4437 6.78929 7.07533 6.41421C6.70695 6.03914 6.5 5.53043 6.5 5C6.5 4.46957 6.70695 3.96086 7.07533 3.58579C7.4437 3.21071 7.94332 3 8.46429 3C11.2143 3 12 7 12 7ZM12 7H15.5357C16.0567 7 16.5563 6.78929 16.9247 6.41421C17.293 6.03914 17.5 5.53043 17.5 5C17.5 4.46957 17.293 3.96086 16.9247 3.58579C16.5563 3.21071 16.0567 3 15.5357 3C12.7857 3 12 7 12 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6 7H18C19.1046 7 20 7.89543 20 9V10C20 11.1046 19.1046 12 18 12H6C4.89543 12 4 11.1046 4 10V9C4 7.89543 4.89543 7 6 7Z" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M6 12V19C6 20.1046 6.89543 21 8 21H16C17.1046 21 18 20.1046 18 19V12" stroke="currentColor" stroke-width="1.5"/>
-    </svg>
-    Get Free
-</button>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="_shop_stats">
-                    <p style="color: var(--text-secondary); font-size: 12px; text-align: center; margin-top: 20px;">
-                        ✨ All items are FREE! Click any item to claim it instantly.
-                    </p>
-                </div>
-            </div>
-        </div>
+    logToConsole("✅ User data loaded successfully", "success");
+  }
+
+  // ---- Minimal, SAFE animation CSS (scoped) ----
+  // NOTE: only affects #_item_shop_modal and children, so it won't break other features.
+  if (!document.getElementById("_item_shop_anim_css")) {
+    const style = document.createElement("style");
+    style.id = "_item_shop_anim_css";
+    style.textContent = `
+      /* modal open/close (scoped) */
+      #_item_shop_modal { opacity: 0; }
+      #_item_shop_modal._open { opacity: 1; transition: opacity 160ms ease; }
+      #_item_shop_modal._closing { opacity: 0; transition: opacity 140ms ease; }
+
+      #_item_shop_modal ._modal_overlay { opacity: 0; transition: opacity 160ms ease; }
+      #_item_shop_modal._open ._modal_overlay { opacity: 1; }
+
+      #_item_shop_modal ._modal_container{
+        opacity: 0;
+        transform: translateY(12px) scale(.985);
+        transition: transform 180ms cubic-bezier(.16,1,.3,1), opacity 180ms cubic-bezier(.16,1,.3,1);
+        will-change: transform, opacity;
+      }
+      #_item_shop_modal._open ._modal_container{
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      #_item_shop_modal._closing ._modal_container{
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+      }
+
+      /* card entrance (scoped) */
+      #_item_shop_modal ._shop_item_card{
+        will-change: transform, opacity;
+      }
+      #_item_shop_modal ._shop_item_card._enter{
+        animation: _shopFadeUp 360ms cubic-bezier(.16,1,.3,1) both;
+      }
+      @keyframes _shopFadeUp{
+        from{ opacity: 0; transform: translateY(10px); }
+        to{ opacity: 1; transform: translateY(0); }
+      }
+
+      /* button micro interactions (scoped) */
+      #_item_shop_modal ._shop_buy_btn{
+        transition: transform 120ms ease, filter 120ms ease;
+      }
+      #_item_shop_modal ._shop_buy_btn:hover{ filter: brightness(1.06); }
+      #_item_shop_modal ._shop_buy_btn:active{ transform: scale(.97); }
+
+      /* reload spin (scoped) */
+      #_item_shop_modal ._spin svg{ animation: _shopSpin 700ms linear 1; transform-origin: 50% 50%; }
+      @keyframes _shopSpin{ to{ transform: rotate(360deg); } }
+
+      /* reduced motion */
+      @media (prefers-reduced-motion: reduce){
+        #_item_shop_modal,
+        #_item_shop_modal ._modal_overlay,
+        #_item_shop_modal ._modal_container,
+        #_item_shop_modal ._shop_item_card._enter{
+          transition: none !important;
+          animation: none !important;
+        }
+      }
     `;
-    document.body.appendChild(modal);
-    document.getElementById('_close_item_shop')?.addEventListener('click', () => {
-        console.log("🎁 Closing Item Shop");
-        modal.remove();
-    });
-    modal.addEventListener('click', (e) => {
-        if (e.target.classList.contains('_modal_overlay')) {
-            console.log("🎁 Closing Item Shop (overlay)");
-            modal.remove();
-        }
-    });
-    modal.querySelectorAll('._shop_buy_btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const itemId = btn.dataset.itemId;
-            const item = SHOP_ITEMS.find(i => i.value === itemId);
-            console.log("🛍️ Buying item:", itemId, item);
-            btn.disabled = true;
-btn.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 4px; animation: spin 1s linear infinite;">
-        <path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
-        <path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
-        <path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-        <path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-        <path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-        <path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-        <path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-    </svg>
-    Processing...
-`;            const success = await buyItem(itemId);
-            if (success) {
-btn.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-        <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#10b981" stroke-width="2"/>
-        <path d="M8 12.5L10.5 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Got It!
-`;
-                btn.style.background = 'var(--success-color)';
-                btn.style.color = 'white';
-                btn.style.cursor = 'default';
-                setTimeout(() => {
-                    btn.disabled = false;
-btn.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-        <path d="M12 7V20M12 7H8.46429C7.94332 7 7.4437 6.78929 7.07533 6.41421C6.70695 6.03914 6.5 5.53043 6.5 5C6.5 4.46957 6.70695 3.96086 7.07533 3.58579C7.4437 3.21071 7.94332 3 8.46429 3C11.2143 3 12 7 12 7ZM12 7H15.5357C16.0567 7 16.5563 6.78929 16.9247 6.41421C17.293 6.03914 17.5 5.53043 17.5 5C17.5 4.46957 17.293 3.96086 16.9247 3.58579C16.5563 3.21071 16.0567 3 15.5357 3C12.7857 3 12 7 12 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6 7H18C19.1046 7 20 7.89543 20 9V10C20 11.1046 19.1046 12 18 12H6C4.89543 12 4 11.1046 4 10V9C4 7.89543 4.89543 7 6 7Z" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M6 12V19C6 20.1046 6.89543 21 8 21H16C17.1046 21 18 20.1046 18 19V12" stroke="currentColor" stroke-width="1.5"/>
-    </svg>
-    Get Free
-`;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                    btn.style.cursor = 'pointer';
-                }, 3000);
-            } else {
-                btn.disabled = false;
-btn.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-        <path d="M12 7V20M12 7H8.46429C7.94332 7 7.4437 6.78929 7.07533 6.41421C6.70695 6.03914 6.5 5.53043 6.5 5C6.5 4.46957 6.70695 3.96086 7.07533 3.58579C7.4437 3.21071 7.94332 3 8.46429 3C11.2143 3 12 7 12 7ZM12 7H15.5357C16.0567 7 16.5563 6.78929 16.9247 6.41421C17.293 6.03914 17.5 5.53043 17.5 5C17.5 4.46957 17.293 3.96086 16.9247 3.58579C16.5563 3.21071 16.0567 3 15.5357 3C12.7857 3 12 7 12 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6 7H18C19.1046 7 20 7.89543 20 9V10C20 11.1046 19.1046 12 18 12H6C4.89543 12 4 11.1046 4 10V9C4 7.89543 4.89543 7 6 7Z" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M6 12V19C6 20.1046 6.89543 21 8 21H16C17.1046 21 18 20.1046 18 19V12" stroke="currentColor" stroke-width="1.5"/>
-    </svg>
-    Get Free
-`;
-            }
-        });
-    });
-    console.log("✅ Item Shop opened");
-};
-const farmXpBooster = async (amount) => {
+    document.head.appendChild(style);
+  }
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Smooth close (no global side effects)
+  const closeModal = async (modal) => {
+    if (!modal) return;
+    modal.classList.remove("_open");
+    modal.classList.add("_closing");
+    await sleep(160);
+    modal.remove();
+  };
+
+  // Create modal
+  const existingModal = document.getElementById("_item_shop_modal");
+  if (existingModal) existingModal.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "_item_shop_modal";
+  modal.className = "_modal";
+  modal.style.display = "flex";
+
+  modal.innerHTML = `
+    <div class="_modal_overlay"></div>
+    <div class="_modal_container _wide">
+      <div class="_modal_header">
+        <h2>
+          <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg"
+               style="width: 32px; height: 32px; display:inline-block; vertical-align:middle; margin-right:8px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));">
+          Free Item Shop
+        </h2>
+        <button class="_close_modal_btn" id="_close_item_shop">
+          <span style="font-size: 18px;">❌</span>
+        </button>
+      </div>
+
+      <div class="_modal_content">
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+          <input type="text" id="_shop_search_input" class="_text_input"
+                 placeholder="Search items..."
+                 style="flex: 1; margin-bottom: 0;">
+          <button id="_shop_reload_btn" class="_icon_btn _primary" title="Reload Shop">
+<img
+  src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/reload-icon.png"
+  alt="Reload"
+  style="width:20px;height:20px;display:block;filter: invert(1) brightness(2);"
+/>
+
+          </button>
+        </div>
+
+        <div id="_shop_items_container" style="max-height: 500px; overflow-y: auto;">
+          <p style="text-align: center; color: var(--text-secondary); padding: 40px;">
+            Loading shop items...
+          </p>
+        </div>
+
+        <div id="_shop_empty_state" style="display: none; text-align: center; padding: 40px; color: var(--text-secondary);">
+          <p style="font-size: 16px; font-weight: 600;">No items found</p>
+          <p style="font-size: 14px; margin-top: 10px;">Try adjusting your search</p>
+        </div>
+
+        <p style="color: var(--text-secondary); font-size: 12px; text-align: center; margin-top: 20px;">
+          ✨ All items are FREE! Click any item to claim it instantly.
+        </p>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Trigger open animation after mount (safe)
+  requestAnimationFrame(() => modal.classList.add("_open"));
+
+  // Close handlers (animated)
+  document.getElementById("_close_item_shop")?.addEventListener("click", () => closeModal(modal));
+  modal.querySelector("._modal_overlay")?.addEventListener("click", () => closeModal(modal));
+
+  const loadShopItems = async () => {
+    const container = document.getElementById("_shop_items_container");
+    const emptyState = document.getElementById("_shop_empty_state");
+
+    container.innerHTML =
+      '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">Loading shop items...</p>';
+
     try {
-        const url = `https://stories.duolingo.com/api2/stories/fr-en-le-passeport/complete`;
-        const now = Math.floor(Date.now() / 1000);
-        const duration = Math.floor(Math.random() * 121 + 300);
-        const xpAmount = Math.max(1, amount);
-        const payload = {
-            "awardXp": true,
-            "completedBonusChallenge": true,
-            "fromLanguage": userInfo.fromLanguage || "en",
-            "learningLanguage": userInfo.learningLanguage || "fr",
-            "hasXpBoost": false,
-            "illustrationFormat": "svg",
-            "isFeaturedStoryInPracticeHub": true,
-            "isLegendaryMode": true,
-            "isV2Redo": false,
-            "isV2Story": false,
-            "masterVersion": true,
-            "maxScore": 0,
-            "score": 0,
-            "happyHourBonusXp": Math.min(xpAmount, 469),
-            "startTime": now,
-            "endTime": now + duration,
-        };
-        return await sendRequestWithDefaultHeaders({
-            url: url,
-            method: "POST",
-            payload: payload
+      const items = await getShopItems(defaultHeaders);
+
+      if (!items || items.length === 0) {
+        container.innerHTML =
+          '<p style="text-align: center; color: var(--error-color); padding: 40px;">Failed to load shop items. Please try again.</p>';
+        return;
+      }
+
+      const categorizedItems = categorizeItems(items);
+      const categories = {};
+      categorizedItems.forEach((item) => {
+        if (!categories[item.category]) categories[item.category] = [];
+        categories[item.category].push(item);
+      });
+
+      let html = "";
+      for (const [categoryName, categoryItems] of Object.entries(categories)) {
+        html += `
+          <div class="_shop_category" data-category="${categoryName}">
+            <h3 style="font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-secondary); margin: 20px 0 10px; padding: 0 5px; position: relative; text-align: center;">
+              <span style="background: var(--bg-card); padding: 0 10px; position: relative; z-index: 1;">${categoryName}</span>
+              <span style="position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--border-color); z-index: 0;"></span>
+            </h3>
+            <div class="_shop_grid">
+        `;
+
+        categoryItems.forEach((item) => {
+          html += `
+            <div class="_shop_item_card" data-item-name="${item.displayName.toLowerCase()}">
+              <div class="_shop_item_icon">
+                <img src="${item.icon}" alt="${item.displayName}" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));">
+              </div>
+              <div class="_shop_item_name">${item.displayName}</div>
+              <button class="_shop_buy_btn" data-item-id="${item.id}" data-item-name="${item.displayName}">
+                Get Free
+              </button>
+            </div>
+          `;
         });
-    } catch (e) {
-        console.error("farmXpBooster error:", e);
-        return null;
+
+        html += `
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+
+      // Stagger entrance animation (ONLY adds a class, no layout changes)
+      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      if (!reduceMotion) {
+        const cards = container.querySelectorAll("._shop_item_card");
+        cards.forEach((card, idx) => {
+          card.style.animationDelay = `${Math.min(idx * 18, 220)}ms`;
+          card.classList.add("_enter");
+        });
+      } else {
+        // ensure visible if reduced motion
+        container.querySelectorAll("._shop_item_card").forEach((c) => {
+          c.style.opacity = "1";
+          c.style.transform = "none";
+        });
+      }
+
+      // Buy button handlers
+      container.querySelectorAll("._shop_buy_btn").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const itemId = btn.dataset.itemId;
+          const itemName = btn.dataset.itemName;
+          const originalHTML = btn.innerHTML;
+
+          btn.disabled = true;
+          btn.textContent = "Processing...";
+
+          const success = await buyItem(itemId, { displayName: itemName });
+
+          if (success) {
+            btn.textContent = "Got it!";
+            btn.style.background = "var(--success-color)";
+            btn.style.color = "white";
+
+            setTimeout(() => {
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              btn.style.background = "";
+              btn.style.color = "";
+            }, 3000);
+          } else {
+            btn.textContent = "❌ FAILED";
+            btn.style.background = "var(--error-color)";
+            btn.style.color = "white";
+
+            setTimeout(() => {
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              btn.style.background = "";
+              btn.style.color = "";
+            }, 2000);
+          }
+        });
+      });
+    } catch (error) {
+      console.error("Error loading shop:", error);
+      container.innerHTML =
+        '<p style="text-align: center; color: var(--error-color); padding: 40px;">Error loading shop. Please try again.</p>';
     }
+  };
+
+  // Search (same logic)
+  const searchInput = document.getElementById("_shop_search_input");
+  searchInput?.addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    const container = document.getElementById("_shop_items_container");
+    const emptyState = document.getElementById("_shop_empty_state");
+    const categories = container.querySelectorAll("._shop_category");
+
+    let totalVisible = 0;
+
+    categories.forEach((category) => {
+      const items = category.querySelectorAll("._shop_item_card");
+      let categoryVisible = 0;
+
+      items.forEach((item) => {
+        const itemName = item.dataset.itemName || "";
+        const isVisible = itemName.includes(searchTerm);
+        item.style.display = isVisible ? "flex" : "none";
+        if (isVisible) categoryVisible++;
+      });
+
+      category.style.display = categoryVisible > 0 ? "block" : "none";
+      totalVisible += categoryVisible;
+    });
+
+    container.style.display = totalVisible > 0 ? "block" : "none";
+    emptyState.style.display = totalVisible === 0 ? "block" : "none";
+  });
+
+  // Reload (spin only, no other changes)
+  document.getElementById("_shop_reload_btn")?.addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    btn.classList.add("_spin");
+    loadShopItems().finally(() => setTimeout(() => btn.classList.remove("_spin"), 750));
+  });
+
+  await loadShopItems();
 };
-const booster = {
-    isRunning: false,
-    type: 'xp',
-    goal: 5000,
-    startValue: 0,
-    start: async () => {
-        const goalInput = document.getElementById('_boost_goal');
-        const typeSelect = document.getElementById('_boost_type');
-        if (!goalInput || !typeSelect) return;
-        booster.goal = parseInt(goalInput.value);
-        booster.type = typeSelect.value;
-        booster.startValue = booster.type === 'xp' ? userInfo.totalXp : userInfo.gems;
-        booster.isRunning = true;
-        const btn = document.getElementById('_boost_start_btn');
-        if (btn) {
-            btn.textContent = "Stop Boosting";
-            btn.style.background = "#dc2626";
-            btn.style.borderColor = "#b91c1c";
-        }
-        logToConsole(`🚀 Boosting ${booster.type.toUpperCase()}... Target: +${booster.goal}`, 'info');
-        await booster.run();
-    },
-    stop: () => {
-        booster.isRunning = false;
-        const btn = document.getElementById('_boost_start_btn');
-        if (btn) {
-            btn.textContent = "Start Boosting";
-            btn.style.background = "#2563eb";
-            btn.style.borderColor = "#1d4ed8";
-        }
-        logToConsole('🛑 Boosting stopped', 'info');
-    },
-    run: async () => {
-        const delayMs = currentMode === 'safe' ? 1000 : 300;
-        while (booster.isRunning) {
-            try {
-                const currentValue = booster.type === 'xp' ? userInfo.totalXp : userInfo.gems;
-                const gained = currentValue - booster.startValue;
-                const remaining = booster.goal - gained;
-                booster.updateProgress(gained);
-                if (remaining <= 0) {
-                    booster.updateProgress(booster.goal); // Đảm bảo UI hiện 100%
-                    booster.stop();
-                    logToConsole(`🎉 Finished! Gained ${gained} ${booster.type}!`, 'success');
-                    await refreshUserData();
-                    break;
-                }
-                let amountToFarm = 0;
-                let res;
-                if (booster.type === 'xp') {
-                    amountToFarm = remaining >= 500 ? 500 : remaining;
-                    res = await farmXpBooster(amountToFarm);
-                } else {
-                    amountToFarm = 30;
-                    res = await farmGemOnce();
-                }
-                if (res?.ok) {
-                    if (booster.type === 'xp') userInfo.totalXp += amountToFarm;
-                    else userInfo.gems += amountToFarm;
-                    if (booster.type === 'xp') {
-                        if (gained % 1000 < amountToFarm) {
-                            logToConsole(`⚡ Boosted +${amountToFarm} XP (Remaining: ${remaining - amountToFarm})`, 'info');
-                        }
-                    }
-                } else {
-                    logToConsole('⚠️ Request failed, waiting...', 'warning');
-                    await new Promise(r => setTimeout(r, 2000));
-                }
-                await new Promise(r => setTimeout(r, delayMs));
-            } catch (error) {
-                console.error(error);
-                await new Promise(r => setTimeout(r, 500));
-            }
-        }
-    },
-    updateProgress: (gainedAmount) => {
-        const percentage = Math.min(100, Math.floor((gainedAmount / booster.goal) * 100));
-        const progressBar = document.getElementById('_boost_progress_bar');
-        const percentageText = document.getElementById('_boost_percentage');
-        if (progressBar) progressBar.style.width = percentage + '%';
-        if (percentageText) percentageText.textContent = percentage + '%';
-        updateEarnedStats();
-        updateUserInfo();
-    }
-};
+
 const autoSolver = {
     findReact: (dom, traverseUp = 1) => {
         const key = Object.keys(dom).find(key => {
@@ -2784,6 +2942,8 @@ const initInterface = () => {
            height: 40px;
            border-radius: 50%;
            overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
            border: 2px solid #1E88E5; /* Viền xanh */
          "
     >
@@ -2801,7 +2961,7 @@ const initInterface = () => {
 <a href="https://twisk.fun" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
   <div class="_brand_text">
     <h1>DuoHacker</h1>
-    <span class="_version_badge">Free</span>
+    <span class="_version_badge">Full</span>
   </div>
 </a>
         </div>
@@ -2823,10 +2983,6 @@ const initInterface = () => {
   style="background: linear-gradient(135deg, #ffe599 0%, #f1c232 100%); box-shadow: 0 4px 12px rgba(241, 194, 50, 0.4);">
   <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg"
        style="width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));">
-</button>
-<button id="_booster_menu_btn" class="_control_btn _booster">
-    <img src="https://d35aaqx5ub95lt.cloudfront.net/images/icons/68c1fd0f467456a4c607ecc0ac040533.svg"
-         style="width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));">
 </button>
 <button id="_accounts_btn" class="_control_btn _accounts">
     <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/48b8884ac9d7513e65f3a2b54984c5c4.svg"
@@ -2946,7 +3102,7 @@ const initInterface = () => {
 <div class="_option_icon">
   <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" alt="XP10 Icon">
 </div>
-      <span>Farm XP Lite</span>
+      <span>Farm XP Global</span>
     </button>
     <button class="_option_btn" data-type="gems">
 <div class="_option_icon">
@@ -3088,7 +3244,7 @@ const initInterface = () => {
       </div>
     </div>
 <div class="_footer">
-    <span>© 2025 DuoHacker by <a href="https://www.duolingo.com/profile/LiamSmith92" target="_blank" style="color: #39FF14; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">LiamSmith92</a></span>
+    <span>© 2026 DuoHacker by <a href="https://www.duolingo.com/profile/sayk1wiondiscord" target="_blank" style="color: #00FFFF; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">Mint</a></span>
     <div class="_footer_socials">
 <a href="https://twisk.fun/discord" target="_blank" title="Discord">
   <img
@@ -3201,16 +3357,6 @@ const initInterface = () => {
           </div>
           <p class="_setting_description">Hide images to reduce RAM usage</p>
         </div>
-      <!-- SUPERLINKS CHECKER SECTION -->
-      <div class="_settings_section _superlinks_section">
-        <h3>🔗 Superlinks Checker</h3>
-        <p class="_setting_description" style="margin-bottom: 12px;">Check if a Superlinks invitation is valid</p>
-        <div class="_superlinks_input_group">
-          <input type="text" id="_superlinks_input" class="_superlinks_input" placeholder="Paste link or ID (e.g., 2-N4GT-L7SD-W1LC-U2XF)">
-          <button id="_superlinks_check_btn" class="_superlinks_check_btn">Check</button>
-        </div>
-        <div id="_superlinks_result" class="_superlinks_result"></div>
-      </div>
       <!-- PREMIUM FEATURES SECTION -->
       <div class="_settings_section">
         <h3>Premium Features</h3>
@@ -3274,49 +3420,6 @@ const initInterface = () => {
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="_booster_modal" class="_modal" style="display:none">
-  <div class="_modal_overlay"></div>
-  <div class="_modal_container" style="background: #1f1f1f; border: 1px solid #3a3a3a; color: #d0d0d0;">
-    <div class="_modal_header" style="background: #2a2a2a; border-bottom: 1px solid #3a3a3a;">
-      <h2 style="color: #fff; font-size: 16px;">🚀 XP & Gem Booster</h2>
-      <button id="_close_booster" class="_close_modal_btn" style="background: transparent; color: #b0b0b0;">✕</button>
-    </div>
-    <div class="_modal_content" style="padding: 24px;">
-      <div class="_settings_section">
-        <!-- INPUTS -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-            <div>
-                <label style="font-size: 12px; color: #b0b0b0; text-transform: uppercase; display: block; margin-bottom: 8px;">Boost Type</label>
-                <select id="_boost_type" style="width: 100%; padding: 8px 12px; background: #1f1f1f; border: 1px solid #3a3a3a; border-radius: 4px; color: #fff; outline: none;">
-                    <option value="xp">XP</option>
-                    <option value="gems">GEMS</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size: 12px; color: #b0b0b0; text-transform: uppercase; display: block; margin-bottom: 8px;">Target Goal</label>
-                <input type="number" id="_boost_goal" value="5000" step="100" style="width: 100%; padding: 8px 12px; background: #1f1f1f; border: 1px solid #3a3a3a; border-radius: 4px; color: #fff; outline: none;">
-            </div>
-        </div>
-        <!-- PROGRESS BAR (WAVEX STYLE) -->
-        <div style="background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                <span style="color: #b0b0b0; font-size: 12px;">Progress</span>
-                <span id="_boost_percentage" style="color: #fff; font-weight: 600;">0%</span>
-            </div>
-            <div style="background: #1f1f1f; height: 24px; border-radius: 12px; overflow: hidden;">
-                <div id="_boost_progress_bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #4ade80, #22c55e); transition: width 0.3s ease;"></div>
-            </div>
-            <!-- Ẩn số đếm đi cho giống Wavex -->
-            <div id="_boost_count" style="display: none;"></div>
-        </div>
-        <!-- BUTTON -->
-        <button id="_boost_start_btn" style="width: 100%; padding: 14px; background: #2563eb; border: 1px solid #1d4ed8; color: #fff; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s ease;">
-          Start Boosting
-        </button>
       </div>
     </div>
   </div>
@@ -3521,7 +3624,7 @@ const initInterface = () => {
   --warning-color: #FB8C00;
   --warning-glow: rgba(251, 140, 0, 0.3);
   /* Transition & shadow */
-  --transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.22s cubic-bezier(0.2, 0.9, 0.2, 1);
   --transition-fast: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -3615,6 +3718,8 @@ html, body {
   box-shadow: 0 0 20px rgba(0, 140, 255, 0.25);
   border-radius: 20px;
   overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -3865,16 +3970,14 @@ body[data-lite-mode="true"] #_backdrop {
   border-color: rgba(229, 57, 53, 0.2);
 }
 ._control_btn._accounts,
-._control_btn._settings,
-._control_btn._booster {
+._control_btn._settings {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
   box-shadow: 0 2px 8px var(--primary-glow);
 }
 ._control_btn._accounts:hover,
-._control_btn._settings:hover,
-._control_btn._booster:hover {
+._control_btn._settings:hover {
   background: var(--primary-dark);
   box-shadow: 0 4px 12px var(--primary-glow);
 }
@@ -3928,6 +4031,8 @@ body[data-lite-mode="true"] #_backdrop {
   font-size: 28px;
   box-shadow: 0 4px 12px var(--primary-glow);
   overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
 }
 ._profile_info {
   flex: 1;
@@ -4629,7 +4734,9 @@ body[data-lite-mode="true"] #_backdrop {
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      animation: modalSlideIn 0.15s ease-out;
+  contain: layout paint;
+  backface-visibility: hidden;
+      animation: modalSlideIn 0.22s cubic-bezier(0.2, 0.9, 0.2, 1);
       display: flex;
       flex-direction: column;
     }
@@ -4875,6 +4982,8 @@ body[data-lite-mode="true"] #_backdrop {
       color: var(--text-primary);
       margin-bottom: 2px;
       overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -4882,6 +4991,8 @@ body[data-lite-mode="true"] #_backdrop {
       font-size: 12px;
       color: var(--text-secondary);
       overflow: hidden;
+  contain: layout paint;
+  backface-visibility: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -5306,64 +5417,139 @@ const updateEarnedStats = () => {
     if (elements.streak) elements.streak.textContent = totalEarned.streak;
     if (elements.lessons) elements.lessons.textContent = totalEarned.lessons.toLocaleString();
 };
-const farmXp10Once = async () => {
-    const startTime = Math.floor(Date.now() / 1000);
-    const fromLanguage = userInfo.fromLanguage;
-    const completeUrl = `https://stories.duolingo.com/api2/stories/en-${fromLanguage}-the-passport/complete`;
-    const payload = {
-        awardXp: true,
-        isFeaturedStoryInPracticeHub: false,
-        completedBonusChallenge: true,
-        mode: "READ",
-        isV2Redo: false,
-        isV2Story: false,
-        isLegendaryMode: true,
-        masterVersion: false,
-        maxScore: 100,
-        score: 0,
-        numHintsUsed: 0,
-        startTime: startTime,
-        endTime: startTime + 30,
-        fromLanguage: fromLanguage,
-        learningLanguage: userInfo.learningLanguage,
-        hasXpBoost: false,
-        happyHourBonusXp: 10,
-    };
+const farmXP110Once = async () => {
     try {
-        const response = await sendRequestWithDefaultHeaders({
-            url: completeUrl,
-            payload,
-            method: "POST"
+        if (!skillId) {
+            logToConsole('⚠️ No skill ID found. Attempting to extract...', 'warning');
+            skillId = extractSkillId(userInfo?.currentCourse || {});
+
+            if (!skillId) {
+                logToConsole('❌ No skill ID available. Cannot farm 110 XP.', 'error');
+                logToConsole('💡 Try navigating to a course page and refreshing.', 'info');
+                return false;
+            }
+        }
+        const sessionPayload = {
+            challengeTypes: [],
+            fromLanguage: userInfo.fromLanguage,
+            learningLanguage: userInfo.learningLanguage,
+            type: "UNIT_TEST",
+            skillIds: [skillId]
+        };
+
+        logToConsole('Creating session...', 'info');
+        const sessionRes = await fetch('https://www.duolingo.com/2017-06-30/sessions', {
+            method: 'POST',
+            headers: defaultHeaders,
+            body: JSON.stringify(sessionPayload)
         });
-        if (response.ok) {
-            const data = await response.json();
-            const earned = data?.awardedXp || 10;
+
+        if (!sessionRes.ok) {
+            const errorText = await sessionRes.text();
+            logToConsole(`❌ Session creation failed (${sessionRes.status}): ${errorText}`, 'error');
+            return false;
+        }
+
+        const sessionData = await sessionRes.json();
+        const startTime = Math.floor(Date.now() / 1000);
+        const endTime = startTime + 60;
+        const updatePayload = {
+            id: sessionData.id,
+            metadata: sessionData.metadata,
+            type: "UNIT_TEST",
+            fromLanguage: userInfo.fromLanguage,
+            learningLanguage: userInfo.learningLanguage,
+            challenges: [],
+            adaptiveChallenges: [],
+            sessionExperimentRecord: [],
+            experiments_with_treatment_contexts: [],
+            adaptiveInterleavedChallenges: [],
+            sessionStartExperiments: [],
+            trackingProperties: [],
+            ttsAnnotations: [],
+            heartsLeft: 0,
+            startTime: startTime,
+            enableBonusPoints: false,
+            endTime: endTime,
+            failed: false,
+            maxInLessonStreak: 9,
+            shouldLearnThings: true,
+            hasBoost: true,
+            happyHourBonusXp: 10,
+            pathLevelSpecifics: { unitIndex: 0 }
+        };
+
+        logToConsole('Completing session...', 'info');
+        const updateRes = await fetch(`https://www.duolingo.com/2017-06-30/sessions/${sessionData.id}`, {
+            method: 'PUT',
+            headers: defaultHeaders,
+            body: JSON.stringify(updatePayload)
+        });
+
+        if (updateRes.ok) {
+            const data = await updateRes.json();
+            const earned = data?.awardedXp || data?.xpGain || 110;
             totalEarned.xp += earned;
             updateEarnedStats();
-            logToConsole(`Earned ${earned} XP`, 'success');
+            saveSessionData();
+            logToConsole(`✅ Earned ${earned} XP`, 'success');
             return true;
         } else {
-            logToConsole(`Failed to farm XP: ${response.status}`, 'error');
-            farmingStats.errors++;
+            const errorText = await updateRes.text();
+            logToConsole(`❌ Session update failed (${updateRes.status}): ${errorText}`, 'error');
             return false;
         }
     } catch (error) {
-        logToConsole(`Error farming XP: ${error.message}`, 'error');
-        farmingStats.errors++;
+        logToConsole(`❌ XP 110 error: ${error.message}`, 'error');
         return false;
     }
 };
-const farmXP10 = async (delayMs) => {
+const farmXP110 = async (delayMs) => {
+    logToConsole('🚀 Starting XP 110 farming...', 'info');
+    if (!skillId) {
+        logToConsole('⚠️ Skill ID not found. Attempting to extract...', 'warning');
+        skillId = extractSkillId(userInfo?.currentCourse || {});
+
+        if (!skillId) {
+            logToConsole('❌ Cannot start XP 110 farming without skill ID.', 'error');
+            logToConsole('💡 Please navigate to a course page and click "Refresh Profile".', 'info');
+            stopFarming();
+            return;
+        }
+        logToConsole(`✅ Skill ID found: ${skillId}`, 'success');
+    }
+
+    let consecutiveErrors = 0;
+    const MAX_CONSECUTIVE_ERRORS = 5;
+    let cycleCount = 0;
     while (isRunning) {
-        try {
-            const success = await farmXp10Once();
-            if (success) {
-                saveSessionData();
+        const success = await farmXP110Once();
+        if (success) {
+            consecutiveErrors = 0;
+            if (totalEarned.xp % 500 < 110 && sendDiscordWebhook) {
+                sendDiscordWebhook(
+                    "⚡ XP 110 Progress",
+                    "Active",
+                    `Gained **${totalEarned.xp} Total XP**\nCycles: ${cycleCount}`,
+                    16761035
+                );
             }
             await delay(delayMs);
-        } catch (error) {
-            logToConsole(`XP 10 farming error: ${error.message}`, 'error');
-            await delay(delayMs * 2);
+        } else {
+            consecutiveErrors++;
+            logToConsole(`⚠️ Error count: ${consecutiveErrors}/${MAX_CONSECUTIVE_ERRORS}`, 'warning');
+
+            if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+                logToConsole(`❌ Too many consecutive errors. Stopping for safety.`, 'error');
+                logToConsole('💡 Try refreshing the page or switching to regular XP farming.', 'info');
+                stopFarming();
+                break;
+            }
+            await delay(delayMs * 3);
+        }
+        if (!isRunning) {
+            logToConsole('⏹️ Farming stopped by user', 'info');
+            break;
         }
     }
 };
@@ -5409,13 +5595,7 @@ const saveAccount = (nickname) => {
         logToConsole('Cannot save account: not logged in', 'error');
         return false;
     }
-    let avatarPicture = userInfo.picture;
-    if (avatarPicture) {
-        avatarPicture = avatarPicture.replace(/\/(medium|large|small)$/, '/xlarge');
-        if (!avatarPicture.endsWith('/xlarge') && avatarPicture.includes('duolingo.com/ssr-avatars')) {
-            avatarPicture += '/xlarge';
-        }
-    }
+    let avatarPicture = normalizeAvatarUrl(userInfo.picture);
     const account = {
         id: Date.now().toString(),
         nickname: nickname || userInfo.username,
@@ -5429,6 +5609,9 @@ const saveAccount = (nickname) => {
         picture: avatarPicture, // ✅ Lưu URL đã xử lý
         savedAt: new Date().toISOString()
     };
+    // Keep a per-username avatar key so it survives account switching
+    setStoredAvatarUrl(account.username, avatarPicture);
+
     const existingIndex = savedAccounts.findIndex(acc => acc.username === account.username);
     if (existingIndex !== -1) {
         savedAccounts[existingIndex] = account;
@@ -5565,7 +5748,7 @@ const showGiftNotification = async () => {
         return;
     }
     modal.style.display = 'flex';
-    contentDiv.innerHTML = '<div class="_loading_spinner">⏳ Đang tải thông báo...</div>';
+    contentDiv.innerHTML = '<div class="_loading_spinner">⏳ Loading...</div>';
     try {
         const response = await fetch(NOTIFICATION_URL, { cache: "no-store" });
         if (!response.ok) {
@@ -5575,10 +5758,10 @@ const showGiftNotification = async () => {
         const cleanHtml = customMarkdownParser(markdownText);
         contentDiv.innerHTML = cleanHtml;
     } catch (error) {
-        console.error('Lỗi khi tải hoặc xử lý thông báo:', error);
+        console.error('Error load:', error);
         contentDiv.innerHTML = `<div class="_error_message">
-                                  <strong>Không thể tải thông báo.</strong>
-                                  <p>Vui lòng kiểm tra lại đường dẫn hoặc kết nối mạng.</p>
+                                  <strong>Can't load notification.</strong>
+                                  <p>Check URL or check your internet connection.</p>
                                 </div>`;
     }
 };
@@ -5812,7 +5995,7 @@ const renderAccountsList = () => {
         ${isActive ? '<div class="_active_badge">ACTIVE</div>' : ''}
         <div class="_account_header">
 <div class="_account_avatar">
-    <span style="font-size: 20px;">👤</span>
+    ${getAccountAvatarHTML(account)}
 </div>
           <div class="_account_info">
             <div class="_account_nickname">${account.nickname}</div>
@@ -5907,24 +6090,6 @@ const addEventListeners = () => {
         if (e.target.classList.contains('_modal_overlay')) {
             document.getElementById('_leaderboard_modal').style.display = 'none';
         }
-    });
-    document.getElementById('_booster_menu_btn')?.addEventListener('click', () => {
-        document.getElementById('_booster_modal').style.display = 'flex';
-    });
-    document.getElementById('_close_booster')?.addEventListener('click', () => {
-        document.getElementById('_booster_modal').style.display = 'none';
-    });
-    document.getElementById('_booster_modal')?.addEventListener('click', (e) => {
-        if (e.target.classList.contains('_modal_overlay')) {
-            document.getElementById('_booster_modal').style.display = 'none';
-        }
-    });
-    document.getElementById('_boost_start_btn')?.addEventListener('click', () => {
-        if (booster.isRunning) booster.stop();
-        else booster.start();
-    });
-    document.getElementById('_inject_solver_toggle')?.addEventListener('click', () => {
-        autoSolver.toggle();
     });
     document.getElementById('_inject_solver_toggle')?.addEventListener('click', () => {
         const toggle = document.getElementById('_inject_solver_toggle');
@@ -6106,7 +6271,13 @@ const addEventListeners = () => {
         document.getElementById('_account_nickname').value = userInfo.username;
         const previewAvatar = document.getElementById('_preview_avatar');
         if (previewAvatar) {
-            previewAvatar.innerHTML = '<span style="font-size: 20px;">👤</span>';
+            const previewUrl = normalizeAvatarUrl(userInfo.picture);
+            previewAvatar.innerHTML = previewUrl
+                ? `<img src="${previewUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" draggable="false">`
+                : '<span style="font-size: 20px;">👤</span>';
+            // Also persist the current account avatar immediately
+            setStoredAvatarUrl(userInfo.username, previewUrl);
+
         }
         document.getElementById('_save_account_modal').style.display = 'flex';
     });
@@ -6341,14 +6512,49 @@ const initSuperlinksChecker = () => {
     }
 };
 const startFarming = async () => {
-    if (isRunning) return;
+    if (isRunning) {
+        logToConsole('⚠️ Farming is already running', 'warning');
+        return;
+    }
+    if (!userInfo || !sub || !jwt || !defaultHeaders) {
+        logToConsole('Initializing user data...', 'info');
+        const success = await initializeFarming();
+        if (!success) {
+            logToConsole('❌ Failed to initialize. Please refresh and try again.', 'error');
+            return;
+        }
+    }
+
     const selectedOption = document.querySelector('._option_btn._selected');
     if (!selectedOption) {
         logToConsole('Please select a farming option', 'error');
         return;
     }
+
     const type = selectedOption.dataset.type;
     const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+    if (type === 'xp_10') {
+        if (!skillId) {
+            skillId = extractSkillId(userInfo?.currentCourse || {});
+        }
+
+        if (!skillId) {
+            const continueAnyway = confirm(
+                '⚠️ Skill ID not found!\n\n' +
+                'XP 110 farming requires a skill ID from your current course.\n\n' +
+                'Options:\n' +
+                '1. Click "Refresh Profile" and try again\n' +
+                '2. Navigate to a course page and refresh\n' +
+                '3. Use regular "Farm XP" instead (50 XP per cycle)\n\n' +
+                'Continue anyway? (May fail)'
+            );
+
+            if (!continueAnyway) {
+                return;
+            }
+        }
+    }
+
     if (type === 'farm_all') {
         if (confirm('Farm All will combine XP, Gems, and Streak farming. Continue?')) {
             await farmAll(delayMs);
@@ -6357,17 +6563,24 @@ const startFarming = async () => {
     }
     isRunning = true;
     farmingStats.startTime = Date.now();
-    document.getElementById('_start_farming').style.display = 'none';
-    document.getElementById('_stop_farming').style.display = 'block';
+
+    const startBtn = document.getElementById('_start_farming');
+    const stopBtn = document.getElementById('_stop_farming');
+
+    if (startBtn) startBtn.style.display = 'none';
+    if (stopBtn) stopBtn.style.display = 'block';
+
     logToConsole(`Started ${type} farming in ${currentMode} mode`, 'success');
+
     const timer = setInterval(updateFarmingTime, 1000);
+
     try {
         switch (type) {
             case 'xp':
                 await farmXP(delayMs);
                 break;
             case 'xp_10':
-                await farmXP10(delayMs);
+                await farmXP110(delayMs);
                 break;
             case 'gems':
                 await farmGems(delayMs);
@@ -6383,9 +6596,12 @@ const startFarming = async () => {
                 break;
         }
     } catch (error) {
-        logToConsole(`Farming error: ${error.message}`, 'error');
+        logToConsole(`❌ Farming error: ${error.message}`, 'error');
     } finally {
         clearInterval(timer);
+        if (isRunning) {
+            stopFarming();
+        }
     }
 };
 const GOALS_API_URL = "https://goals-api.duolingo.com";
@@ -6504,17 +6720,34 @@ const runAutoCompleteQuests = async () => {
     stopFarming();
 };
 const stopFarming = () => {
-    if (!isRunning) return;
+    if (!isRunning && !lessonSolving) {
+        logToConsole('⚠️ Farming is not running', 'warning');
+        return;
+    }
     isRunning = false;
     lessonSolving = false;
     if (farmingInterval) {
         clearInterval(farmingInterval);
         farmingInterval = null;
     }
-    document.getElementById('_start_farming').style.display = 'block';
-    document.getElementById('_stop_farming').style.display = 'none';
-    logToConsole('Farming stopped', 'info');
+    const startBtn = document.getElementById('_start_farming');
+    const stopBtn = document.getElementById('_stop_farming');
+
+    if (startBtn) {
+        startBtn.style.display = 'block';
+        startBtn.disabled = false;
+    }
+    if (stopBtn) {
+        stopBtn.style.display = 'none';
+        stopBtn.disabled = false;
+    }
+
+    logToConsole('⏹️ Farming stopped', 'success');
     saveSessionData();
+    setTimeout(() => {
+        isRunning = false;
+        lessonSolving = false;
+    }, 100);
 };
 const startLessonSolving = async () => {
     if (lessonSolving) return;
@@ -6733,68 +6966,247 @@ const farmGems = async (delayMs) => {
         }
     }
 };
-const repairStreak = async () => {
-    logToConsole('Starting streak repair...', 'info');
-    try {
-        if (!userInfo.streakData?.currentStreak) {
-            logToConsole('No streak to repair!', 'error');
+const farmStreak = async () => {
+    if (!userInfo || !sub || !jwt || !defaultHeaders) {
+        logToConsole('Initializing user data for streak farming...', 'info');
+        const success = await initializeFarming();
+        if (!success || !userInfo) {
+            logToConsole('❌ Failed to load user data. Please try again.', 'error');
+            stopFarming();
             return;
         }
-        const startStreakDate = userInfo.streakData.currentStreak.startDate;
-        const endStreakDate = userInfo.streakData.currentStreak.endDate;
-        const startStreakTimestamp = Math.floor(new Date(startStreakDate).getTime() / 1000);
-        const endStreakTimestamp = Math.floor(new Date(endStreakDate).getTime() / 1000);
-        const expectedStreak = Math.floor((endStreakTimestamp - startStreakTimestamp) / (60 * 60 * 24)) + 1;
-        if (expectedStreak > userInfo.streak) {
-            logToConsole(`Found ${expectedStreak - userInfo.streak} frozen days. Repairing...`, 'warning');
-            let currentTimestamp = Math.floor(Date.now() / 1000);
-            for (let i = 0; i < expectedStreak && isRunning; i++) {
-                await farmSessionOnce(currentTimestamp, currentTimestamp + 60);
-                currentTimestamp -= 86400;
-                logToConsole(`Repaired day ${i + 1}/${expectedStreak}`, 'info');
-                await delay(currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY);
-            }
-            const updatedUser = await getUserInfo(sub);
-            if (updatedUser.streak >= expectedStreak) {
-                logToConsole(`Streak repair completed! New streak: ${updatedUser.streak}`, 'success');
-                userInfo = updatedUser;
-                totalEarned.streak += (updatedUser.streak - userInfo.streak);
-                updateUserInfo();
-                updateEarnedStats();
-                saveSessionData();
-            }
-        } else {
-            logToConsole('No frozen streak detected', 'info');
-        }
-    } catch (error) {
-        logToConsole(`Streak repair failed: ${error.message}`, 'error');
-    } finally {
+    }
+
+    const useSafeMode = prompt(
+        'Do you want to use Safe Streak Farming?\n\n' +
+        'Safe Mode: Only farms streaks from account creation date to prevent ban risk\n' +
+        'Normal Mode: Farms unlimited streaks\n\n' +
+        'Type Y for Safe Mode, N for Normal Mode:',
+        'Y'
+    );
+
+    if (!useSafeMode) {
+        logToConsole('Streak farming cancelled', 'info');
         stopFarming();
+        return;
+    }
+
+    const isSafeMode = useSafeMode.toUpperCase() === 'Y';
+
+    if (isSafeMode) {
+        logToConsole('🛡️ Starting SAFE streak farming...', 'success');
+        await farmStreakSafe();
+    } else {
+        logToConsole('⚠️ Starting NORMAL streak farming (higher risk)...', 'warning');
+        await farmStreakNormal();
     }
 };
-const farmStreak = async () => {
-    logToConsole('Starting streak farming...', 'info');
+const farmStreakSafe = async () => {
+    logToConsole('Starting SAFE streak farming (limited to account age)...', 'info');
+
+    // ✅ Double-check user data is available
+    if (!userInfo) {
+        logToConsole('❌ User data not loaded. Attempting to initialize...', 'error');
+        const success = await initializeFarming();
+        if (!success || !userInfo) {
+            logToConsole('❌ Failed to initialize user data. Please refresh and try again.', 'error');
+            stopFarming();
+            return;
+        }
+    }
+
+    if (!userInfo.streakData) {
+        logToConsole('❌ Streak data not available. Please refresh and try again.', 'error');
+        stopFarming();
+        return;
+    }
+
+    // ✅ Properly parse creation date
+    let creationDate;
+    try {
+        if (typeof userInfo.creationDate === 'number') {
+            creationDate = new Date(userInfo.creationDate);
+        } else if (typeof userInfo.creationDate === 'string') {
+            creationDate = new Date(userInfo.creationDate);
+        } else {
+            throw new Error('Invalid creationDate format');
+        }
+
+        // Validate date is valid
+        if (isNaN(creationDate.getTime())) {
+            throw new Error('Invalid date object');
+        }
+    } catch (error) {
+        logToConsole(`❌ Error parsing creation date: ${error.message}`, 'error');
+        logToConsole(`Raw creationDate: ${JSON.stringify(userInfo.creationDate)}`, 'error');
+        stopFarming();
+        return;
+    }
+
+    // Calculate account age
+    const now = new Date();
+    const accountAgeMs = now.getTime() - creationDate.getTime();
+    const accountAgeDays = Math.floor(accountAgeMs / (1000 * 60 * 60 * 24));
+
+    // Sanity check: Duolingo was founded in 2011 (~5000 days ago from 2025)
+    if (accountAgeDays > 5500 || accountAgeDays < 0) {
+        logToConsole(`❌ Invalid account age: ${accountAgeDays} days`, 'error');
+        logToConsole(`Creation: ${creationDate.toISOString()}`, 'error');
+        logToConsole(`Current: ${now.toISOString()}`, 'error');
+        logToConsole('This seems wrong. Please report this issue.', 'error');
+        stopFarming();
+        return;
+    }
+
+    const creationTimestamp = Math.floor(creationDate.getTime() / 1000);
+    const currentTime = Math.floor(now.getTime() / 1000);
+    const maxSafeStreak = accountAgeDays;
+
+    // Display account info
+    logToConsole(`📅 Account created: ${creationDate.toLocaleDateString()}`, 'info');
+    logToConsole(`📊 Account age: ${accountAgeDays} days (~${Math.floor(accountAgeDays/365)} years)`, 'info');
+    logToConsole(`🎯 Max safe streak: ${maxSafeStreak} days`, 'info');
+    logToConsole(`🔥 Current streak: ${userInfo.streak} days`, 'info');
+
+    // Check if already at max
+    if (userInfo.streak >= maxSafeStreak) {
+        logToConsole(`✅ You already have maximum safe streak (${userInfo.streak}/${maxSafeStreak} days)!`, 'success');
+        stopFarming();
+        return;
+    }
+
+    // Set running state
+    isRunning = true;
+    farmingStats.startTime = Date.now();
+    document.getElementById('_start_farming')?.style?.display && (document.getElementById('_start_farming').style.display = 'none');
+    document.getElementById('_stop_farming')?.style?.display && (document.getElementById('_stop_farming').style.display = 'block');
+
+    // Calculate how many streaks to farm
+    const streaksToFarm = maxSafeStreak - userInfo.streak;
+    logToConsole(`🚀 Will farm ${streaksToFarm} streaks to reach safe limit...`, 'success');
+
+    // Confirm with user
+    if (!confirm(`This will farm ${streaksToFarm} streaks safely.\n\nAccount age: ${accountAgeDays} days\nCurrent streak: ${userInfo.streak}\nTarget streak: ${maxSafeStreak}\n\nContinue?`)) {
+        logToConsole('Streak farming cancelled by user', 'info');
+        stopFarming();
+        return;
+    }
+
+    // Start from account creation and move forward
+    let farmTimestamp = creationTimestamp;
+    const endTimestamp = currentTime;
+    let farmedCount = 0;
+
+    while (isRunning && farmTimestamp <= endTimestamp && farmedCount < streaksToFarm) {
+        try {
+            await farmSessionOnce(farmTimestamp, farmTimestamp + 60);
+
+            // Move forward one day
+            farmTimestamp += 86400;
+            farmedCount++;
+            totalEarned.streak++;
+            userInfo.streak++;
+
+            updateUserInfo();
+            updateEarnedStats();
+            saveSessionData();
+
+            const progress = Math.round((farmedCount / streaksToFarm) * 100);
+            logToConsole(`📈 Progress: ${farmedCount}/${streaksToFarm} (${progress}%) | Streak: ${userInfo.streak}/${maxSafeStreak}`, 'success');
+
+            // Send webhook every 25 streaks
+            if (farmedCount % 25 === 0 && sendDiscordWebhook) {
+                sendDiscordWebhook("🔥 Streak Progress", "Safe Mode",
+                    `Farmed: **${farmedCount}/${streaksToFarm}** streaks\nCurrent: **${userInfo.streak} days**\nTarget: **${maxSafeStreak} days**`, 15158332);
+            }
+
+            await delay(currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY);
+        } catch (error) {
+            logToConsole(`❌ Error farming streak: ${error.message}`, 'error');
+            await delay((currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY) * 2);
+        }
+    }
+
+    // Completion message
+    if (farmedCount >= streaksToFarm || userInfo.streak >= maxSafeStreak) {
+        logToConsole(`🎉 SAFE STREAK FARMING COMPLETE!`, 'success');
+        logToConsole(`Final streak: ${userInfo.streak}/${maxSafeStreak} days`, 'success');
+
+        if (sendDiscordWebhook) {
+            sendDiscordWebhook("🏆 Safe Streak Farm Complete", "Success",
+                `✅ Maximum safe streak achieved!\n\n**Final Streak:** ${userInfo.streak} days\n**Account Age:** ${accountAgeDays} days\n**Farmed:** ${farmedCount} streaks`, 3066993);
+        }
+    } else if (!isRunning) {
+        logToConsole(`⏸️ Streak farming stopped by user`, 'info');
+        logToConsole(`Farmed ${farmedCount}/${streaksToFarm} streaks`, 'info');
+    }
+
+    stopFarming();
+};
+const farmStreakNormal = async () => {
+    logToConsole('⚠️ WARNING: Normal streak farming has higher ban risk!', 'warning');
+
     const hasStreak = !!userInfo.streakData?.currentStreak;
     const startStreakDate = hasStreak ? userInfo.streakData.currentStreak.startDate : new Date();
     const startFarmStreakTimestamp = Math.floor(new Date(startStreakDate).getTime() / 1000);
     let currentTimestamp = hasStreak ? startFarmStreakTimestamp - 86400 : startFarmStreakTimestamp;
+
+    const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+
     while (isRunning) {
         try {
             await farmSessionOnce(currentTimestamp, currentTimestamp + 60);
             currentTimestamp -= 86400;
             totalEarned.streak++;
             userInfo.streak++;
+
             updateUserInfo();
             updateEarnedStats();
             saveSessionData();
-            logToConsole(`Streak increased to ${userInfo.streak}`, 'success');
-            sendDiscordWebhook("🔥 Streak Extended", "Success", `Current Streak: **${userInfo.streak} Days**`, 15158332);
-            await delay(currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY);
+
+            logToConsole(`🔥 Streak increased to ${userInfo.streak}`, 'success');
+
+            if (userInfo.streak % 10 === 0) {
+                sendDiscordWebhook(
+                    "🔥 Streak Extended",
+                    "Success",
+                    `Current Streak: **${userInfo.streak} Days**`,
+                    15158332
+                );
+            }
+
+            await delay(delayMs);
         } catch (error) {
-            logToConsole(`Streak farming error: ${error.message}`, 'error');
-            await delay((currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY) * 2);
+            logToConsole(`❌ Streak farming error: ${error.message}`, 'error');
+            await delay(delayMs * 2);
         }
     }
+};
+const getQuestTimestamp = (goalId) => {
+    const regex = /^(\d{4})_(\d{2})_monthly/;
+    const match = goalId.match(regex);
+    if (match) {
+        const year = parseInt(match[1]);
+        const month = parseInt(match[2]) - 1;
+        const date = new Date(Date.UTC(year, month, 15, 12, 0, 0));
+        return date.toISOString();
+    }
+    return new Date().toISOString();
+};
+
+const isQuestOlderThanAccount = (goalId) => {
+    if (!userInfo?.creationDate) return false;
+    const match = goalId.match(/^(\d{4})_(\d{2})_monthly/);
+    if (match) {
+        const year = parseInt(match[1]);
+        const month = parseInt(match[2]) - 1;
+        const creationDate = new Date(userInfo.creationDate);
+        const creationYear = creationDate.getFullYear();
+        const creationMonth = creationDate.getMonth();
+        if (year < creationYear) return true;
+        if (year === creationYear && month < creationMonth) return true;
+    }
+    return false;
 };
 const getJwtToken = () => {
     let match = document.cookie.match(new RegExp('(^| )jwt_token=([^;]+)'));
@@ -6820,12 +7232,23 @@ const formatHeaders = (jwt) => ({
     "User-Agent": navigator.userAgent,
 });
 const getUserInfo = async (sub) => {
-    const userInfoUrl = `https://www.duolingo.com/2023-05-23/users/${sub}?fields=id,username,fromLanguage,learningLanguage,streak,totalXp,level,numFollowers,numFollowing,gems,creationDate,streakData,picture,hasPlus`;
+    const userInfoUrl = `https://www.duolingo.com/2017-06-30/users/${sub}?fields=id,username,fromLanguage,learningLanguage,streak,totalXp,level,numFollowers,numFollowing,gems,creationDate,streakData,picture,hasPlus,trackingProperties,currentCourse{pathSectioned{units{levels{pathLevelMetadata{skillId}}}}}`;
+
     const response = await fetch(userInfoUrl, {
         method: "GET",
         headers: defaultHeaders,
     });
-    return await response.json();
+
+    const data = await response.json();
+    if (data.trackingProperties && data.trackingProperties.creation_date_new) {
+        data.creationDate = data.trackingProperties.creation_date_new;
+        console.log('✅ Using trackingProperties.creation_date_new:', data.creationDate);
+    } else if (typeof data.creationDate === 'number') {
+        data.creationDate = new Date(data.creationDate).toISOString();
+        console.log('⚠️ Converted numeric creationDate to ISO:', data.creationDate);
+    }
+
+    return data;
 };
 const sendRequestWithDefaultHeaders = async ({
     url,
@@ -6974,19 +7397,34 @@ const updateAvatarDisplay = () => {
                 hqUrl += '/xlarge';
             }
             mainAvatarEl.innerHTML = `<img src="${hqUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" draggable="false">`;
-        } else {
+
+            // Persist current avatar so Account Manager can show it after switching accounts
+            setStoredAvatarUrl(userInfo?.username, hqUrl);
+} else {
             mainAvatarEl.innerHTML = '<span style="font-size: 28px;">👤</span>';
         }
     }
 };
 const refreshUserData = async () => {
     if (!sub || !defaultHeaders) return;
+
     try {
         logToConsole('Refreshing user data...', 'info');
         userInfo = await getUserInfo(sub);
+        skillId = extractSkillId(userInfo.currentCourse);
+
+        if (skillId) {
+            logToConsole(`✅ Skill ID detected: ${skillId}`, 'success');
+            logToConsole('💡 XP 110 farming is now available!', 'success');
+        } else {
+            logToConsole('⚠️ No skill ID found. XP 110 may not work.', 'warning');
+            logToConsole('💡 Navigate to a course page and try refreshing again.', 'info');
+        }
+
         updateUserInfo();
         updateAvatarDisplay();
         updateDailyQuestButtonUI();
+
         logToConsole('User data refreshed', 'success');
     } catch (error) {
         logToConsole(`Failed to refresh: ${error.message}`, 'error');
