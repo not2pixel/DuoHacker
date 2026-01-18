@@ -1,4 +1,7 @@
-# update to 1.2
+# update to 1.3
 **🔥Changelog**
-- Removed Superlinks Checker & XP/Gems Booster
-- Added Safe Streaks ( Maybe not working sometimes)
+- Added more items in Free Item Shop
+- Fixed Safe Streaks
+- Fixed XP Global
+- Improved some UI
+Want to upgrade your DuoHacker Lite? [Click here](https://twisk.fun/discord)
