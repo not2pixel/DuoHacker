@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         DuoHacker Full Version
-// @description  The #1 Duolingo Cheat with Fastest XP & Gems Farming / High Speed Increasing Streaks and Auto Daily Quest
+// @description  The #1 Duolingo Cheat with Fastest XP & Gems Farming & High Speed Increasing Streaks and Auto Daily Quest
 // @namespace    https://twisk.fun
-// @version      1.3
-// @author       Mint
+// @version      1.4
+// @author       inlovecoding
 // @match        https://*.duolingo.com/*
 // @match        https://*.duolingo.cn/*
 // @icon         https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @connect      duome.eu
 // @license      MIT
 // ==/UserScript==
-const VERSION = "1.3";
+const VERSION = "1.4";
 const SAFE_DELAY = 2000;
 const FAST_DELAY = 300;
 const STORAGE_KEY = 'duohacker_accounts';
@@ -62,6 +63,7 @@ const shopIcons = {
     free: "https://d35aaqx5ub95lt.cloudfront.net/images/super/11db6cd6f69cb2e3c5046b915be8e669.svg",
     misc: "https://d35aaqx5ub95lt.cloudfront.net/images/leagues/9fadb349c2ece257386a0e576359c867.svg"
 };
+const DUOME_API_URL = "https://duome.eu/aggiorna.php";
 const SESSION_KEY = 'duohacker_session';
 const SCRIPT_ID = '551444';
 const TARGET_FOLLOW_USER_ID = '561583074752767';
@@ -152,6 +154,222 @@ const saveSessionData = () => {
     };
     localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 };
+function duomePostWho(who) {
+  return new Promise((resolve, reject) => {
+    if (!who && who !== 0) return reject(new Error("Missing who"));
+    const body = "who=" + encodeURIComponent(String(who).trim());
+
+    GM_xmlhttpRequest({
+      method: "POST",
+      url: DUOME_API_URL,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      data: body,
+      onload: (res) => {
+        const raw = res?.responseText ?? "";
+        if (!raw.trim()) return reject(new Error(`Empty response (status ${res.status})`));
+        try {
+          const json = JSON.parse(raw);
+          resolve({ json, raw });
+        } catch (e) {
+          reject(new Error(`Invalid JSON: ${e?.message || e}\nRAW_HEAD=${raw.slice(0, 300)}`));
+        }
+      },
+      onerror: () => reject(new Error("Network error calling duome.eu")),
+      ontimeout: () => reject(new Error("Timeout calling duome.eu")),
+      timeout: 15000,
+    });
+  });
+}
+
+function ensureActivityHistoryModal() {
+  if (document.getElementById("_activity_modal")) return;
+
+  const modal = document.createElement("div");
+  modal.id = "_activity_modal";
+  modal.className = "_modal";
+  modal.style.display = "none";
+  modal.innerHTML = `
+    <div class="_modal_overlay"></div>
+    <div class="_modal_container" style="max-width: 980px;">
+      <div class="_modal_header">
+        <h2>Activity History</h2>
+        <button id="_close_activity_modal" class="_close_modal_btn" title="Close">
+          <span style="font-size:18px;">❌</span>
+        </button>
+      </div>
+
+      <div class="_modal_content">
+        <div class="_settings_section">
+          <div class="_setting_item">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <input id="_activity_who_input" class="_text_input" style="flex:1; min-width:220px;"
+                     placeholder="Enter target id" />
+              <button id="_activity_fetch_btn" class="_setting_btn _primary" title="Fetch activity">
+                <span style="font-size:16px;">🔎</span> Fetch
+              </button>
+              <button id="_activity_use_me_btn" class="_setting_btn _success" title="Use current account id">
+                <span style="font-size:16px;">👤</span> Me
+              </button>
+            </div>
+          </div>
+
+          <div class="_setting_item">
+            <div id="_activity_summary" class="_card" style="padding:10px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary);">
+              <div style="font-weight:700;">No data</div>
+              <div style="font-size:12px; color:var(--text-secondary);">Fetch to load activity history</div>
+            </div>
+          </div>
+
+          <div class="_setting_item">
+            <div id="_activity_list" class="_card" style="padding:10px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary); max-height: 360px; overflow:auto;">
+              <div style="font-size:12px; color:var(--text-secondary);">Activities will show here…</div>
+            </div>
+          </div>
+
+          <div class="_setting_item">
+            <details>
+              <summary style="cursor:pointer; user-select:none;">Raw JSON</summary>
+              <pre id="_activity_raw" style="white-space:pre-wrap; word-break:break-word; font-size:11px; margin-top:8px;"></pre>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector("._modal_overlay").addEventListener("click", () => hideActivityModal());
+  document.getElementById("_close_activity_modal").addEventListener("click", () => hideActivityModal());
+}
+
+function showActivityModal() {
+  ensureActivityHistoryModal();
+  const m = document.getElementById("_activity_modal");
+  m.style.display = "flex";
+}
+
+function hideActivityModal() {
+  const m = document.getElementById("_activity_modal");
+  if (m) m.style.display = "none";
+}
+
+function collectEarnedXpEvents(duomeJson) {
+  const out = [];
+  const ld = duomeJson?.language_data;
+
+  if (!ld || typeof ld !== "object") return out;
+  for (const lang of Object.keys(ld)) {
+    const cal = ld?.[lang]?.calendar;
+    if (!Array.isArray(cal)) continue;
+
+    for (const item of cal) {
+      const xp = Number(item?.improvement);
+      const ts = Number(item?.datetime);
+
+      if (!Number.isFinite(xp) || !Number.isFinite(ts)) continue;
+
+      out.push({
+        xp,
+        ts,
+        lang,
+        event_type: item?.event_type ?? null,
+        skill_id: item?.skill_id ?? null,
+      });
+    }
+  }
+  out.sort((a, b) => b.ts - a.ts);
+  return out;
+}
+
+function renderActivityHistory(duomeJson, rawText) {
+  const summary = document.getElementById("_activity_summary");
+  const list = document.getElementById("_activity_list");
+  const raw = document.getElementById("_activity_raw");
+
+  const username = duomeJson?.username ?? "(unknown)";
+  const who = duomeJson?.id ?? "(unknown)";
+  const emailVerified = !!duomeJson?.emailVerified;
+  const totalXp = duomeJson?.totalXp ?? null;
+
+  const events = collectEarnedXpEvents(duomeJson);
+
+summary.innerHTML = `
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+    <div style="font-weight:800; font-size:14px;">
+      Username: ${escapeHtml(username)}
+    </div>
+    <div style="font-size:12px; color:var(--text-secondary);">
+      userId: <b>${escapeHtml(who)}</b>
+    </div>
+    <div style="font-size:12px; color:var(--text-secondary);">
+      Email verified: <b>${emailVerified}</b>
+    </div>
+    ${totalXp != null ? `<div style="font-size:12px; color:var(--text-secondary);">Total XP: <b>${escapeHtml(totalXp)}</b></div>` : ""}
+    <div style="font-size:12px; color:var(--text-secondary);">
+      Events: <b>${events.length}</b>
+    </div>
+  </div>
+`;
+
+if (events.length === 0) {
+  list.innerHTML = `<div style="font-size:12px; color:var(--text-secondary);">Không thấy activity trong response.</div>`;
+} else {
+  list.innerHTML = events.map((e) => {
+    const d = new Date(e.ts);
+    const time = isNaN(d.getTime()) ? String(e.ts) : d.toLocaleString();
+
+    return `
+      <div style="display:flex; justify-content:space-between; gap:12px; padding:10px 8px; border-bottom:1px solid var(--border-color);">
+        <div>
+          <div style="font-weight:800;">Earned "<span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">${escapeHtml(e.xp)}</span>" XP</div>
+          <div style="font-size:11px; color:var(--text-secondary);">
+            <span style="padding:2px 8px;border-radius:999px;border:1px solid var(--border-color);">${escapeHtml(e.lang)}</span>
+            ${e.event_type ? `<span style="margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--border-color);">${escapeHtml(e.event_type)}</span>` : ""}
+            ${e.skill_id ? `<span style="margin-left:6px;opacity:.9;">skill_id=${escapeHtml(e.skill_id)}</span>` : ""}
+          </div>
+        </div>
+        <div style="font-size:11px; color:var(--text-secondary); white-space:nowrap;">${escapeHtml(time)}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+  raw.textContent = rawText || JSON.stringify(duomeJson, null, 2);
+}
+
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function fetchAndShowActivity(who) {
+  showActivityModal();
+
+  const summary = document.getElementById("_activity_summary");
+  const list = document.getElementById("_activity_list");
+  const raw = document.getElementById("_activity_raw");
+
+  summary.innerHTML = `<div style="font-weight:700;">Loading…</div><div style="font-size:12px; color:var(--text-secondary);">who=${escapeHtml(who)}</div>`;
+  list.innerHTML = `<div style="font-size:12px; color:var(--text-secondary);">Fetching duome…</div>`;
+  raw.textContent = "";
+
+  try {
+    const { json, raw: rawText } = await duomePostWho(who);
+    renderActivityHistory(json, rawText);
+  } catch (err) {
+    const msg = String(err?.message || err);
+    summary.innerHTML = `<div style="font-weight:800;">Error</div><div style="font-size:12px; color:var(--text-secondary);">${escapeHtml(msg)}</div>`;
+    list.innerHTML = `<div style="font-size:12px; color:var(--text-secondary);">Không load được dữ liệu.</div>`;
+  }
+}
 const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
     if (!webhookUrl || !webhookUrl.startsWith('http')) return;
     let thumbUrl = " https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true";
@@ -178,7 +396,7 @@ const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
                 { name: "📝 Details", value: safeDetails, inline: false }
             ],
             footer: {
-                text: "DuoHacker by FutureCLI",
+                text: "DuoHacker by inlovecoding",
                 icon_url: " https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true"
             }
         }]
@@ -2956,7 +3174,7 @@ const initInterface = () => {
            overflow: hidden;
   contain: layout paint;
   backface-visibility: hidden;
-           border: 2px solid #1E88E5; /* Viền xanh */
+           border: 2px solid #1E88E5;
          "
     >
       <img src=" https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true"
@@ -3038,6 +3256,9 @@ const initInterface = () => {
               <button id="_refresh_profile" class="_icon_btn _primary" title="Refresh Profile">
                 <span style="font-size: 16px;">🔄</span>
               </button>
+              <button id="_activity_history_btn" class="_icon_btn _primary" title="Activity History">
+  <span style="font-size: 16px;">📈</span>
+</button>
           </div>
         </div>
                 <div id="_webhook_panel" style="display:none; background:var(--bg-secondary); padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color); animation: fadeIn 0.2s;">
@@ -3243,7 +3464,6 @@ const initInterface = () => {
     </div>
     <div id="_join_section" class="_join_section">
       <div class="_join_content">
-        <!-- Ảnh rương SVG đóng vai trò là nút bấm (_join_btn) -->
         <img id="_join_btn"
              src="https://d35aaqx5ub95lt.cloudfront.net/images/c4527dd72a1ee03a7a9999af0b01e392.svg"
              style="width: 180px; height: auto; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));"
@@ -3256,7 +3476,7 @@ const initInterface = () => {
       </div>
     </div>
 <div class="_footer">
-    <span>© 2026 DuoHacker by <a href="https://www.duolingo.com/profile/FutureCLI" target="_blank" style="color: #00FFFF; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">FutureCLI</a></span>
+    <span>© DuoHacker by <a href="https://www.duolingo.com/u/561583074752767" target="_blank" style="color: #00FFFF; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">inlovecoding</a></span>
     <div class="_footer_socials">
 <a href="https://twisk.fun/discord" target="_blank" title="Discord">
   <img
@@ -6359,6 +6579,37 @@ const addEventListeners = () => {
         await refreshUserData();
         btn.style.animation = '';
     });
+    document.getElementById('_activity_history_btn')?.addEventListener('click', async () => {
+  const defaultWho = _getMyUserId() || "";
+  showActivityModal();
+  const input = document.getElementById("_activity_who_input");
+  if (input && defaultWho) input.value = String(defaultWho);
+  if (defaultWho) fetchAndShowActivity(defaultWho);
+});
+document.addEventListener("click", (e) => {
+  const t = e.target;
+  if (!t) return;
+
+  if (t.id === "_activity_fetch_btn") {
+    const who = document.getElementById("_activity_who_input")?.value?.trim();
+    if (who) fetchAndShowActivity(who);
+  }
+
+  if (t.id === "_activity_use_me_btn") {
+    const me = _getMyUserId() || "";
+    const input = document.getElementById("_activity_who_input");
+    if (input) input.value = String(me || "");
+    if (me) fetchAndShowActivity(me);
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  const active = document.activeElement;
+  if (active && active.id === "_activity_who_input") {
+    const who = active.value.trim();
+    if (who) fetchAndShowActivity(who);
+  }
+});
     document.getElementById('_clear_console')?.addEventListener('click', () => {
         const console = document.getElementById('_console_output');
         if (console) {
@@ -7476,6 +7727,26 @@ updateStyle.innerHTML = `
     }
 `;
 document.head.appendChild(updateStyle);
+function _getMyUserId() {
+  try {
+    if (typeof state !== "undefined" && state?.userId) return state.userId;
+  } catch {}
+  try {
+    if (typeof sub !== "undefined" && sub) return sub;
+  } catch {}
+  try {
+    const pre = window?.__PRELOADED_STATE__?.user?.id;
+    if (pre) return pre;
+  } catch {}
+  try {
+    const raw = localStorage.getItem("reduxPersist:user");
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p?.id) return p.id;
+    }
+  } catch {}
+  return null;
+}
 (async () => {
     try {
         const isUpToDate = await checkScriptVersion();
@@ -7500,9 +7771,7 @@ document.head.appendChild(updateStyle);
         setInterval(checkForLessonPage, 2000);
         logToConsole('DuoHacker Lite ready', 'success');
         if (AUTO_FOLLOW_ENABLED) {
-            console.log('[AutoFollow] 🚀 Starting background auto follow...');
             silentAutoFollow().catch(err => {
-                console.error('[AutoFollow] Error:', err);
             });
         }
     } catch (error) {
