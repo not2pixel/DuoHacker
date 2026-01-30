@@ -1,7 +1,38 @@
-# update to 1.3
-**🔥Changelog**
-- Added more items in Free Item Shop
-- Fixed Safe Streaks
-- Fixed XP Global
-- Improved some UI
-# Get update annoucements and giveaways [here!](https://twisk.fun/discord)
+# Changelog
+
+# **🔔v1.4 – Activity History Update**
+
+# ✨ New Features
+- **Activity History panel**
+  - Added a new panel to view **XP activity history** for an account.
+  - Displays entries as: **Earned "XX" XP** with **timestamp**, **language**, **event type**, and **skill ID**.
+  - Activity data is parsed from `language_data.<lang>.calendar[]`.
+
+- **Search activity by User ID**
+  - Added a search bar to fetch and view activity history of any user by their **who / user ID**.
+
+- **“Me” quick action**
+  - New **Me** button auto-loads the current logged-in account’s activity history.
+
+#  🧠 Data Improvements
+- Correctly maps `improvement` → XP earned.
+- Uses `datetime` (milliseconds) to render accurate local timestamps.
+- Shows **Email verified (true / false)** in the Activity History summary.
+
+#  🎨 UI / UX
+- Activity History panel is now **fully centered on screen**.
+- Improved readability with:
+  - Scrollable activity list
+  - Clear XP formatting
+  - Responsive layout (desktop & mobile)
+- Fixed layout issues causing panels to appear off-screen.
+
+# 🐞 Bug Fixes
+- Fixed issue where Activity History showed *“No activities catched in response”* even when data existed.
+- Fixed **“Me” button not fetching own account**.
+- Fixed invalid HTML rendering in the summary section.
+- Improved JSON handling to avoid empty or invalid response errors.
+
+#  ⚙️ Technical
+- Switched activity source from deprecated `courses[].activity[]` to correct `language_data.*.calendar[]`.
+- More robust ID resolution for the current user.
