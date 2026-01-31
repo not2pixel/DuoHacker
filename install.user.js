@@ -2,7 +2,7 @@
 // @name         DuoHacker Full Version
 // @description  The #1 Duolingo Cheat with Fastest XP & Gems Farming & High Speed Increasing Streaks and Auto Daily Quest
 // @namespace    https://twisk.fun
-// @version      1.4
+// @version      1.5
 // @author       inlovecoding
 // @match        https://*.duolingo.com/*
 // @match        https://*.duolingo.cn/*
@@ -11,7 +11,7 @@
 // @connect      duome.eu
 // @license      MIT
 // ==/UserScript==
-const VERSION = "1.4";
+const VERSION = "1.5";
 const SAFE_DELAY = 2000;
 const FAST_DELAY = 300;
 const STORAGE_KEY = 'duohacker_accounts';
@@ -6762,6 +6762,101 @@ const initSuperlinksChecker = () => {
         });
     }
 };
+/**
+ * Shows a Duolingo-style notification banner when the course is not Vi→En.
+ * Returns true if the course is valid (Vi→En), false otherwise.
+ * Only relevant for the 499 XP farm (farmXpOnce) which hits the
+ * en-{fromLanguage}-the-passport story endpoint.
+ */
+const checkViEnCourse = () => {
+    const from = (userInfo?.fromLanguage || '').toLowerCase();
+    const to   = (userInfo?.learningLanguage || '').toLowerCase();
+    if (from === 'vi' && to === 'en') return true;
+
+    const bannerId = '_viEn_warning_banner';
+    if (document.getElementById(bannerId)) return false; // already visible
+
+    const banner = document.createElement('div');
+    banner.id = bannerId;
+    banner.style.cssText = [
+        'position:fixed',
+        'top:0',
+        'left:0',
+        'width:100%',
+        'z-index:99999',
+        'background:linear-gradient(135deg,#ff6b35 0%,#f7c948 100%)',
+        'color:#fff',
+        'font-family:"Nintendo of America",sans-serif,Arial,sans-serif',
+        'padding:0',
+        'display:flex',
+        'flex-direction:column',
+        'align-items:center',
+        'box-shadow:0 4px 14px rgba(0,0,0,.35)',
+        'animation:_viEn_slideDown .35s cubic-bezier(.4,0,.2,1) both'
+    ].join(';');
+
+    banner.innerHTML = `
+        <style>
+            @keyframes _viEn_slideDown {
+                from { transform:translateY(-110%); opacity:0; }
+                to   { transform:translateY(0);     opacity:1; }
+            }
+            @keyframes _viEn_slideUp {
+                from { transform:translateY(0);     opacity:1; }
+                to   { transform:translateY(-110%); opacity:0; }
+            }
+            #${bannerId} .duo-icon { font-size:32px; margin-top:14px; }
+            #${bannerId} .duo-title {
+                font-size:18px; font-weight:800; margin:8px 0 4px;
+                text-shadow:0 1px 3px rgba(0,0,0,.25);
+            }
+            #${bannerId} .duo-body {
+                font-size:14px; font-weight:600; opacity:.95;
+                max-width:520px; text-align:center; line-height:1.45;
+                margin:0 16px;
+            }
+            #${bannerId} .duo-course-tag {
+                display:inline-block; background:rgba(255,255,255,.22);
+                border-radius:6px; padding:2px 10px; margin:0 3px;
+                font-weight:700; letter-spacing:.3px;
+            }
+            #${bannerId} .duo-close {
+                position:absolute; top:10px; right:14px;
+                background:none; border:none; color:#fff;
+                font-size:22px; cursor:pointer; line-height:1;
+                opacity:.75; transition:opacity .15s;
+            }
+            #${bannerId} .duo-close:hover { opacity:1; }
+        </style>
+        <div class="duo-icon">🦉</div>
+        <div class="duo-title">Oops! Wrong course detected</div>
+        <div class="duo-body">
+            Your current course is
+            <span class="duo-course-tag">${(userInfo?.fromLanguage || '?').toUpperCase()} → ${(userInfo?.learningLanguage || '?').toUpperCase()}</span>.
+            Please set your learning course to
+            <span class="duo-course-tag">Vi → En</span>
+            on <strong>duolingo.com</strong> before using Farm XP.
+        </div>
+        <button class="duo-close" id="${bannerId}_close">✕</button>
+    `;
+
+    document.body.appendChild(banner);
+
+    const autoClose = setTimeout(() => {
+        banner.style.animation = `_viEn_slideUp .3s cubic-bezier(.4,0,.2,1) forwards`;
+        setTimeout(() => banner.remove(), 320);
+    }, 8000);
+
+    document.getElementById(`${bannerId}_close`).addEventListener('click', () => {
+        clearTimeout(autoClose);
+        banner.style.animation = `_viEn_slideUp .3s cubic-bezier(.4,0,.2,1) forwards`;
+        setTimeout(() => banner.remove(), 320);
+    });
+
+    logToConsole('⚠️ Course is not Vi→En. Please change your course on duolingo.com.', 'error');
+    return false;
+};
+
 const startFarming = async () => {
     if (isRunning) {
         logToConsole('⚠️ Farming is already running', 'warning');
@@ -6784,6 +6879,14 @@ const startFarming = async () => {
 
     const type = selectedOption.dataset.type;
     const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+
+    // Vi→En course guard — only the 499 XP farm (farmXpOnce) and Farm All
+    // use the en-{fromLanguage}-the-passport endpoint which requires Vi→En.
+    // xp_10 (110 XP) uses a generic skill session and works with any course.
+    if (type === 'xp' || type === 'farm_all') {
+        if (!checkViEnCourse()) return;
+    }
+
     if (type === 'xp_10') {
         if (!skillId) {
             skillId = extractSkillId(userInfo?.currentCourse || {});
