@@ -1,27 +1,11 @@
 # Changelog
-# **🔔v1.5 – Course Validation Update**
-# ✨ New Features
-- **Vi → En Course Validation**
-  - Added automatic course detection before starting **Farm XP** and **Farm All**.
-  - If your course is not **Vi → En**, a notification banner appears at the top of the screen.
-  - Banner displays your **current course** and instructs you to switch to **Vi → En** on duolingo.com.
-  - Banner **auto-dismisses after 8 seconds** or can be closed manually.
-- **Targeted validation scope**
-  - Only applies to **Farm XP (499 XP)** and **Farm All** — they use the ⁨`en-vi-the-passport`⁩ endpoint which requires Vi → En.
-  - **Farm XP Global (110 XP)**, Gems, Streak, League, and Quest are not affected.
-# 🧠 Logic Improvements
-- Course check runs **before** any API request — prevents silent failures or 404 errors.
-- Reads from ⁨`userInfo.fromLanguage`⁩ and ⁨`userInfo.learningLanguage`⁩ — no extra API calls.
-- Banner is singleton — no duplicate notifications.
-# 🎨 UI / UX
-- Duolingo-style banner with **orange/yellow gradient**, owl icon 🦉, and slide-down animation.
-- Current course shown as a **tag** (e.g. ⁨`Fr → En`⁩) next to the required ⁨`Vi → En`⁩.
-- Close button with hover effect. Responsive on desktop & mobile.
-# 🐞 Bug Fixes
-- Fixed **Farm XP** silently failing when course was not Vi → En.
-- Fixed **Farm All** repeatedly sending failed requests on an incompatible course.
-# ⚙️ Technical
-- Added ⁨`checkViEnCourse()`⁩ guard — returns ⁨`true`⁩ if Vi → En, ⁨`false`⁩ otherwise and shows the banner.
-- Guard runs before any state mutation (⁨`isRunning`⁩, timers, UI) so a blocked start stays clean for retry.
+# 🔔 v2.4 – Stability for DuoHacker!
+# **✨ What’s new?**
 
-# Go install at [here](https://twisk.fun/install)
+- Added** Farm Practices** for *safe XP farming*
+- Added more solver **types**
+- Improved the solver’s **logic** and **speed**
+- Removed **Duolingo Max**
+- Removed the **499 XP** farming option (This tool is for all users, including international users—not just local Vietnamese users.)
+
+✅ Install it in twisk.fun!!
