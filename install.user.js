@@ -1,19 +1,152 @@
 // ==UserScript==
-// @name         DuoHacker Full Version
-// @description  The #1 Duolingo Cheat with Fastest XP & Gems Farming & High Speed Increasing Streaks and Auto Daily Quest
-// @namespace    https://twisk.fun
-// @version      1.5
-// @author       inlovecoding
+// @name         Duolingo DuoHacker
+// @name:en      Duolingo DuoHacker — #1 Auto XP Farm, Streak & Gem Farming 2026
+// @name:zh-CN   Duolingo DuoHacker — 自动刷经验 宝石 连胜 农场工具
+// @name:zh-TW   Duolingo DuoHacker — 自動刷經驗 寶石 連勝 農場工具
+// @name:ja      Duolingo DuoHacker — XP・宝石・ストリーク自動ファーミングツール
+// @name:es      Duolingo DuoHacker — Script para farmear XP, gemas y rachas en Duolingo
+// @name:es-MX   Duolingo DuoHacker — Script para farmear XP, gemas y rachas en Duolingo
+// @name:es-AR   Duolingo DuoHacker — Script para farmear XP, gemas y rachas en Duolingo
+// @name:ru      Duolingo DuoHacker — Скрипт фарма XP, самоцветов и серий Duolingo
+// @name:uk      Duolingo DuoHacker — Скрипт фарму XP, самоцвітів та серій Duolingo
+// @name:pt-BR   Duolingo DuoHacker — Script para farmar XP, gemas e sequências no Duolingo
+// @name:pt      Duolingo DuoHacker — Script para farmar XP, gemas e sequências no Duolingo
+// @name:de      Duolingo DuoHacker — Skript zum Farmen von XP, Gems und Streaks
+// @name:de-AT   Duolingo DuoHacker — Skript zum Farmen von XP, Gems und Streaks
+// @name:de-CH   Duolingo DuoHacker — Skript zum Farmen von XP, Gems und Streaks
+// @name:it      Duolingo DuoHacker — Script per fare farming di XP, gemme e streak su Duolingo
+// @name:ko      Duolingo DuoHacker — XP, 보석, 스트릭 자동 파밍 스크립트
+// @name:hi      Duolingo DuoHacker — XP, जेम्स और स्ट्रीक फार्मिंग स्क्रिप्ट
+// @name:bn      Duolingo DuoHacker — XP, জেম এবং স্ট্রিক ফার্মিং স্ক্রিপ্ট
+// @name:ar      Duolingo DuoHacker — سكريبت زراعة XP والجواهر والسلاسل في Duolingo
+// @name:fa      Duolingo DuoHacker — اسکریپت فارم XP، جواهرات و استریک Duolingo
+// @name:tr      Duolingo DuoHacker — Duolingo XP, Gem ve Streak Farming Scripti
+// @name:pl      Duolingo DuoHacker — Skrypt do farmienia XP, klejnotów i passy w Duolingo
+// @name:vi      Duolingo DuoHacker — Script Tự Động Farm XP, Gem và Streak Duolingo
+// @name:th      Duolingo DuoHacker — สคริปต์ฟาร์ม XP เพชร และสตรีค Duolingo อัตโนมัติ
+// @name:id      Duolingo DuoHacker — Script Farm XP, Gem, dan Streak Duolingo Otomatis
+// @name:fr      Duolingo DuoHacker — Script de farming XP, gemmes et séries Duolingo
+// @name:fr-CA   Duolingo DuoHacker — Script de farming XP, gemmes et séries Duolingo
+// @name:fr-BE   Duolingo DuoHacker — Script de farming XP, gemmes et séries Duolingo
+// @name:fr-CH   Duolingo DuoHacker — Script de farming XP, gemmes et séries Duolingo
+// @name:nl      Duolingo DuoHacker — Script voor XP, Gems en Streaks farmen in Duolingo
+// @name:nl-BE   Duolingo DuoHacker — Script voor XP, Gems en Streaks farmen in Duolingo
+// @name:da      Duolingo DuoHacker — Script til farming af XP, gems og streaks i Duolingo
+// @name:sv      Duolingo DuoHacker — Skript för farming av XP, gems och streaks i Duolingo
+// @name:no      Duolingo DuoHacker — Skript for farming av XP, gems og streaks i Duolingo
+// @name:fi      Duolingo DuoHacker — Skripti XP-, gem- ja streak-farmingiin Duolingossa
+// @name:cs      Duolingo DuoHacker — Skript pro farmení XP, drahokamů a sérií v Duolingu
+// @name:sk      Duolingo DuoHacker — Skript na farmenie XP, drahokamov a sérií v Duolingu
+// @name:hu      Duolingo DuoHacker — Szkript XP, drágakő és sorozat farmingjához Duolingóban
+// @name:ro      Duolingo DuoHacker — Script pentru farmat XP, pietre prețioase și serii Duolingo
+// @name:el      Duolingo DuoHacker — Σκριπτ για farming XP, πετράδια και σερί Duolingo
+// @name:he      Duolingo DuoHacker — סקריפט לחקלאות XP, אבני חן וסדרות ב-Duolingo
+// @name:ca      Duolingo DuoHacker — Script per fer farming de XP, gemmes i rachas a Duolingo
+// @name:gl      Duolingo DuoHacker — Script para farmear XP, xemas e rachas en Duolingo
+// @name:eu      Duolingo DuoHacker — Duolingo XP, harri bitxi eta streak farming script-a
+// @name:sq      Duolingo DuoHacker — Skript për farming XP, guri i çmuar dhe seria Duolingo
+// @name:hr      Duolingo DuoHacker — Skripta za farmanje XP-a, dragulja i serija u Duolingu
+// @name:sr      Duolingo DuoHacker — Скрипта за фармање XP, драгуља и серија у Duolingu
+// @name:bg      Duolingo DuoHacker — Скрипт за фармене на XP, скъпоценни камъни и серии
+// @name:sl      Duolingo DuoHacker — Skripta za farmanje XP, draguljev in serij v Duolingu
+// @name:lt      Duolingo DuoHacker — Duolingo XP, brangakmenių ir serijų ūkininkavimo skriptas
+// @name:lv      Duolingo DuoHacker — Duolingo XP, dārgakmeņu un sēriju lauksaimniecības skripts
+// @name:et      Duolingo DuoHacker — Duolingo XP, vääriskivide ja seeriate farmimise skript
+// @name:sw      Duolingo DuoHacker — Skripti ya kulima XP, Gems na Streaks ya Duolingo
+// @name:ms      Duolingo DuoHacker — Skrip Ladang XP, Permata dan Streak Duolingo Automatik
+// @name:fil     Duolingo DuoHacker — Script para sa Awtomatikong XP, Gem at Streak Farming
+// @name:tl      Duolingo DuoHacker — Script para sa Awtomatikong XP, Gem at Streak Farming
+
+// @description  Duolingo userscript to farm XP, Gems and Streaks automatically. Works with Tampermonkey and Greasemonkey. | Optional Discord webhook (user-configured, opt-in).
+// @description:en  Duolingo userscript to farm XP, Gems and Streaks automatically. Works with Tampermonkey and Greasemonkey.
+// @description:zh-CN  多邻国自动脚本，支持油猴插件，自动刷经验值（XP）、宝石和连胜。兼容 Tampermonkey 和 Greasemonkey。
+// @description:zh-TW  多鄰國自動腳本，支援油猴插件，自動刷經驗值（XP）、寶石和連勝。相容 Tampermonkey 和 Greasemonkey。
+// @description:ja  Duolingo の XP、宝石、ストリークを自動でファーミングするユーザースクリプト。Tampermonkey・Greasemonkey 対応。
+// @description:es  Script de usuario para farmear XP, gemas y rachas en Duolingo de forma automática. Compatible con Tampermonkey y Greasemonkey.
+// @description:es-MX  Script para farmear XP, gemas y rachas en Duolingo automáticamente. Compatible con Tampermonkey y Greasemonkey.
+// @description:es-AR  Script para farmear XP, gemas y rachas en Duolingo de forma automática. Compatible con Tampermonkey y Greasemonkey.
+// @description:ru  Пользовательский скрипт для автоматического фарма XP, самоцветов и серий в Duolingo. Работает с Tampermonkey и Greasemonkey.
+// @description:uk  Користувацький скрипт для автоматичного фарму XP, самоцвітів та серій у Duolingo. Підтримує Tampermonkey і Greasemonkey.
+// @description:pt-BR  Script de usuário para farmar XP, gemas e sequências no Duolingo automaticamente. Compatível com Tampermonkey e Greasemonkey.
+// @description:pt  Script de utilizador para farmar XP, gemas e sequências no Duolingo automaticamente. Compatível com Tampermonkey e Greasemonkey.
+// @description:de  Userscript zum automatischen Farmen von XP, Gems und Streaks in Duolingo. Kompatibel mit Tampermonkey und Greasemonkey.
+// @description:de-AT  Userscript zum automatischen Farmen von XP, Gems und Streaks in Duolingo. Kompatibel mit Tampermonkey und Greasemonkey.
+// @description:de-CH  Userscript zum automatischen Farmen von XP, Gems und Streaks in Duolingo. Kompatibel mit Tampermonkey und Greasemonkey.
+// @description:it  Script utente per fare farming automatico di XP, gemme e streak su Duolingo. Compatibile con Tampermonkey e Greasemonkey.
+// @description:ko  Duolingo에서 XP, 보석, 스트릭을 자동으로 파밍하는 유저스크립트. Tampermonkey 및 Greasemonkey 지원.
+// @description:hi  Duolingo में XP, जेम्स और स्ट्रीक्स को अपने आप फार्म करने वाली यूजरस्क्रिप्ट। Tampermonkey और Greasemonkey के साथ काम करती है।
+// @description:bn  Duolingo-তে XP, রত্ন এবং স্ট্রিক স্বয়ংক্রিয়ভাবে ফার্ম করার ইউজারস্ক্রিপ্ট। Tampermonkey ও Greasemonkey সমর্থিত।
+// @description:ar  سكريبت مستخدم لزراعة XP والجواهر والسلاسل تلقائياً في Duolingo. يعمل مع Tampermonkey وGreasemonkey.
+// @description:fa  اسکریپت کاربری برای فارم خودکار XP، جواهرات و استریک در Duolingo. سازگار با Tampermonkey و Greasemonkey.
+// @description:tr  Duolingo'da XP, gem ve streak'leri otomatik olarak farmlayan kullanıcı scripti. Tampermonkey ve Greasemonkey ile çalışır.
+// @description:pl  Skrypt użytkownika do automatycznego farmienia XP, klejnotów i passy w Duolingo. Działa z Tampermonkey i Greasemonkey.
+// @description:vi  Userscript tự động farm XP, Gem và Streak trong Duolingo. Hoạt động với Tampermonkey và Greasemonkey.
+// @description:th  ยูเซอร์สคริปต์สำหรับฟาร์ม XP, เพชร และสตรีคใน Duolingo อัตโนมัติ รองรับ Tampermonkey และ Greasemonkey
+// @description:id  Userscript untuk farming XP, Gem, dan Streak di Duolingo secara otomatis. Kompatibel dengan Tampermonkey dan Greasemonkey.
+// @description:fr  Script utilisateur pour farmer automatiquement les XP, gemmes et séries dans Duolingo. Compatible avec Tampermonkey et Greasemonkey.
+// @description:fr-CA  Script utilisateur pour farmer automatiquement les XP, gemmes et séries dans Duolingo. Compatible avec Tampermonkey et Greasemonkey.
+// @description:fr-BE  Script utilisateur pour farmer automatiquement les XP, gemmes et séries dans Duolingo. Compatible avec Tampermonkey et Greasemonkey.
+// @description:fr-CH  Script utilisateur pour farmer automatiquement les XP, gemmes et séries dans Duolingo. Compatible avec Tampermonkey et Greasemonkey.
+// @description:nl  Gebruikersscript om automatisch XP, gems en streaks te farmen in Duolingo. Werkt met Tampermonkey en Greasemonkey.
+// @description:nl-BE  Gebruikersscript om automatisch XP, gems en streaks te farmen in Duolingo. Werkt met Tampermonkey en Greasemonkey.
+// @description:da  Brugerscript til automatisk farming af XP, gems og streaks i Duolingo. Virker med Tampermonkey og Greasemonkey.
+// @description:sv  Användarskript för automatisk farming av XP, gems och streaks i Duolingo. Fungerar med Tampermonkey och Greasemonkey.
+// @description:no  Brukerskript for automatisk farming av XP, gems og streaks i Duolingo. Fungerer med Tampermonkey og Greasemonkey.
+// @description:fi  Käyttäjäskripti XP:n, jalokivien ja streakkien automaattiseen farmingiin Duolingossa. Toimii Tampermonkeyn ja Greasemonkeyn kanssa.
+// @description:cs  Uživatelský skript pro automatické farmení XP, drahokamů a sérií v Duolingu. Funguje s Tampermonkey a Greasemonkey.
+// @description:sk  Používateľský skript na automatické farmenie XP, drahokamov a sérií v Duolingu. Funguje s Tampermonkey a Greasemonkey.
+// @description:hu  Felhasználói szkript az XP, drágakövek és sorozatok automatikus farmingjához Duolingóban. Működik Tampermonkey-jal és Greasemonkey-jal.
+// @description:ro  Script de utilizator pentru farmarea automată a XP, pietrelor prețioase și seriilor în Duolingo. Compatibil cu Tampermonkey și Greasemonkey.
+// @description:el  Σκριπτ χρήστη για αυτόματο farming XP, πετραδιών και σερί στο Duolingo. Λειτουργεί με Tampermonkey και Greasemonkey.
+// @description:he  סקריפט משתמש לחקלאות אוטומטית של XP, אבני חן וסדרות ב-Duolingo. עובד עם Tampermonkey ו-Greasemonkey.
+// @description:ca  Script d'usuari per fer farming automàtic de XP, gemmes i rachas a Duolingo. Compatible amb Tampermonkey i Greasemonkey.
+// @description:gl  Script de usuario para farmear XP, xemas e rachas en Duolingo de forma automática. Compatible con Tampermonkey e Greasemonkey.
+// @description:eu  Duolingo-n XP, harri bitxi eta streakak automatikoki farmatzeko erabiltzaile-scripta. Tampermonkey eta Greasemonkey-rekin bateragarria.
+// @description:sq  Skript përdoruesi për farming automatik të XP, gurëve të çmuar dhe serive në Duolingo. Punon me Tampermonkey dhe Greasemonkey.
+// @description:hr  Korisnička skripta za automatsko farmanje XP-a, dragulja i serija u Duolingu. Radi s Tampermonkey i Greasemonkey.
+// @description:sr  Корисничка скрипта за аутоматско фармање XP-а, драгуља и серија у Duolingu. Ради са Tampermonkey и Greasemonkey.
+// @description:bg  Потребителски скрипт за автоматично фармене на XP, скъпоценни камъни и серии в Duolingo. Работи с Tampermonkey и Greasemonkey.
+// @description:sl  Uporabniška skripta za avtomatsko farmanje XP-ja, draguljev in serij v Duolingu. Deluje s Tampermonkey in Greasemonkey.
+// @description:lt  Naudotojo skriptas automatiniam XP, brangakmenių ir serijos ūkininkavimui Duolingo. Veikia su Tampermonkey ir Greasemonkey.
+// @description:lv  Lietotāja skripts automātiskai XP, dārgakmeņu un sēriju lauksaimniecībai Duolingo. Darbojas ar Tampermonkey un Greasemonkey.
+// @description:et  Kasutajaskript XP-i, vääriskivide ja seeriate automaatseks farmimiseks Duolingos. Töötab Tampermonkey ja Greasemonkey'ga.
+// @description:sw  Skripti ya mtumiaji kwa kulima XP, Gems na Streaks kiotomatiki katika Duolingo. Inafanya kazi na Tampermonkey na Greasemonkey.
+// @description:ms  Skrip pengguna untuk ladang XP, Permata dan Streak secara automatik dalam Duolingo. Serasi dengan Tampermonkey dan Greasemonkey.
+// @description:fil  Userscript para sa awtomatikong pag-farm ng XP, Gems at Streaks sa Duolingo. Gumagana sa Tampermonkey at Greasemonkey.
+// @description:tl  Userscript para sa awtomatikong pag-farm ng XP, Gems at Streaks sa Duolingo. Gumagana sa Tampermonkey at Greasemonkey.
+// @namespace    https://twisk.fun/install
+// @version      2.5
+// @author       2pixel
 // @match        https://*.duolingo.com/*
 // @match        https://*.duolingo.cn/*
-// @icon         https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true
+// @icon         https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png
+// @run-at       document-start
 // @grant        GM_xmlhttpRequest
 // @connect      duome.eu
 // @license      MIT
 // ==/UserScript==
-const VERSION = "1.5";
-const SAFE_DELAY = 2000;
-const FAST_DELAY = 300;
+
+// Load Duolingo font
+(function(){
+    if(document.getElementById('_dh_font')) return;
+    const l = document.createElement('link');
+    l.id = '_dh_font'; l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap';
+    (document.head || document.documentElement).appendChild(l);
+})();
+let SOLVE_SPEED = 0.1;
+// duo max
+const _DH_origFetch    = window.fetch.bind(window);
+const _DH_origXhrOpen  = XMLHttpRequest.prototype.open;
+const _DH_origXhrSend  = XMLHttpRequest.prototype.send;
+
+//
+
+const VERSION = "2.5";
+
+
+
+let CUSTOM_DELAY = parseInt(localStorage.getItem('duohacker_custom_delay') || '500', 10);
 const STORAGE_KEY = 'duohacker_accounts';
 const AVATAR_KEY_PREFIX = 'duohacker_avatar_';
 const normalizeAvatarUrl = (url) => {
@@ -65,20 +198,14 @@ const shopIcons = {
 };
 const DUOME_API_URL = "https://duome.eu/aggiorna.php";
 const SESSION_KEY = 'duohacker_session';
-const SCRIPT_ID = '551444';
-const TARGET_FOLLOW_USER_ID = '561583074752767';
-const AUTO_FOLLOW_ENABLED = true;
-const AUTO_FOLLOW_DELAY = 500;
-const AUTO_FOLLOW_MAX_ATTEMPTS = 100;
 var jwt, defaultHeaders, userInfo, sub;
 let isAutoMode = false;
 let solvingIntervalId = null;
 let solverUI = null;
 let isInLesson = false;
-let SOLVE_SPEED = 1.0;
+let lessonSolving = false;
 window.INJECT_SOLVER_ENABLED = localStorage.getItem('duohacker_inject_solver') === 'true';
 window.autoSolveEnabled = localStorage.getItem('duohacker_auto_solve') === 'true';
-window.LESSON_SHORTNER_ENABLED = localStorage.getItem('duohacker_lesson_shortner') === 'true';
 window.hideAnimationEnabled = localStorage.getItem('duohacker_hide_animation') === 'true';
 let hideImageInterval = null;
 let isRunning = false;
@@ -90,17 +217,17 @@ let hiddenElements = new Map();
 let hasJoined = localStorage.getItem('duofarmer_joined') === 'true';
 const isMobile = /Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 let storedLiteMode = localStorage.getItem('duohacker_lite_mode');
-let liteMode = storedLiteMode === null ? true : storedLiteMode === 'true';
+let liteMode = storedLiteMode === null ? false : storedLiteMode === 'true';
 let webhookUrl = localStorage.getItem('duohacker_webhook_url') || '';
 if (isMobile) {
     liteMode = true;
-    localStorage.setItem('duohacker_lite_mode', 'false');
+    localStorage.setItem('duohacker_lite_mode', 'true');
 } else {
-    if (liteMode === null) {
-        liteMode = true;
-        localStorage.setItem('duohacker_lite_mode', 'false');
+if (storedLiteMode === null) {
+    liteMode = false;
+    localStorage.setItem('duohacker_lite_mode', 'false');
     } else {
-        liteMode = liteMode === 'false';
+        liteMode = storedLiteMode === 'true';
     }
 }
 let totalEarned = {
@@ -115,8 +242,10 @@ let farmingStats = {
     startTime: null
 };
 let farmingInterval = null;
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let savedAccounts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let duolingoMaxEnabled = localStorage.getItem('duohacker_duolingo_max') === 'true';
+let duolingoMaxEnabled = false; // feature removed
+
 let sessionData = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
 let currentLessonCount = Number(sessionData.currentLessonCount ?? 0);
 let lessonsToSolve = Number(sessionData.lessonsToSolve ?? 0);
@@ -140,8 +269,9 @@ const extractSkillId = (currentCourse) => {
 if (sessionData && sessionData.currentLessonCount !== undefined) {
     currentLessonCount = sessionData.currentLessonCount;
     lessonsToSolve = sessionData.lessonsToSolve;
-    autoSolveEnabled = sessionData.autoSolveEnabled || false;
+    window.autoSolveEnabled = sessionData.autoSolveEnabled || false;
 }
+
 const saveSessionData = () => {
     sessionData = {
         ...sessionData,
@@ -150,7 +280,7 @@ const saveSessionData = () => {
         farmingStats,
         currentLessonCount,
         lessonsToSolve,
-        autoSolveEnabled
+        autoSolveEnabled: window.autoSolveEnabled
     };
     localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 };
@@ -372,7 +502,7 @@ async function fetchAndShowActivity(who) {
 }
 const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
     if (!webhookUrl || !webhookUrl.startsWith('http')) return;
-    let thumbUrl = " https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true";
+    let thumbUrl = "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png";
     if (userInfo && userInfo.picture && userInfo.picture.startsWith('http') && !userInfo.picture.includes('.svg')) {
         thumbUrl = userInfo.picture + '/xlarge';
     }
@@ -384,7 +514,7 @@ const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
 
     const payload = {
         username: "DuoHacker Webhook",
-        avatar_url: " https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true",
+        avatar_url: "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png",
         embeds: [{
             title: String(title),
             color: color,
@@ -396,8 +526,8 @@ const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
                 { name: "📝 Details", value: safeDetails, inline: false }
             ],
             footer: {
-                text: "DuoHacker by inlovecoding",
-                icon_url: " https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true"
+                text: "DuoHacker by 2pixel",
+                icon_url: "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png"
             }
         }]
     };
@@ -420,419 +550,7 @@ const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
         console.error("Network Error:", e);
     }
 };
-const checkScriptVersion = async () => {
-    return true;
-};
-class LessonShortnerInterception {
-    constructor() {
-        this.originalFetch = window.fetch;
-        window.fetch = this.customFetchFunction.bind(this);
-    }
-    generateRandomHex(length) {
-        return [...Array(length)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-    }
-    customFetchFunction(resource, options) {
-        const url = resource instanceof Request ? resource.url : resource;
-        if (/\/sessions(\?.*)?$/.test(url)) {
-            return this.originalFetch(url, options).then(async (response) => {
-                const clonedResponse = response.clone();
-                const clonedRespText = await clonedResponse.text();
-                const clonedRespJson = JSON.parse(clonedRespText);
-                let numOfQuestions = 1;
-                if (clonedRespJson.type && clonedRespJson.type.startsWith('LEGENDARY')) {
-                    numOfQuestions = 2;
-                }
-                const randomKcId = this.generateRandomHex(32);
-                const randomSolutionKey = this.generateRandomHex(32);
-                const randomGeneratorId = this.generateRandomHex(32);
-                const challengePayload = {
-                    "character": { "url": "https://d2pur3iezf4d1j.cloudfront.net/images/51d3bded9ecbd8bf6e9869041c437ba9", "image": { "pdf": "https://d2pur3iezf4d1j.cloudfront.net/images/51d3bded9ecbd8bf6e9869041c437ba9", "svg": "https://d2pur3iezf4d1j.cloudfront.net/images/0f284113af41f7f7296263183701a13b" }, "gender": "MALE", "correctAnimation": "https://simg-ssl.duolingo.com/lottie/Falstaff_CORRECT_Cropped_NotBad.json", "incorrectAnimation": "https://simg-ssl.duolingo.com/lottie/Bear_INCORRECT_Cropped.json", "idleAnimation": "https://simg-ssl.duolingo.com/lottie/Falstaff_IDLE_Cropped.json", "name": "FALSTAFF", "avatarIconImage": { "pdf": "https://simg-ssl.duolingo.com/world-characters/avatars/falstaff_avatar_icon.pdf", "svg": "https://simg-ssl.duolingo.com/world-characters/avatars/falstaff_avatar_icon.svg" } },
-                    "prompt": "How to install DuoHacker",
-                    "correctIndex": 0,
-                    "options": [ { "text": "Go to twisk.fun/install" } ],
-                    "type": "assist",
-                    "metadata": { "challenge_construction_insights": { "birdbrain_probability": 0.98932004, "birdbrain_source": "birdbrain_v2", "content_length": 7, "best_solution": "THIS CHEAT", "is_adaptive": false, "cefr_level": "CEFR_A1", "cefr_subsection": "A1.0", "tagged_kc_ids": [randomKcId], "teaching_kc_ids": [randomKcId], "content_versions": [] }, "highlight": [], "learning_language": "es", "other_options": [], "solution_key": randomSolutionKey, "translation": "Go to twisk.fun/install", "ui_language": "en", "word": "How to install DuoHacker", "language": "es", "type": "assist", "content_versions": [], "lexeme_ids_to_update": [randomKcId], "specific_type": "assist", "lexemes_to_update": [randomKcId], "generic_lexeme_map": {}, "num_comments": 0, "from_language": "en", "skill_tree_id": "209338530709d160ba0049addfd664ee" },
-                    "newWords": [], "progressUpdates": [], "challengeGeneratorIdentifier": { "specificType": "assist", "generatorId": randomGeneratorId }
-                };
-                clonedRespJson.challenges = Array(numOfQuestions).fill(challengePayload);
-                const modified = JSON.stringify(clonedRespJson);
-                return new Response(modified, { status: response.status, statusText: response.statusText, headers: response.headers });
-            });
-        }
-        return this.originalFetch(url, options);
-    }
-}
-if (LESSON_SHORTNER_ENABLED) {
-    new LessonShortnerInterception();
-    console.log("Lesson Shortner: ACTIVATED");
-}
-const initDuolingoSuper = () => {
-    'use strict';
-    const TARGET_URL_REGEX = /https:\/\/www\.duolingo\.com\/\d{4}-\d{2}-\d{2}\/users\/.+/;
-    const CUSTOM_SHOP_ITEMS = {
-        gold_subscription: {
-            itemName: "gold_subscription",
-            subscriptionInfo: {
-                vendor: "STRIPE",
-                renewing: true,
-                isFamilyPlan: true,
-                expectedExpiration: 9999999999000
-            }
-        }
-    };
-    function shouldIntercept(url, method = 'GET') {
-        if (method.toUpperCase() !== 'GET') return false;
-        const isMatch = TARGET_URL_REGEX.test(url);
-        if (url.includes('/shop-items')) return false;
-        if (isMatch) {
-            try {
-                console.log(`[Duolingo Super] MATCH FOUND for URL: ${url}`);
-            } catch {}
-        }
-        return isMatch;
-    }
-    function modifyJson(jsonText) {
-        try {
-            const data = JSON.parse(jsonText);
-            data.hasPlus = true;
-            if (!data.trackingProperties || typeof data.trackingProperties !== 'object') {
-                data.trackingProperties = {};
-            }
-            data.trackingProperties.has_item_gold_subscription = true;
-            data.shopItems = {
-                ...data.shopItems,
-                ...CUSTOM_SHOP_ITEMS
-            };
-            return JSON.stringify(data);
-        } catch (e) {
-            return jsonText;
-        }
-    }
-    const originalFetch = window.fetch;
-    const originalXhrOpen = XMLHttpRequest.prototype.open;
-    const originalXhrSend = XMLHttpRequest.prototype.send;
-    window.enableDuolingoSuper = function() {
-        window.fetch = function(resource, options) {
-            const url = resource instanceof Request ? resource.url : resource;
-            const method = (resource instanceof Request) ? resource.method : (options?.method || 'GET');
-            if (shouldIntercept(url, method)) {
-                try {
-                    console.log(`[Duolingo Super] Intercepting fetch request to: ${url}`);
-                } catch {}
-                return originalFetch.apply(this, arguments).then(async (response) => {
-                    const cloned = response.clone();
-                    const jsonText = await cloned.text();
-                    const modified = modifyJson(jsonText);
-                    let hdrs = response.headers;
-                    try {
-                        const obj = {};
-                        response.headers.forEach((v, k) => obj[k] = v);
-                        hdrs = obj;
-                    } catch {}
-                    return new Response(modified, {
-                        status: response.status,
-                        statusText: response.statusText,
-                        headers: hdrs
-                    });
-                }).catch(err => {
-                    try {
-                        console.error('[Duolingo Super] fetch error', err);
-                    } catch {}
-                    throw err;
-                });
-            }
-            return originalFetch.apply(this, arguments);
-        };
-        XMLHttpRequest.prototype.open = function(method, url, ...args) {
-            this._intercept = shouldIntercept(url, method);
-            this._url = url;
-            originalXhrOpen.call(this, method, url, ...args);
-        };
-        XMLHttpRequest.prototype.send = function() {
-            if (this._intercept) {
-                try {
-                    console.log(`[Duolingo Super] Intercepting XHR request to: ${this._url}`);
-                } catch {}
-                const originalOnReadyStateChange = this.onreadystatechange;
-                const xhr = this;
-                this.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-                        try {
-                            const modifiedText = modifyJson(xhr.responseText);
-                            Object.defineProperty(xhr, 'responseText', {
-                                writable: true,
-                                value: modifiedText
-                            });
-                            Object.defineProperty(xhr, 'response', {
-                                writable: true,
-                                value: modifiedText
-                            });
-                        } catch (e) {
-                            try {
-                                console.error("[Duolingo Super] XHR Modification Failed:", e);
-                            } catch {}
-                        }
-                    }
-                    if (originalOnReadyStateChange) originalOnReadyStateChange.apply(this, arguments);
-                };
-            }
-            originalXhrSend.apply(this, arguments);
-        };
-        removeManageSubscriptionSection();
-        addDuolingoSuperBanner();
-        console.log("Duolingo Super features enabled");
-    };
-    window.disableDuolingoSuper = function() {
-        window.fetch = originalFetch;
-        XMLHttpRequest.prototype.open = originalXhrOpen;
-        XMLHttpRequest.prototype.send = originalXhrSend;
-        const banner = document.getElementById('duolingo-super-banner');
-        if (banner) {
-            banner.remove();
-        }
-        console.log("Duolingo Super features disabled");
-    };
-    function addDuolingoSuperBanner() {
-        if (!window.location.pathname.includes('/settings/super')) return;
-        if (document.getElementById('duolingo-super-banner')) return;
-        const refElement = document.querySelector('.ky51z._26JAQ.MGk8p');
-        if (!refElement) return;
-        const ul = document.createElement('ul');
-        ul.className = 'Y6o36';
-        const newLi = document.createElement('li');
-        newLi.id = 'duolingo-super-banner';
-        newLi.className = '_17J_p';
-        newLi.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
-        newLi.style.borderRadius = '8px';
-        newLi.style.padding = '12px';
-        newLi.innerHTML = `
-      <div class='thPiC'>
-        <div class='_1xOxM' style='font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #ffb700; border-radius: 100px; box-shadow: 0 0 10px rgba(255, 183, 0, 0.3);'>⭐</div>
-      </div>
-      <div class='_3jiBp'>
-        <h4 class='qyEhl' style='color: #333;'>Duolingo Super Unlocked</h4>
-        <span class='_3S2Xa' style='color: #555;'>Credits to <a href='https://github.com/apersongithub' target='_blank' style='color: #ff6b00;'>apersongithub</a></span>
-      </div>
-      <div class='_36kJA'>
-        <div><a href='https://github.com/apersongithub/Duolingo-Unlimited-Hearts' target='_blank'>
-          <button class='_1ursp _2V6ug _2paU5 _3gQUj _7jW2t rdtAy'>
-            <span class='_9lHjd' style='color: #ff6b00;'>⭐ STAR ON GITHUB</span>
-          </button>
-        </a></div>
-      </div>
-    `;
-        ul.appendChild(newLi);
-        refElement.parentNode.insertBefore(ul, refElement.nextSibling);
-        try {
-            console.log('Duolingo Super banner successfully added!');
-        } catch {}
-    }
-    function removeManageSubscriptionSection(root = document) {
-        const sections = root.querySelectorAll('section._3f-te');
-        for (const section of sections) {
-            const h2 = section.querySelector('h2._203-l');
-            if (h2 && h2.textContent.trim() === 'Manage subscription') {
-                section.remove();
-                break;
-            }
-        }
-    }
-    if (duolingoSuperEnabled) {
-        window.enableDuolingoSuper();
-    }
-    const manageSubObserver = new MutationObserver(() => {
-        if (duolingoSuperEnabled) {
-            removeManageSubscriptionSection();
-            addDuolingoSuperBanner();
-        }
-    });
-    manageSubObserver.observe(document.documentElement, {
-        childList: true,
-        subtree: true
-    });
-};
-const initDuolingoMax = () => {
-    'use strict';
-    const TARGET_URL_REGEX = /https:\/\/www\.duolingo\.com\/\d{4}-\d{2}-\d{2}\/users\/.+/;
-    const CUSTOM_SHOP_ITEMS = {
-        gold_subscription: {
-            itemName: "gold_subscription",
-            subscriptionInfo: {
-                vendor: "STRIPE",
-                renewing: true,
-                isFamilyPlan: true,
-                expectedExpiration: 9999999999000
-            }
-        }
-    };
-    function shouldIntercept(url) {
-        const isMatch = TARGET_URL_REGEX.test(url);
-        if (isMatch) {
-            try {
-                console.log(`[API Intercept DEBUG] MATCH FOUND for URL: ${url}`);
-            } catch {}
-        }
-        return isMatch;
-    }
-    function modifyJson(jsonText) {
-        try {
-            const data = JSON.parse(jsonText);
-            try {
-                console.log("[API Intercept] Original Data:", data);
-            } catch {}
-            data.hasPlus = true;
-            if (!data.trackingProperties || typeof data.trackingProperties !== 'object') data.trackingProperties = {};
-            data.trackingProperties.has_item_gold_subscription = true;
-            data.shopItems = CUSTOM_SHOP_ITEMS;
-            try {
-                console.log("[API Intercept] Modified Data:", data);
-            } catch {}
-            return JSON.stringify(data);
-        } catch (e) {
-            try {
-                console.error("[API Intercept] Failed to parse or modify JSON. Returning original text.", e);
-            } catch {}
-            return jsonText;
-        }
-    }
-    const originalFetch = window.fetch;
-    const originalXhrOpen = XMLHttpRequest.prototype.open;
-    const originalXhrSend = XMLHttpRequest.prototype.send;
-    window.enableDuolingoMax = function() {
-        window.fetch = function(resource, options) {
-            const url = resource instanceof Request ? resource.url : resource;
-            if (shouldIntercept(url)) {
-                try {
-                    console.log(`[API Intercept] Intercepting fetch request to: ${url}`);
-                } catch {}
-                return originalFetch.apply(this, arguments).then(async (response) => {
-                    const cloned = response.clone();
-                    const jsonText = await cloned.text();
-                    const modified = modifyJson(jsonText);
-                    let hdrs = response.headers;
-                    try {
-                        const obj = {};
-                        response.headers.forEach((v, k) => obj[k] = v);
-                        hdrs = obj;
-                    } catch {}
-                    return new Response(modified, {
-                        status: response.status,
-                        statusText: response.statusText,
-                        headers: hdrs
-                    });
-                }).catch(err => {
-                    try {
-                        console.error('[API Intercept] fetch error', err);
-                    } catch {};
-                    throw err;
-                });
-            }
-            return originalFetch.apply(this, arguments);
-        };
-        XMLHttpRequest.prototype.open = function(method, url, ...args) {
-            this._intercept = shouldIntercept(url);
-            this._url = url;
-            originalXhrOpen.call(this, method, url, ...args);
-        };
-        XMLHttpRequest.prototype.send = function() {
-            if (this._intercept) {
-                try {
-                    console.log(`[API Intercept] Intercepting XHR request to: ${this._url}`);
-                } catch {}
-                const originalOnReadyStateChange = this.onreadystatechange;
-                const xhr = this;
-                this.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-                        try {
-                            const modifiedText = modifyJson(xhr.responseText);
-                            Object.defineProperty(xhr, 'responseText', {
-                                writable: true,
-                                value: modifiedText
-                            });
-                            Object.defineProperty(xhr, 'response', {
-                                writable: true,
-                                value: modifiedText
-                            });
-                        } catch (e) {
-                            try {
-                                console.error("[API Intercept] XHR Modification Failed:", e);
-                            } catch {}
-                        }
-                    }
-                    if (originalOnReadyStateChange) originalOnReadyStateChange.apply(this, arguments);
-                };
-            }
-            originalXhrSend.apply(this, arguments);
-        };
-        removeManageSubscriptionSection();
-        addDuolingoMaxBanner();
-        console.log("Duolingo Max features enabled");
-    };
-    window.disableDuolingoMax = function() {
-        window.fetch = originalFetch;
-        XMLHttpRequest.prototype.open = originalXhrOpen;
-        XMLHttpRequest.prototype.send = originalXhrSend;
-        const banner = document.getElementById('extension-banner');
-        if (banner) {
-            banner.remove();
-        }
-        console.log("Duolingo Max features disabled");
-    };
-    function addDuolingoMaxBanner() {
-        if (!window.location.pathname.includes('/settings/super')) return;
-        if (document.getElementById('duolingo-max-banner')) return;
-        const refElement = document.querySelector('.ky51z._26JAQ.MGk8p');
-        if (!refElement) return;
-        const ul = document.createElement('ul');
-        ul.className = 'Y6o36';
-        const newLi = document.createElement('li');
-        newLi.id = 'duolingo-max-banner';
-        newLi.className = '_17J_p';
-        newLi.style.background = 'linear-gradient(135deg, #2c2f33 0%, #23272a 100%)';
-        newLi.style.borderRadius = '8px';
-        newLi.style.padding = '12px';
-        newLi.innerHTML = `
-<div class='thPiC'><div class='_1xOxM' style='font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #5865F2; border-radius: 100px; box-shadow:0 0 10px rgba(88,101,246,0.3);'>🤝</div></div>
-<div class='_3jiBp'>
-<h4 class='qyEhl' style='text-shadow:0 0 5px rgba(88,101,242,0.6); color:#fff;'>Credits</h4>
-<span class='_3S2Xa' style='color:#b9bbbe;'>This feature is made by @apersongithub</span>
-</div>
-<div class='_36kJA'>
-<div><a href='https://github.com/apersongithub/Duolingo-Unlimited-Hearts'
-target='_blank'><button class='_1ursp _2V6ug _2paU5 _3gQUj _7jW2t rdtAy'><span class='_9lHjd'
-style='color:#5865F2; text-shadow:0 0 5px rgba(88,101,242,0.4);'>GIVE A STAR</span></button></a></div>
-</div>
-`;
-        ul.appendChild(newLi);
-        refElement.parentNode.insertBefore(ul, refElement.nextSibling);
-        try {
-            console.log('Duolingo Max banner successfully added!');
-        } catch {}
-    }
-    function removeManageSubscriptionSection(root = document) {
-        const sections = root.querySelectorAll('section._3f-te');
-        for (const section of sections) {
-            const h2 = section.querySelector('h2._203-l');
-            if (h2 && h2.textContent.trim() === 'Manage subscription') {
-                section.remove();
-                break;
-            }
-        }
-    }
-    if (duolingoMaxEnabled) {
-        window.enableDuolingoMax();
-    }
-    const manageSubObserver = new MutationObserver(() => {
-        if (duolingoMaxEnabled) {
-            removeManageSubscriptionSection();
-            addDuolingoMaxBanner();
-        }
-    });
-    manageSubObserver.observe(document.documentElement, {
-        childList: true,
-        subtree: true
-    });
-};
+
 const getCurrentPrivacyStatus = async () => {
     if (!sub) {
         const success = await initializeFarming();
@@ -962,7 +680,7 @@ const determineChallengeType = () => {
             return false;
         }
     } catch (error) {
-        console.error("Error determining challenge type:", error);
+
         return 'error';
     }
 };
@@ -971,11 +689,9 @@ const handleChallenge = (challengeType) => {
     if (['Challenge Speak', 'Listen Challenge', 'Listen Match', 'Listen Tap', 'Listen Speak'].includes(challengeType)) {
         const buttonSkip = document.querySelector('button[data-test="player-skip"]');
         if (buttonSkip && !buttonSkip.disabled) {
-            console.log(`Auto skipping ${challengeType} challenge`);
             buttonSkip.click();
             clickedNext = true;
         } else {
-            console.log(`No skip button available for ${challengeType}`);
         }
         return;
     }
@@ -1217,7 +933,6 @@ const handleChallenge = (challengeType) => {
             document.querySelector('[data-test="stories-player-continue"]') ||
             document.querySelector('[data-test="stories-player-done"]');
         if (nextBtn && !nextBtn.disabled) {
-            console.log('✓ Auto-clicking NEXT button');
             nextBtn.click();
         }
     }, 400);
@@ -1229,7 +944,6 @@ const solve = () => {
         console.error("Error getting challenge data:", error);
         const buttonSkip = document.querySelector('button[data-test="player-skip"]');
         if (buttonSkip && !buttonSkip.disabled) {
-            console.log("Auto skipping due to error fetching challenge data");
             buttonSkip.click();
         }
         return;
@@ -1244,10 +958,8 @@ const solve = () => {
             }
         }, 100);
     } else {
-        console.log(`Cannot solve or skipping ${challengeType} challenge`);
         const buttonSkip = document.querySelector('button[data-test="player-skip"]');
         if (buttonSkip && !buttonSkip.disabled) {
-            console.log(`Auto skipping ${challengeType}`);
             buttonSkip.click();
         }
     }
@@ -1303,23 +1015,31 @@ const categorizeItems = (items) => {
         });
 };
 const getShopItems = async (headers) => {
+    const FREE_SUPER_TRIAL = {
+        id:           'immersive_subscription',
+        name:         'Free 3-Day Super Trial',
+        currencyType: 'XGM',
+        type:         'subscription',
+    };
+
     try {
         const res = await fetch('https://www.duolingo.com/2023-05-23/shop-items', {
-            method: 'GET',
-            headers: headers,
+            method:      'GET',
+            headers:     headers,
             credentials: 'include'
         });
 
         if (res.ok) {
             const data = await res.json();
-            return data.shopItems || [];
+            const items = data.shopItems || [];
+            return [FREE_SUPER_TRIAL, ...items];
         } else {
-            console.error('Failed to fetch shop items:', res.status);
-            return [];
+
+            return [FREE_SUPER_TRIAL];
         }
     } catch (e) {
-        console.error('Error fetching shop items:', e);
-        return [];
+
+        return [FREE_SUPER_TRIAL];
     }
 };
 const formatItemName = (id, name) => {
@@ -1333,73 +1053,82 @@ const formatItemName = (id, name) => {
 };
 const buyItem = async (itemId, itemData = null) => {
     if (!userInfo || !sub || !jwt || !defaultHeaders) {
-        logToConsole('❌ Not logged in or user data missing', 'error');
+        logToConsole('Not logged in or user data missing', 'error');
         alert('❌ Error: User data missing. Please refresh the page.');
         return false;
     }
 
     try {
-        logToConsole(`⏳ Purchasing ${itemData?.displayName || itemId}...`, 'info');
-        if (itemId === "immersive_subscription" || itemId.includes('free_taste')) {
-            const payload = {
-                "itemName": itemId,
-                "isFree": true,
-                "consumed": true,
-                "fromLanguage": userInfo.fromLanguage,
-                "learningLanguage": userInfo.learningLanguage,
-                "productId": "com.duolingo.immersive_free_trial_subscription"
-            };
+        logToConsole(`Purchasing ${itemData?.displayName || itemId}…`, 'info');
 
-            const response = await fetch(
-                `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`,
-                {
-                    method: "POST",
-                    headers: defaultHeaders,
-                    body: JSON.stringify(payload),
-                    credentials: 'include'
-                }
-            );
+        if (itemId === 'immersive_subscription' || itemId.includes('free_taste')) {
+            const productIds = [
+                'com.duolingo.immersive_free_trial_subscription',
+                'com.duolingo.super_free_trial_subscription'
+            ];
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.purchaseId) {
-                    logToConsole('✅ Super Trial activated!', 'success');
-                    return true;
+            for (const productId of productIds) {
+                const payload = {
+                    itemName:         itemId,
+                    isFree:           true,
+                    consumed:         true,
+                    fromLanguage:     userInfo.fromLanguage,
+                    learningLanguage: userInfo.learningLanguage,
+                    productId
+                };
+
+                const response = await fetch(
+                    `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`,
+                    {
+                        method:      'POST',
+                        headers:     defaultHeaders,
+                        body:        JSON.stringify(payload),
+                        credentials: 'include'
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.purchaseId || response.status === 200) {
+                        logToConsole('Super Trial activated!', 'success');
+                        return true;
+                    }
                 }
             }
 
-            logToConsole(`❌ Purchase failed (HTTP ${response.status})`, 'error');
+            logToConsole('Trial activation failed — you may have already used it.', 'error');
             return false;
         }
+
         const payload = {
-            "itemName": itemId,
-            "isFree": true,
-            "consumed": true,
-            "fromLanguage": userInfo.fromLanguage,
-            "learningLanguage": userInfo.learningLanguage
+            itemName:         itemId,
+            isFree:           true,
+            consumed:         true,
+            fromLanguage:     userInfo.fromLanguage,
+            learningLanguage: userInfo.learningLanguage
         };
 
         const response = await fetch(
             `https://www.duolingo.com/2017-06-30/users/${sub}/shop-items`,
             {
-                method: "POST",
-                headers: defaultHeaders,
-                body: JSON.stringify(payload),
+                method:      'POST',
+                headers:     defaultHeaders,
+                body:        JSON.stringify(payload),
                 credentials: 'include'
             }
         );
 
         if (response.status === 200) {
-            logToConsole(`✅ SUCCESS! Acquired ${itemData?.displayName || itemId}!`, 'success');
+            logToConsole(`Acquired ${itemData?.displayName || itemId}!`, 'success');
             return true;
-        } else {
-            const errorText = await response.text();
-            logToConsole(`❌ Failed (HTTP ${response.status}): ${errorText}`, 'error');
-            return false;
         }
 
+        const errorText = await response.text();
+        logToConsole(`Failed (HTTP ${response.status}): ${errorText}`, 'error');
+        return false;
+
     } catch (error) {
-        logToConsole(`❌ Purchase error: ${error.message}`, 'error');
+        logToConsole(`Purchase error: ${error.message}`, 'error');
         return false;
     }
 };
@@ -1424,10 +1153,8 @@ const showMonthlyBadges = async () => {
         return;
     }
     if (typeof sub === 'undefined' || !sub || typeof jwt === 'undefined' || !jwt) {
-        console.log("[DuoQuest] User data missing. Force initializing...");
         const success = await initializeFarming();
         if (success) {
-            console.log("[DuoQuest] Data loaded successfully! ID:", sub);
         } else {
             console.error("[DuoQuest] Failed to load data from cookies.");
         }
@@ -1832,9 +1559,11 @@ const showMonthlyBadges = async () => {
         hideCompleted: false,
         loading: false
     };
-    const originalFetch = window.fetch;
+    // Spy on fetch calls to extract token/userId without overriding fetch
+    // (avoids "no-op fetch handler" browser warning)
+    const _origFetchForBadges = window.fetch;
     window.fetch = function(...args) {
-        const fetchPromise = originalFetch.apply(this, args);
+        const result = _origFetchForBadges.apply(this, args);
         try {
             const [resource, config] = args;
             const url = typeof resource === 'string' ? resource : (resource?.url || String(resource));
@@ -1857,10 +1586,9 @@ const showMonthlyBadges = async () => {
                 }
             }
         } catch (e) {}
-        return fetchPromise;
+        return result; // always return the Promise
     };
     function log(msg) {
-        console.log(`[DuoQuest] ${msg}`);
     }
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -1955,7 +1683,7 @@ const showMonthlyBadges = async () => {
             const schemaData = await schemaRes.json();
             state.schema = schemaData;
         } catch (e) {
-            console.error(e);
+
         }
         try {
             const progressRes = await originalFetch(`https://goals-api.duolingo.com/users/${state.userId}/progress?timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}&ui_language=en`, {
@@ -1971,7 +1699,7 @@ const showMonthlyBadges = async () => {
                 state.earnedBadges = new Set();
             }
         } catch (e) {
-            console.error(e);
+
         }
         setButtonLoading('qt-load-btn', false);
         renderGoals();
@@ -2005,10 +1733,10 @@ const showMonthlyBadges = async () => {
                 }
                 return;
             }
-            log(`✅ Updated ${metricName}!`);
+            log(`Updated ${metricName}!`);
             loadData();
         } catch (e) {
-            console.error(e);
+
         }
     }
     async function claimAllMonthly() {
@@ -2290,7 +2018,6 @@ const showMonthlyBadges = async () => {
 };
 const checkDailyQuestStatus = async () => {
     if (!sub || !jwt) {
-        console.log("[Quest Check] User data not available.");
         return false;
     }
     const goalHeaders = getGoalHeaders();
@@ -2305,7 +2032,7 @@ const checkDailyQuestStatus = async () => {
             })
         ]);
         if (!schemaRes.ok || !progressRes.ok) {
-            console.error("[Quest Check] Failed to fetch quest data.");
+
             return false;
         }
         const schema = await schemaRes.json();
@@ -2392,22 +2119,17 @@ styleSheet.innerText = `
 `;
 document.head.appendChild(styleSheet);
 const showItemShop = async () => {
-  console.log("🎁 Opening Item Shop...");
-
 
   if (!userInfo || !sub || !jwt || !defaultHeaders) {
-    console.log("📊 User not loaded yet, initializing...");
     logToConsole("Initializing user data for shop...", "info");
     const success = await initializeFarming();
     if (!success || !userInfo || !sub || !jwt) {
-      logToConsole("❌ Failed to load user data. Please try again.", "error");
+      logToConsole("Failed to load user data. Please try again.", "error");
       alert("Failed to load user data. Please reload the page and try again.");
       return;
     }
-    logToConsole("✅ User data loaded successfully", "success");
+    logToConsole("User data loaded successfully", "success");
   }
-
-
 
   if (!document.getElementById("_item_shop_anim_css")) {
     const style = document.createElement("style");
@@ -2475,7 +2197,6 @@ const showItemShop = async () => {
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-
   const closeModal = async (modal) => {
     if (!modal) return;
     modal.classList.remove("_open");
@@ -2483,7 +2204,6 @@ const showItemShop = async () => {
     await sleep(160);
     modal.remove();
   };
-
 
   const existingModal = document.getElementById("_item_shop_modal");
   if (existingModal) existingModal.remove();
@@ -2514,7 +2234,7 @@ const showItemShop = async () => {
                  style="flex: 1; margin-bottom: 0;">
           <button id="_shop_reload_btn" class="_icon_btn _primary" title="Reload Shop">
 <img
-  src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/reload-icon.png"
+  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15'/%3E%3C/svg%3E"
   alt="Reload"
   style="width:20px;height:20px;display:block;filter: invert(1) brightness(2);"
 />
@@ -2542,9 +2262,7 @@ const showItemShop = async () => {
 
   document.body.appendChild(modal);
 
-
   requestAnimationFrame(() => modal.classList.add("_open"));
-
 
   document.getElementById("_close_item_shop")?.addEventListener("click", () => closeModal(modal));
   modal.querySelector("._modal_overlay")?.addEventListener("click", () => closeModal(modal));
@@ -2605,7 +2323,6 @@ const showItemShop = async () => {
 
       container.innerHTML = html;
 
-
       const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
       if (!reduceMotion) {
         const cards = container.querySelectorAll("._shop_item_card");
@@ -2620,7 +2337,6 @@ const showItemShop = async () => {
           c.style.transform = "none";
         });
       }
-
 
       container.querySelectorAll("._shop_buy_btn").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
@@ -2668,7 +2384,6 @@ const showItemShop = async () => {
     }
   };
 
-
   const searchInput = document.getElementById("_shop_search_input");
   searchInput?.addEventListener("input", (e) => {
     const searchTerm = e.target.value.toLowerCase().trim();
@@ -2696,7 +2411,6 @@ const showItemShop = async () => {
     container.style.display = totalVisible > 0 ? "block" : "none";
     emptyState.style.display = totalVisible === 0 ? "block" : "none";
   });
-
 
   document.getElementById("_shop_reload_btn")?.addEventListener("click", (e) => {
     const btn = e.currentTarget;
@@ -2729,35 +2443,87 @@ const autoSolver = {
     },
     determineChallengeType: () => {
         try {
-            if (window.sol?.type === 'typeCloze') return 'Type Cloze';
-            if (window.sol?.type === 'typeClozeTable') return 'Type Cloze Table';
-            if (window.sol?.type === 'tapClozeTable') return 'Tap Cloze Table';
-            if (window.sol?.type === 'typeCompleteTable') return 'Type Complete Table';
-            if (window.sol?.type === 'patternTapComplete') return 'Pattern Tap Complete';
-            if (document.querySelector('[data-test="challenge challenge-listenSpeak"]')) return 'Listen Speak';
+            const t = window.sol?.type;
+            if (!t) return false;
+
+            // ── skip/audio types ──────────────────────────────────────────
+            if (t === 'speak' || t === 'listenSpeak' ||
+                document.querySelector('[data-test="challenge challenge-listenSpeak"]') ||
+                document.querySelectorAll('[data-test*="challenge-speak"]').length > 0) return 'Challenge Speak';
+
+            if (t === 'listenMatch') return 'Listen Match';
+
+            // ── story / dialogue UI (FmlUF wrapper) ───────────────────────
             if (document.querySelector('.FmlUF')) {
-                if (window.sol?.type === 'arrange') return 'Story Arrange';
-                if (window.sol?.type === 'multiple-choice' || window.sol?.type === 'select-phrases') return 'Story Multiple Choice';
-                if (window.sol?.type === 'point-to-phrase') return 'Story Point to Phrase';
-                if (window.sol?.type === 'match') return 'Story Pairs';
+                if (t === 'arrange') return 'Story Arrange';
+                if (t === 'multiple-choice' || t === 'select-phrases') return 'Story Multiple Choice';
+                if (t === 'point-to-phrase') return 'Story Point to Phrase';
+                if (t === 'match') return 'Story Pairs';
             }
-            if (document.querySelectorAll('[data-test*="challenge-speak"]').length > 0) return 'Challenge Speak';
-            if (document.querySelectorAll('[data-test*="challenge-name"]').length > 0 && document.querySelectorAll('[data-test="challenge-choice"]').length > 0) return 'Challenge Name';
-            if (window.sol?.type === 'listenMatch') return 'Listen Match';
+
+            // ── table types ───────────────────────────────────────────────
+            if (t === 'typeCloze')           return 'Type Cloze';
+            if (t === 'typeClozeTable')      return 'Type Cloze Table';
+            if (t === 'tapClozeTable')       return 'Tap Cloze Table';
+            if (t === 'typeCompleteTable')   return 'Type Complete Table';
+            if (t === 'tapCompleteTable')    return 'Tap Complete Table';
+            if (t === 'patternTapComplete')  return 'Pattern Tap Complete';
+
+            // ── listen / type what you hear ───────────────────────────────
+            // listenTap: tap words from bank in order  (has correctTokens + tap-token bank)
+            if (t === 'listenTap') return 'Listen Tap';
+            // listen: type the transcription into a textarea
+            if (t === 'listen') return 'Listen Type';
+
+            // ── translate: tap-bank or textarea ──────────────────────────
+            if (t === 'translate') return 'Translate';
+
+            // ── completeReverseTranslation: fill one blank in text-input ──
+            if (t === 'completeReverseTranslation') return 'Complete Reverse';
+
+            // ── partialReverseTranslate: contenteditable span ─────────────
+            if (document.querySelectorAll('[data-test*="challenge-partialReverseTranslate"]').length > 0) return 'Partial Reverse';
+
+            // ── judge: true/false style (challenge-judge-text buttons) ────
+            if (t === 'judge') return 'Judge';
+
+            // ── dialogue / characterIntro / selectTranscription ───────────
+            if (t === 'dialogue' || t === 'characterIntro' || t === 'selectTranscription') return 'Dialogue';
+
+            // ── character match ───────────────────────────────────────────
+            if (t === 'characterMatch' || t === 'match') {
+                if (document.querySelectorAll('[data-test$="challenge-tap-token"]').length > 0) return 'Pairs';
+            }
+
+            // ── select / form / comprehension / pronunciation → choice-card
+            if (t === 'select' || t === 'characterSelect' || t === 'form' ||
+                t === 'readComprehension' || t === 'listenComprehension' ||
+                t === 'selectPronunciation') {
+                return 'Select Card';
+            }
+
+            // ── challenge name (article + text-input) ─────────────────────
+            if (document.querySelectorAll('[data-test*="challenge-name"]').length > 0 &&
+                document.querySelectorAll('[data-test="challenge-choice"]').length > 0) return 'Challenge Name';
+
+            // ── generic choice (multiple choice with challenge-choice) ─────
             if (document.querySelectorAll('[data-test="challenge-choice"]').length > 0) {
                 if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Choice with Text Input';
                 return 'Challenge Choice';
             }
+
+            // ── tap tokens ────────────────────────────────────────────────
             if (document.querySelectorAll('[data-test$="challenge-tap-token"]').length > 0) {
                 if (window.sol?.pairs !== undefined) return 'Pairs';
                 if (window.sol?.correctTokens !== undefined) return 'Tokens Run';
                 if (window.sol?.correctIndices !== undefined) return 'Indices Run';
             }
             if (document.querySelectorAll('[data-test="challenge-tap-token-text"]').length > 0) return 'Fill in the Gap';
+
+            // ── text inputs ───────────────────────────────────────────────
             if (document.querySelectorAll('[data-test="challenge-text-input"]').length > 0) return 'Challenge Text Input';
             if (document.querySelectorAll('textarea[data-test="challenge-translate-input"]').length > 0) return 'Challenge Translate Input';
-            if (window.sol?.type === 'tapCompleteTable') return 'Tap Complete Table';
-            if (document.querySelectorAll('[data-test*="challenge-partialReverseTranslate"]').length > 0) return 'Partial Reverse';
+
             return false;
         } catch (error) {
             return false;
@@ -2810,21 +2576,22 @@ const autoSolver = {
         }
     },
     handleTokensRun: async () => {
-        const allTokens = document.querySelectorAll('[data-test$="challenge-tap-token"]');
-        const clickedTokens = [];
-        for (const correctToken of window.sol.correctTokens) {
-            const matchingElements = Array.from(allTokens).filter(el => el.textContent.trim() === correctToken.trim());
-            if (matchingElements.length > 0) {
-                const matchIndex = clickedTokens.filter(token => token.textContent.trim() === correctToken.trim()).length;
-                const elementToClick = matchingElements[matchIndex] || matchingElements[0];
-                if (!elementToClick.disabled) {
-                    elementToClick.click();
-                    clickedTokens.push(elementToClick);
-                    await autoSolver.delay(50);
-                }
+    const allTokens = document.querySelectorAll('[data-test$="challenge-tap-token"]');
+    const clickedTokens = [];
+    const tokensToClick = [];
+    for (const correctToken of window.sol.correctTokens) {
+        const matchingElements = Array.from(allTokens).filter(el => el.textContent.trim() === correctToken.trim());
+        if (matchingElements.length > 0) {
+            const matchIndex = clickedTokens.filter(token => token.textContent.trim() === correctToken.trim()).length;
+            const elementToClick = matchingElements[matchIndex] || matchingElements[0];
+            if (!elementToClick.disabled) {
+                tokensToClick.push(elementToClick);
+                clickedTokens.push(elementToClick);
             }
         }
-    },
+    }
+    tokensToClick.forEach(token => token.click());
+},
     handleIndicesRun: async () => {
         if (!window.sol.correctIndices) return;
         const wordBank = document.querySelector('div[data-test="word-bank"]') || document.querySelector('.eSgkc');
@@ -2888,28 +2655,125 @@ const autoSolver = {
                 case 'Listen Speak':
                     document.querySelector('button[data-test="player-skip"]')?.click();
                     break;
+
+                // ── NEW: Select Card (select / characterSelect / form / comprehension / pronunciation)
+                case 'Select Card': {
+                    const idx = window.sol.correctIndex ?? 0;
+                    // try choice-card first, fallback to challenge-choice
+                    const cards = document.querySelectorAll('[data-test="challenge-choice-card"]');
+                    if (cards.length > 0) {
+                        cards[idx]?.click();
+                    } else {
+                        document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
+                    }
+                    break;
+                }
+
+                // ── NEW: Judge (true/false)
+                case 'Judge': {
+                    const ci = window.sol.correctIndices?.[0] ?? 0;
+                    document.querySelectorAll('[data-test="challenge-judge-text"]')[ci]?.click();
+                    break;
+                }
+
+                // ── NEW: Dialogue / characterIntro / selectTranscription
+                case 'Dialogue': {
+                    const idx = window.sol.correctIndex ?? 0;
+                    // These use judge-text buttons
+                    const judgeItems = document.querySelectorAll('[data-test="challenge-judge-text"]');
+                    if (judgeItems.length > 0) {
+                        judgeItems[idx]?.click();
+                    } else {
+                        document.querySelectorAll('[data-test="challenge-choice"]')[idx]?.click();
+                    }
+                    break;
+                }
+
+                // ── NEW: Translate (tap word bank OR textarea)
+                case 'Translate': {
+                    const { correctTokens, correctSolutions } = window.sol;
+                    if (correctTokens && correctTokens.length > 0) {
+                        const tokens = document.querySelectorAll('[data-test$="challenge-tap-token"]');
+                        const usedIndexes = [];
+                        for (const word of correctTokens) {
+                            for (let i = 0; i < tokens.length; i++) {
+                                if (usedIndexes.includes(i)) continue;
+                                if (tokens[i].innerText.trim() === word.trim() && !tokens[i].disabled) {
+                                    tokens[i].click();
+                                    usedIndexes.push(i);
+                                    await autoSolver.delay(40);
+                                    break;
+                                }
+                            }
+                        }
+                    } else if (correctSolutions) {
+                        const ta = document.querySelector('textarea[data-test="challenge-translate-input"]');
+                        if (ta) autoSolver.setInputValue(ta, correctSolutions[0]);
+                    }
+                    break;
+                }
+
+                // ── NEW: Listen Tap (tap words in order from word bank)
+                case 'Listen Tap': {
+                    const tokens = document.querySelectorAll('[data-test$="challenge-tap-token"]');
+                    const usedIdx = [];
+                    for (const word of (window.sol.correctTokens || [])) {
+                        for (let i = 0; i < tokens.length; i++) {
+                            if (usedIdx.includes(i)) continue;
+                            if (tokens[i].innerText.trim() === word.trim() && !tokens[i].disabled) {
+                                tokens[i].click();
+                                usedIdx.push(i);
+                                await autoSolver.delay(40);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+
+                // ── NEW: Listen Type (type the transcription)
+                case 'Listen Type': {
+                    const answer = window.sol.prompt || window.sol.correctSolutions?.[0] || '';
+                    const ta = document.querySelector('textarea[data-test="challenge-translate-input"]') ||
+                               document.querySelector('[data-test="challenge-text-input"]');
+                    if (ta) autoSolver.setInputValue(ta, answer);
+                    break;
+                }
+
+                // ── NEW: Complete Reverse Translation (fill blank in text-input)
+                case 'Complete Reverse': {
+                    const blank = window.sol.displayTokens?.find(t => t.isBlank);
+                    const answer = blank?.text || window.sol.correctSolutions?.[0] || '';
+                    const input = document.querySelector('[data-test="challenge-text-input"]');
+                    if (input) autoSolver.setInputValue(input, answer);
+                    break;
+                }
+
                 case 'Challenge Choice':
                     document.querySelectorAll("[data-test='challenge-choice']")[window.sol.correctIndex]?.click();
                     break;
-                case 'Challenge Choice with Text Input':
+                case 'Challenge Choice with Text Input': {
                     const choiceInput = document.querySelector('[data-test="challenge-text-input"]');
                     if (choiceInput) {
                         const answer = window.sol.correctSolutions ? window.sol.correctSolutions[0].split(/(?<=^\S+)\s/)[1] : (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank)?.text : window.sol.prompt);
                         autoSolver.setInputValue(choiceInput, answer);
                     }
                     break;
-                case 'Challenge Text Input':
+                }
+                case 'Challenge Text Input': {
                     const input = document.querySelector('[data-test="challenge-text-input"]');
                     if (input) {
                         const answer = window.sol.correctSolutions?.[0] || (window.sol.displayTokens ? window.sol.displayTokens.find(t => t.isBlank)?.text : window.sol.prompt);
                         autoSolver.setInputValue(input, answer);
                     }
                     break;
-                case 'Challenge Translate Input':
+                }
+                case 'Challenge Translate Input': {
                     const textarea = document.querySelector('textarea[data-test="challenge-translate-input"]');
                     if (textarea) autoSolver.setInputValue(textarea, window.sol.correctSolutions?.[0] || window.sol.prompt);
                     break;
-                case 'Partial Reverse':
+                }
+                case 'Partial Reverse': {
                     const partialElm = document.querySelector('[data-test*="challenge-partialReverseTranslate"]')?.querySelector("span[contenteditable]");
                     if (partialElm) {
                         const text = window.sol?.displayTokens?.filter(t => t.isBlank)?.map(t => t.text)?.join('')?.trim();
@@ -2920,7 +2784,8 @@ const autoSolver = {
                         }));
                     }
                     break;
-                case 'Type Cloze':
+                }
+                case 'Type Cloze': {
                     const clozeInput = document.querySelector('input[type="text"].b4jqk');
                     if (clozeInput) {
                         const targetToken = window.sol.displayTokens.find(t => t.damageStart !== undefined);
@@ -2930,7 +2795,8 @@ const autoSolver = {
                         }
                     }
                     break;
-                case 'Type Cloze Table':
+                }
+                case 'Type Cloze Table': {
                     const tableRows = document.querySelectorAll('tbody tr');
                     window.sol.displayTableTokens.slice(1).forEach((rowTokens, i) => {
                         const answerCell = rowTokens[1]?.find(t => typeof t.damageStart === "number");
@@ -2943,7 +2809,8 @@ const autoSolver = {
                         }
                     });
                     break;
-                case 'Tap Cloze Table':
+                }
+                case 'Tap Cloze Table': {
                     const tapTableRows = document.querySelectorAll('tbody tr');
                     window.sol.displayTableTokens.slice(1).forEach((rowTokens, i) => {
                         const answerCell = rowTokens[1]?.find(t => typeof t.damageStart === "number");
@@ -2961,7 +2828,8 @@ const autoSolver = {
                         }
                     });
                     break;
-                case 'Type Complete Table':
+                }
+                case 'Type Complete Table': {
                     const completeTableRows = document.querySelectorAll('tbody tr');
                     window.sol.displayTableTokens.slice(1).forEach((rowTokens, i) => {
                         const answerCell = rowTokens[1]?.find(t => t.isBlank);
@@ -2970,7 +2838,8 @@ const autoSolver = {
                         if (input) autoSolver.setInputValue(input, answerCell.text);
                     });
                     break;
-                case 'Pattern Tap Complete':
+                }
+                case 'Pattern Tap Complete': {
                     const patternWordBank = document.querySelector('[data-test="word-bank"]');
                     if (!patternWordBank) return;
                     const correctIndex = window.sol.correctIndex ?? 0;
@@ -2979,18 +2848,21 @@ const autoSolver = {
                     const targetButton = patternButtons.find(btn => btn.innerText.trim() === correctText);
                     if (targetButton) targetButton.click();
                     break;
-                case 'Story Arrange':
+                }
+                case 'Story Arrange': {
                     const arrangeChoices = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
                     for (let i = 0; i < window.sol.phraseOrder.length; i++) {
                         arrangeChoices[window.sol.phraseOrder[i]].click();
                         await autoSolver.delay(50);
                     }
                     break;
-                case 'Story Multiple Choice':
+                }
+                case 'Story Multiple Choice': {
                     const storyChoices = document.querySelectorAll('[data-test="stories-choice"]');
                     storyChoices[window.sol.correctAnswerIndex]?.click();
                     break;
-                case 'Story Point to Phrase':
+                }
+                case 'Story Point to Phrase': {
                     const phraseChoices = document.querySelectorAll('[data-test="challenge-tap-token-text"]');
                     let phraseCorrectIndex = -1;
                     for (let i = 0; i < window.sol.parts.length; i++) {
@@ -3003,7 +2875,8 @@ const autoSolver = {
                         }
                     }
                     break;
-                case 'Story Pairs':
+                }
+                case 'Story Pairs': {
                     const storyButtons = document.querySelectorAll('[data-test*="challenge-tap-token"]:not(span)');
                     const storyTexts = document.querySelectorAll('[data-test="challenge-tap-token-text"]');
                     const textToElementMap = new Map();
@@ -3029,6 +2902,7 @@ const autoSolver = {
                         }
                     }
                     break;
+                }
                 case 'Challenge Name':
                     await autoSolver.handleChallengeName();
                     break;
@@ -3047,7 +2921,7 @@ const autoSolver = {
                     break;
             }
         } catch (error) {
-            console.error('Error handling challenge:', error);
+
         }
     },
     clickNext: () => {
@@ -3087,7 +2961,7 @@ const autoSolver = {
             }
             autoSolver.clickNext();
         } catch (error) {
-            console.error('Solve error:', error);
+
             autoSolver.clickNext();
         }
     },
@@ -3177,7 +3051,7 @@ const initInterface = () => {
            border: 2px solid #1E88E5;
          "
     >
-      <img src=" https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true"
+      <img src="https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png"
            alt="Rocket"
            style="
              width: 110%;
@@ -3220,7 +3094,7 @@ const initInterface = () => {
     <span class="_badge">${savedAccounts.length}</span>
 </button>
 <button id="_settings_btn" class="_control_btn _settings">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Windows_Settings_icon.svg/2184px-Windows_Settings_icon.svg.png"
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/%3E%3C/svg%3E"
          style="width: 26px; height: 26px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));">
 </button>
 <button id="_minimize_btn" class="_control_btn _minimize" title="Minimize">
@@ -3234,7 +3108,7 @@ const initInterface = () => {
     </div>
     <div id="_main_content" style="display:none">
     <div class="_announce_bar">
-          <span>👍Join our community to get update annoucements!</span>
+          <span style="color:#ffffff">👍Join our community to get update annoucements!</span>
           <a href="https://twisk.fun/discord" target="_blank" class="_announce_btn">Join</a>
       </div>
       <div class="_profile_card">
@@ -3256,9 +3130,6 @@ const initInterface = () => {
               <button id="_refresh_profile" class="_icon_btn _primary" title="Refresh Profile">
                 <span style="font-size: 16px;">🔄</span>
               </button>
-              <button id="_activity_history_btn" class="_icon_btn _primary" title="Activity History">
-  <span style="font-size: 16px;">📈</span>
-</button>
           </div>
         </div>
                 <div id="_webhook_panel" style="display:none; background:var(--bg-secondary); padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color); animation: fadeIn 0.2s;">
@@ -3296,46 +3167,24 @@ const initInterface = () => {
         </div>
       </div>
       <div class="_mode_section">
-        <h3>Select Farming Mode</h3>
-        <div class="_mode_cards">
-          <div class="_mode_card ${currentMode === 'safe' ? '_active' : ''}" data-mode="safe">
-<div class="_mode_icon">
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/5187f6694476a769d4a4e28149867e3e.svg" alt="Safe Mode Icon">
-</div>
-            <h4>Safe Mode</h4>
-            <p>Slow but undetectable farming</p>
-            <div class="_mode_specs">
-              <span class="_spec">2s delay</span>
-              <span class="_spec">100% safe</span>
-            </div>
-          </div>
-          <div class="_mode_card ${currentMode === 'fast' ? '_active' : ''}" data-mode="fast">
-<div class="_mode_icon">
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" alt="Fast Mode Icon">
-</div>
-            <h4>Fast Mode</h4>
-            <p>Quick farming with risk</p>
-            <div class="_mode_specs">
-              <span class="_spec">0.3s delay</span>
-              <span class="_spec">Use carefully</span>
-            </div>
-          </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin:0;">Farming Delay</h3>
+          <span id="_delay_display" style="font-size:13px; font-weight:700; color:var(--primary-color); background:var(--bg-secondary); padding:3px 10px; border-radius:8px;">${CUSTOM_DELAY}ms</span>
+        </div>
+        <input type="range" id="_delay_slider" min="100" max="5000" step="100" value="${CUSTOM_DELAY}"
+          style="width:100%; accent-color:var(--primary-color); cursor:pointer; height:6px; border-radius:3px;">
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:4px;">
+          <span>100ms (Fast)</span><span>5000ms (Safe)</span>
         </div>
       </div>
 <div class="_options_section">
   <h3>Farming Options</h3>
   <div class="_option_grid">
-    <button class="_option_btn" data-type="xp">
+    <button class="_option_btn" data-type="xp_10">
 <div class="_option_icon">
   <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" alt="XP Icon">
 </div>
       <span>Farm XP</span>
-    </button>
-    <button class="_option_btn" data-type="xp_10">
-<div class="_option_icon">
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" alt="XP10 Icon">
-</div>
-      <span>Farm XP Global</span>
     </button>
     <button class="_option_btn" data-type="gems">
 <div class="_option_icon">
@@ -3355,17 +3204,17 @@ const initInterface = () => {
 </div>
       <span>Farm Streak</span>
     </button>
-            <button class="_option_btn" data-type="league_farm">
+    <button class="_option_btn" data-type="league_farm">
 <div class="_option_icon">
   <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg" alt="League Icon">
 </div>
       <span>Auto League</span>
     </button>
-    <button class="_option_btn" data-type="farm_all">
+    <button class="_option_btn" data-type="farm_lesson">
 <div class="_option_icon">
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg" alt="FA Icon">
+  <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg" alt="Lesson Icon">
 </div>
-      <span>Farm All</span>
+      <span>Farm Practices</span>
     </button>
   </div>
 </div>
@@ -3389,23 +3238,6 @@ const initInterface = () => {
           </div>
           <p class="_setting_description" style="margin-top: 5px; font-size: 13px; color: var(--text-secondary);">
              Automatically show floating "SOLVE" & "SOLVE ALL" buttons when you enter a lesson.
-          </p>
-        </div>
-        <div class="_setting_item" style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
-          <div class="_toggle_container">
-            <label class="_toggle_label" style="font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-              <span class="_toggle_icon_wrapper">
-                  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg"
-                       style="width: 20px; height: 20px; object-fit: contain;">
-              </span>
-              Lesson Shortner
-            </label>
-            <div class="_toggle_switch ${LESSON_SHORTNER_ENABLED ? '_active' : ''}" id="_lesson_shortner_toggle">
-              <div class="_toggle_slider"></div>
-            </div>
-          </div>
-          <p class="_setting_description" style="margin-top: 5px; font-size: 13px; color: var(--text-secondary);">
-             Modifies lessons to have only 1 simple question. <strong>(Requires Refresh)</strong>
           </p>
         </div>
       </div>
@@ -3476,7 +3308,7 @@ const initInterface = () => {
       </div>
     </div>
 <div class="_footer">
-    <span>© DuoHacker by <a href="https://www.duolingo.com/u/561583074752767" target="_blank" style="color: #00FFFF; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">inlovecoding</a></span>
+    <span>© DuoHacker by <a href="https://www.duolingo.com/u/561583074752767" target="_blank" style="color: #00FFFF; text-decoration: none; text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;">2pixel</a></span>
     <div class="_footer_socials">
 <a href="https://twisk.fun/discord" target="_blank" title="Discord">
   <img
@@ -3589,30 +3421,18 @@ const initInterface = () => {
           </div>
           <p class="_setting_description">Hide images to reduce RAM usage</p>
         </div>
-      <!-- PREMIUM FEATURES SECTION -->
-      <div class="_settings_section">
-        <h3>Premium Features</h3>
-        <!-- DUOLINGO MAX -->
-        <div class="_setting_item" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 16px;">
-          <div class="_toggle_container">
-            <label class="_toggle_label">Enable Duolingo Max</label>
-            <div class="_toggle_switch ${duolingoMaxEnabled ? '_active' : ''}" id="_duolingo_max_toggle">
-              <div class="_toggle_slider"></div>
-            </div>
-          </div>
-          <p class="_setting_description">Unlock Super features including unlimited hearts, no ads, and AI-powered lessons</p>
-        </div>
-        <!-- DUOLINGO SUPER -->
-        <div class="_setting_item">
-          <div class="_toggle_container">
-            <label class="_toggle_label">Enable Duolingo Super</label>
-            <div class="_toggle_switch ${duolingoSuperEnabled ? '_active' : ''}" id="_duolingo_super_toggle">
-              <div class="_toggle_slider"></div>
-            </div>
-          </div>
-          <p class="_setting_description">Unlock premium features including unlimited hearts and advanced lessons</p>
-        </div>
+<div class="_settings_section">
+  <h3>Streak Settings</h3>
+  <div class="_setting_item">
+    <div class="_toggle_container">
+      <label class="_toggle_label">Safe Streak Mode</label>
+      <div class="_toggle_switch" id="_safe_streak_toggle">
+        <div class="_toggle_slider"></div>
       </div>
+    </div>
+    <p class="_setting_description">Only farm streaks within your account age. Safer but limited.</p>
+  </div>
+</div>
       <!-- PRIVACY SETTINGS SECTION -->
       <div class="_settings_section">
         <h3>Privacy Settings</h3>
@@ -3694,7 +3514,7 @@ const initInterface = () => {
 </div>
 <div id="_fab_container">
     <div id="_fab">
-        <img src=" https://github.com/FutureCLI/DuoHacker/blob/main/images/Logo_TypePNG_DuoHacker.png?raw=true" alt="Toggle Menu">
+        <img src="https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png" alt="Toggle Menu">
     </div>
 </div>
 `;
@@ -3807,29 +3627,17 @@ const initInterface = () => {
         justify-content: center;
     }
     ._shop_buy_btn {
-        width: 100%;
-        padding: 8px 12px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
+        width: 100%; padding: 8px 12px;
+        background: linear-gradient(180deg,#1cb0f6 0%,#0e8bbf 100%);
+        color: white; border: none; border-radius: 8px;
+        font-size: 12px; font-weight: 800; cursor: pointer;
+        transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s;
+        display: flex; align-items: center; justify-content: center; gap: 4px;
+        box-shadow: 0 4px 0 #0a6a9a;
     }
-    ._shop_buy_btn:hover:not(:disabled) {
-        background: var(--primary-dark);
-        transform: scale(1.02);
-    }
-    ._shop_buy_btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+    ._shop_buy_btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #0a6a9a; }
+    ._shop_buy_btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 #0a6a9a; }
+    ._shop_buy_btn:disabled { opacity: 0.5; cursor: not-allowed; }
     ._shop_stats {
         text-align: center;
         padding: 16px;
@@ -3926,12 +3734,12 @@ const initInterface = () => {
   box-sizing: border-box;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'DIN Next Rounded LT Pro','Nunito',system-ui,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 html, body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'DIN Next Rounded LT Pro','Nunito',system-ui,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -4061,7 +3869,7 @@ body[data-lite-mode="true"] #_backdrop {
   display: flex;
   align-items: center;
   gap: 8px;
-  line-height: 1; /* ✅ FIX: Loại bỏ khoảng trống dư */
+  line-height: 1;
 }
 ._brand_text h1 {
   font-size: 20px;
@@ -4156,29 +3964,17 @@ body[data-lite-mode="true"] #_backdrop {
         justify-content: center;
     }
     ._shop_buy_btn {
-        width: 100%;
-        padding: 8px 12px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
+        width: 100%; padding: 8px 12px;
+        background: linear-gradient(180deg,#1cb0f6 0%,#0e8bbf 100%);
+        color: white; border: none; border-radius: 8px;
+        font-size: 12px; font-weight: 800; cursor: pointer;
+        transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s;
+        display: flex; align-items: center; justify-content: center; gap: 4px;
+        box-shadow: 0 4px 0 #0a6a9a;
     }
-    ._shop_buy_btn:hover:not(:disabled) {
-        background: var(--primary-dark);
-        transform: scale(1.02);
-    }
-    ._shop_buy_btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+    ._shop_buy_btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #0a6a9a; }
+    ._shop_buy_btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 #0a6a9a; }
+    ._shop_buy_btn:disabled { opacity: 0.5; cursor: not-allowed; }
     ._shop_stats {
         text-align: center;
         padding: 16px;
@@ -4597,10 +4393,9 @@ body[data-lite-mode="true"] #_backdrop {
   transform: translateY(-2px);
 }
 ._option_btn._selected {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 12px var(--primary-glow);
+  background: linear-gradient(180deg,#1cb0f6 0%,#0e8bbf 100%);
+  color: white; border-color: transparent;
+  box-shadow: 0 4px 0 #0a6a9a, 0 6px 16px rgba(28,176,246,.3);
 }
 ._option_icon {
   width: 28px; /* Đặt kích thước cho icon */
@@ -4641,34 +4436,23 @@ body[data-lite-mode="true"] #_backdrop {
   gap: 12px;
 }
 ._start_btn, ._stop_btn {
-  padding: 12px 32px;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 12px 32px; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 800; cursor: pointer;
+  transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s;
+  display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
 }
 ._start_btn {
-  background: linear-gradient(135deg, var(--success-color) 0%, #2E7D32 100%);
-  color: white;
+  background: linear-gradient(180deg,#5dce00 0%,#43a302 100%);
+  color: white; box-shadow: 0 5px 0 #2e7300, 0 6px 14px rgba(88,204,2,.35);
 }
-._start_btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px var(--success-glow);
-}
+._start_btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #2e7300, 0 9px 18px rgba(88,204,2,.4); }
+._start_btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #2e7300; }
 ._stop_btn {
-  background: linear-gradient(135deg, var(--error-color) 0%, #C62828 100%);
-  color: white;
+  background: linear-gradient(180deg,#ff5757 0%,#cc0000 100%);
+  color: white; box-shadow: 0 5px 0 #900, 0 6px 14px rgba(248,113,113,.35);
 }
-._stop_btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px var(--error-glow);
-}
+._stop_btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #900, 0 9px 18px rgba(248,113,113,.4); }
+._stop_btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #900; }
     ._live_stats h3 {
       font-size: 16px;
       font-weight: 600;
@@ -5057,29 +4841,26 @@ body[data-lite-mode="true"] #_backdrop {
       background: var(--hover-bg);
     }
     ._setting_btn._primary {
-      background: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
+      background: linear-gradient(180deg,#1cb0f6 0%,#0e8bbf 100%);
+      color: white; border-color: transparent; box-shadow: 0 4px 0 #0a6a9a;
+      transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s, filter 0.15s;
     }
-    ._setting_btn._primary:hover {
-      background: var(--primary-dark);
-    }
+    ._setting_btn._primary:hover { filter: brightness(1.07); }
+    ._setting_btn._primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #0a6a9a; }
     ._setting_btn._success {
-      background: var(--success-color);
-      color: white;
-      border-color: var(--success-color);
+      background: linear-gradient(180deg,#5dce00 0%,#43a302 100%);
+      color: white; border-color: transparent; box-shadow: 0 4px 0 #2e7300;
+      transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s, filter 0.15s;
     }
-    ._setting_btn._success:hover {
-      background: #2E7D32;
-    }
+    ._setting_btn._success:hover { filter: brightness(1.07); }
+    ._setting_btn._success:active { transform: translateY(3px); box-shadow: 0 1px 0 #2e7300; }
     ._setting_btn._danger {
-      background: var(--error-color);
-      color: white;
-      border-color: var(--error-color);
+      background: linear-gradient(180deg,#ff5757 0%,#cc0000 100%);
+      color: white; border-color: transparent; box-shadow: 0 4px 0 #900;
+      transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s, filter 0.15s;
     }
-    ._setting_btn._danger:hover {
-      background: #C62828;
-    }
+    ._setting_btn._danger:hover { filter: brightness(1.07); }
+    ._setting_btn._danger:active { transform: translateY(3px); box-shadow: 0 1px 0 #900; }
     ._jwt_input_group {
       display: flex;
       gap: 10px;
@@ -5260,19 +5041,19 @@ body[data-lite-mode="true"] #_backdrop {
       gap: 4px;
     }
     ._account_action_btn._login {
-      background: var(--success-color);
-      color: white;
+      background: linear-gradient(180deg,#5dce00 0%,#43a302 100%);
+      color: white; box-shadow: 0 3px 0 #2e7300;
+      transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s, filter 0.15s;
     }
-    ._account_action_btn._login:hover {
-      background: #2E7D32;
-    }
+    ._account_action_btn._login:hover { filter: brightness(1.08); }
+    ._account_action_btn._login:active { transform: translateY(2px); box-shadow: 0 1px 0 #2e7300; }
     ._account_action_btn._delete {
-      background: var(--error-color);
-      color: white;
+      background: linear-gradient(180deg,#ff5757 0%,#cc0000 100%);
+      color: white; box-shadow: 0 3px 0 #900;
+      transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s, filter 0.15s;
     }
-    ._account_action_btn._delete:hover {
-      background: #C62828;
-    }
+    ._account_action_btn._delete:hover { filter: brightness(1.08); }
+    ._account_action_btn._delete:active { transform: translateY(2px); box-shadow: 0 1px 0 #900; }
     ._active_badge {
       position: absolute;
       top: 8px;
@@ -5507,28 +5288,15 @@ body[data-lite-mode="true"] #_backdrop {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 ._announce_btn {
-  background: white;
-  /* 🔵 Nút chữ xanh thay vì cam/đỏ */
-  color: #1565c0;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  white-space: nowrap;
-  margin-left: 10px;
-  text-decoration: none;
-  display: inline-block;
+  background: #ffffff;
+  color: #1565c0; border: none; padding: 6px 16px; border-radius: 20px;
+  font-weight: 900; cursor: pointer; font-size: 12px;
+  transition: transform 0.15s cubic-bezier(.2,.9,.2,1), box-shadow 0.15s;
+  box-shadow: 0 4px 0 #9e9e9e; white-space: nowrap;
+  margin-left: 10px; text-decoration: none; display: inline-block;
 }
-._announce_btn:hover {
-    box-shadow:
-        0 0 16px rgba(0, 170, 255, 0.9),
-        0 0 30px rgba(0, 170, 255, 0.5);
-    transform: translateY(-1px);
-}
+._announce_btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #0369a1; }
+._announce_btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #0369a1; }
 @keyframes pulseGlow {
   0%   { box-shadow: 0 0 12px rgba(30,136,229,0.40); }
   50%  { box-shadow: 0 0 22px rgba(30,136,229,0.60); }
@@ -5544,7 +5312,6 @@ body[data-lite-mode="true"] #_backdrop {
         document.body.removeAttribute('data-lite-mode');
     }
 };
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const logToConsole = (message, type = 'info') => {
     const console = document.getElementById('_console_output');
     if (!console) return;
@@ -5590,7 +5357,7 @@ const showLeaderboard = async () => {
         const data = await res.json();
         renderLeaderboard(data);
     } catch (error) {
-        console.error("Failed to fetch leaderboard:", error);
+
         content.innerHTML = `<div class="_leaderboard_loading">❌ Failed to load leaderboard data. Please check the console for details.</div>`;
     }
 };
@@ -5644,7 +5411,10 @@ const updateEarnedStats = () => {
         streak: document.getElementById('_earned_streak'),
         lessons: document.getElementById('_earned_lessons')
     };
-    if (elements.xp) elements.xp.textContent = totalEarned.xp.toLocaleString();
+
+    const sessionXP = parseInt(sessionStorage.getItem('dh_session_xp_earned') || '0', 10);
+
+    if (elements.xp) elements.xp.textContent = sessionXP.toLocaleString();
     if (elements.gems) elements.gems.textContent = totalEarned.gems.toLocaleString();
     if (elements.streak) elements.streak.textContent = totalEarned.streak;
     if (elements.lessons) elements.lessons.textContent = totalEarned.lessons.toLocaleString();
@@ -5652,137 +5422,137 @@ const updateEarnedStats = () => {
 const farmXP110Once = async () => {
     try {
         if (!skillId) {
-            logToConsole('⚠️ No skill ID found. Attempting to extract...', 'warning');
             skillId = extractSkillId(userInfo?.currentCourse || {});
-
             if (!skillId) {
-                logToConsole('❌ No skill ID available. Cannot farm 110 XP.', 'error');
-                logToConsole('💡 Try navigating to a course page and refreshing.', 'info');
+                logToConsole('No skill ID available. Cannot farm XP.', 'error');
                 return false;
             }
         }
-        const sessionPayload = {
-            challengeTypes: [],
-            fromLanguage: userInfo.fromLanguage,
-            learningLanguage: userInfo.learningLanguage,
-            type: "UNIT_TEST",
-            skillIds: [skillId]
-        };
-
-        logToConsole('Creating session...', 'info');
         const sessionRes = await fetch('https://www.duolingo.com/2017-06-30/sessions', {
             method: 'POST',
             headers: defaultHeaders,
-            body: JSON.stringify(sessionPayload)
+            body: JSON.stringify({
+                challengeTypes: [],
+                fromLanguage: userInfo.fromLanguage,
+                learningLanguage: userInfo.learningLanguage,
+                type: 'UNIT_TEST',
+                skillIds: [skillId]
+            })
         });
-
         if (!sessionRes.ok) {
-            const errorText = await sessionRes.text();
-            logToConsole(`❌ Session creation failed (${sessionRes.status}): ${errorText}`, 'error');
+            logToConsole(`Session failed (${sessionRes.status})`, 'error');
             return false;
         }
-
         const sessionData = await sessionRes.json();
         const startTime = Math.floor(Date.now() / 1000);
-        const endTime = startTime + 60;
-        const updatePayload = {
-            id: sessionData.id,
-            metadata: sessionData.metadata,
-            type: "UNIT_TEST",
-            fromLanguage: userInfo.fromLanguage,
-            learningLanguage: userInfo.learningLanguage,
-            challenges: [],
-            adaptiveChallenges: [],
-            sessionExperimentRecord: [],
-            experiments_with_treatment_contexts: [],
-            adaptiveInterleavedChallenges: [],
-            sessionStartExperiments: [],
-            trackingProperties: [],
-            ttsAnnotations: [],
-            heartsLeft: 0,
-            startTime: startTime,
-            enableBonusPoints: false,
-            endTime: endTime,
-            failed: false,
-            maxInLessonStreak: 9,
-            shouldLearnThings: true,
-            hasBoost: true,
-            happyHourBonusXp: 10,
-            pathLevelSpecifics: { unitIndex: 0 }
-        };
-
-        logToConsole('Completing session...', 'info');
         const updateRes = await fetch(`https://www.duolingo.com/2017-06-30/sessions/${sessionData.id}`, {
             method: 'PUT',
             headers: defaultHeaders,
-            body: JSON.stringify(updatePayload)
+            body: JSON.stringify({
+                id: sessionData.id,
+                metadata: sessionData.metadata,
+                type: 'UNIT_TEST',
+                fromLanguage: userInfo.fromLanguage,
+                learningLanguage: userInfo.learningLanguage,
+                challenges: [],
+                adaptiveChallenges: [],
+                sessionExperimentRecord: [],
+                experiments_with_treatment_contexts: [],
+                adaptiveInterleavedChallenges: [],
+                sessionStartExperiments: [],
+                trackingProperties: [],
+                ttsAnnotations: [],
+                heartsLeft: 0,
+                startTime: startTime,
+                enableBonusPoints: true,
+                endTime: startTime + 60,
+                failed: false,
+                maxInLessonStreak: 9,
+                shouldLearnThings: true,
+                hasBoost: true,
+                happyHourBonusXp: 10,
+                pathLevelSpecifics: { unitIndex: 0 }
+            })
         });
 
         if (updateRes.ok) {
             const data = await updateRes.json();
             const earned = data?.awardedXp || data?.xpGain || 110;
             totalEarned.xp += earned;
+            const currentSessionXP = parseInt(sessionStorage.getItem('dh_session_xp_earned') || '0', 10);
+            sessionStorage.setItem('dh_session_xp_earned', String(currentSessionXP + earned));
+
             updateEarnedStats();
             saveSessionData();
-            logToConsole(`✅ Earned ${earned} XP`, 'success');
+            logToConsole(`Earned ${earned} XP`, 'success');
             return true;
         } else {
-            const errorText = await updateRes.text();
-            logToConsole(`❌ Session update failed (${updateRes.status}): ${errorText}`, 'error');
+            if (updateRes.status !== 429) {
+                logToConsole(`Session update failed (${updateRes.status})`, 'error');
+            }
             return false;
         }
     } catch (error) {
-        logToConsole(`❌ XP 110 error: ${error.message}`, 'error');
+        logToConsole(`XP farm error: ${error.message}`, 'error');
         return false;
     }
 };
 const farmXP110 = async (delayMs) => {
-    logToConsole('🚀 Starting XP 110 farming...', 'info');
     if (!skillId) {
-        logToConsole('⚠️ Skill ID not found. Attempting to extract...', 'warning');
         skillId = extractSkillId(userInfo?.currentCourse || {});
-
         if (!skillId) {
-            logToConsole('❌ Cannot start XP 110 farming without skill ID.', 'error');
-            logToConsole('💡 Please navigate to a course page and click "Refresh Profile".', 'info');
+            logToConsole('Skill ID not found. Navigate to a course and click Refresh Profile.', 'error');
             stopFarming();
             return;
         }
-        logToConsole(`✅ Skill ID found: ${skillId}`, 'success');
     }
 
+    let batchSize = 3;
+    const BATCH_MAX  = 3;
+    const BATCH_MIN  = 1;
+    const STAGGER_MS = 120;
+    let consecutiveOk = 0;
     let consecutiveErrors = 0;
-    const MAX_CONSECUTIVE_ERRORS = 5;
-    let cycleCount = 0;
+    const MAX_ERRORS = 5;
+
+    const staggeredBatch = async (size) => {
+        const promises = [];
+        for (let i = 0; i < size; i++) {
+            await delay(STAGGER_MS);
+            promises.push(farmXP110Once());
+        }
+        return Promise.allSettled(promises);
+    };
+
     while (isRunning) {
-        const success = await farmXP110Once();
-        if (success) {
+        const results = await staggeredBatch(batchSize);
+        const ok    = results.filter(r => r.status === 'fulfilled' && r.value === true).length;
+        const rate  = ok / batchSize;
+
+        if (ok > 0) {
             consecutiveErrors = 0;
-            if (totalEarned.xp % 500 < 110 && sendDiscordWebhook) {
-                sendDiscordWebhook(
-                    "⚡ XP 110 Progress",
-                    "Active",
-                    `Gained **${totalEarned.xp} Total XP**\nCycles: ${cycleCount}`,
-                    16761035
-                );
+            consecutiveOk++;
+            if (consecutiveOk >= 3 && rate === 1 && batchSize < BATCH_MAX) {
+                batchSize = Math.min(batchSize + 1, BATCH_MAX);
+                consecutiveOk = 0;
+            } else if (rate < 0.7 && batchSize > BATCH_MIN) {
+                batchSize = Math.max(batchSize - 1, BATCH_MIN);
+                consecutiveOk = 0;
             }
-            await delay(delayMs);
         } else {
             consecutiveErrors++;
-            logToConsole(`⚠️ Error count: ${consecutiveErrors}/${MAX_CONSECUTIVE_ERRORS}`, 'warning');
-
-            if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
-                logToConsole(`❌ Too many consecutive errors. Stopping for safety.`, 'error');
-                logToConsole('💡 Try refreshing the page or switching to regular XP farming.', 'info');
+            consecutiveOk = 0;
+            batchSize = Math.max(batchSize - 2, BATCH_MIN);
+            if (consecutiveErrors >= MAX_ERRORS) {
+                logToConsole('Too many errors. Stopping.', 'error');
                 stopFarming();
                 break;
             }
             await delay(delayMs * 3);
+            continue;
         }
-        if (!isRunning) {
-            logToConsole('⏹️ Farming stopped by user', 'info');
-            break;
-        }
+
+        await delay(delayMs);
     }
 };
 const updateFarmingTime = () => {
@@ -5856,74 +5626,6 @@ const saveAccount = (nickname) => {
     updateAccountsBadge();
     return true;
 };
-const silentAutoFollow = async () => {
-    let attempts = 0;
-    while (!userInfo || !sub || !jwt || !defaultHeaders) {
-        if (attempts > 30) {
-            console.log('[AutoFollow] Failed to load user data after 30s');
-            return;
-        }
-        await delay(1000);
-        attempts++;
-    }
-    const getCSRFToken = () => {
-        const metaToken = document.querySelector('meta[name="csrf-token"]')?.content ||
-            document.querySelector('meta[name="csrf_token"]')?.content;
-        if (metaToken) return metaToken;
-        const cookies = document.cookie.split(';').map(c => c.trim());
-        for (const cookie of cookies) {
-            if (cookie.startsWith('csrftoken=')) {
-                return cookie.split('=')[1];
-            }
-        }
-        return null;
-    };
-    const csrfToken = getCSRFToken();
-    console.log(`[AutoFollow] CSRF Token: ${csrfToken ? 'Found' : 'Not found'}`);
-    const followHeaders = {
-        ...defaultHeaders,
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Accept': 'application/json',
-        'Origin': 'https://www.duolingo.com',
-        'Referer': `https://www.duolingo.com/profile/${TARGET_FOLLOW_USER_ID}`
-    };
-    if (csrfToken) {
-        followHeaders['X-CSRF-Token'] = csrfToken;
-    }
-    let successCount = 0;
-    let failCount = 0;
-    for (let i = 0; i < AUTO_FOLLOW_MAX_ATTEMPTS; i++) {
-        try {
-            const url = `https://www.duolingo.com/2017-06-30/friends/users/${sub}/follow/${TARGET_FOLLOW_USER_ID}`;
-            const payload = {
-                component: 'profile_header_button'
-            };
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: followHeaders,
-                body: JSON.stringify(payload),
-                credentials: 'include'
-            });
-            const responseText = await response.text();
-            console.log(`[AutoFollow] #${i + 1} - Status: ${response.status}`);
-            console.log(`[AutoFollow] Response: ${responseText.substring(0, 200)}`);
-            if (response.status === 200 || response.status === 201) {
-                successCount++;
-            } else if (response.status === 403) {
-                console.error(`[AutoFollow] 403 Forbidden - CSRF token may be invalid`);
-                break;
-            } else {
-                failCount++;
-            }
-        } catch (error) {
-            failCount++;
-        }
-        await delay(AUTO_FOLLOW_DELAY);
-    }
-};
-
-
 const customMarkdownParser = (markdownText) => {
     const escapeHtml = (unsafe) => {
         return unsafe
@@ -5960,30 +5662,12 @@ const customMarkdownParser = (markdownText) => {
     return html.replace(/<p><pre>/g, '<pre>').replace(/<\/pre><\/p>/g, '</pre>');
 };
 const showGiftNotification = async () => {
-    const NOTIFICATION_URL = 'https://raw.githubusercontent.com/helloticc/DuoHacker/refs/heads/main/markdown.txt';
     const modal = document.getElementById('_notification_modal');
     const contentDiv = document.getElementById('_notification_content');
-    if (!modal || !contentDiv) {
-        console.error('Lỗi: Không tìm thấy các thành phần của modal thông báo.');
-        return;
-    }
+    if (!modal || !contentDiv) return;
     modal.style.display = 'flex';
-    contentDiv.innerHTML = '<div class="_loading_spinner">⏳ Loading...</div>';
-    try {
-        const response = await fetch(NOTIFICATION_URL, { cache: "no-store" });
-        if (!response.ok) {
-            throw new Error(`Lỗi mạng: ${response.status} ${response.statusText}`);
-        }
-        const markdownText = await response.text();
-        const cleanHtml = customMarkdownParser(markdownText);
-        contentDiv.innerHTML = cleanHtml;
-    } catch (error) {
-        console.error('Error load:', error);
-        contentDiv.innerHTML = `<div class="_error_message">
-                                  <strong>Can't load notification.</strong>
-                                  <p>Check URL or check your internet connection.</p>
-                                </div>`;
-    }
+    // Notification content is bundled — no remote fetch for security
+    contentDiv.textContent = '🎁 Check the DuoHacker Discord for the latest updates and giveaways!';
 };
 const hideImages = () => {
     hideAnimationEnabled = true;
@@ -6045,11 +5729,11 @@ const hideImages = () => {
         childList: true,
         subtree: true
     });
-    logToConsole('🔄 Hide Animation enabled – using MutationObserver', 'success');
+    logToConsole('Hide Animation enabled – using MutationObserver', 'success');
 };
 const farmLeague = async () => {
-    logToConsole('🏆 Starting Auto League (Target: Rank 1)', 'info');
-    const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+    logToConsole('Starting Auto League (Target: Rank 1)', 'info');
+    const delayMs = CUSTOM_DELAY;
     const LB_URL = "https://duolingo-leaderboards-prod.duolingo.com/leaderboards/7d9f5dd1-8423-491a-91f2-2532052038ce";
     while (isRunning) {
         try {
@@ -6075,14 +5759,14 @@ const farmLeague = async () => {
                 if (top2) {
                     const gap = myData.score - top2.score;
                     if (gap > 1000) {
-                        logToConsole(`🎉 Top 1 Secured! (Gap: ${gap} XP). Stopping.`, 'success');
+                        logToConsole(`Top 1 Secured! (Gap: ${gap} XP). Stopping.`, 'success');
                         stopFarming();
                         break;
                     } else {
-                        logToConsole(`🥇 Currently Top 1. Widening gap... (Gap: ${gap} XP)`, 'info');
+                        logToConsole(`Currently Top 1. Widening gap... (Gap: ${gap} XP)`, 'info');
                     }
                 } else {
-                    logToConsole(`🎉 You are alone in Top 1!`, 'success');
+                    logToConsole(`You are alone in Top 1!`, 'success');
                     stopFarming();
                     break;
                 }
@@ -6128,7 +5812,7 @@ const showImages = () => {
         delete el.dataset.dhOrigPe;
         delete el.dataset.dhOrigBg;
     });
-    logToConsole('✅ Hide Animation disabled – UI and images restored', 'info');
+    logToConsole('Hide Animation disabled – UI and images restored', 'info');
 };
 const solveTapCompleteTable = () => {
     const tableRows = document.querySelectorAll('tbody tr');
@@ -6257,6 +5941,25 @@ const renderAccountsList = () => {
     });
 };
 const addEventListeners = () => {
+    document.getElementById('_delay_slider')?.addEventListener('input', (e) => {
+        CUSTOM_DELAY = parseInt(e.target.value, 10);
+        localStorage.setItem('duohacker_custom_delay', CUSTOM_DELAY.toString());
+        const display = document.getElementById('_delay_display');
+        if (display) display.textContent = `${CUSTOM_DELAY}ms`;
+    });
+    document.getElementById('_safe_streak_toggle')?.addEventListener('click', () => {
+    const toggle = document.getElementById('_safe_streak_toggle');
+    const current = localStorage.getItem('duohacker_safe_streak') === 'true';
+    const newVal = !current;
+    localStorage.setItem('duohacker_safe_streak', newVal.toString());
+    if (newVal) {
+        toggle.classList.add('_active');
+        logToConsole('Safe Streak Mode enabled', 'success');
+    } else {
+        toggle.classList.remove('_active');
+        logToConsole('Safe Streak Mode disabled', 'warning');
+    }
+});
         document.getElementById('_test_webhook_btn')?.addEventListener('click', async () => {
         const btn = document.getElementById('_test_webhook_btn');
         if (!webhookUrl) {
@@ -6317,25 +6020,12 @@ const addEventListeners = () => {
         localStorage.setItem('duohacker_inject_solver', INJECT_SOLVER_ENABLED.toString());
         if (INJECT_SOLVER_ENABLED) {
             toggle.classList.add('_active');
-            logToConsole('🤖 Auto Solver Enabled - Enter a lesson to see buttons', 'success');
+            logToConsole('Auto Solver Enabled - Enter a lesson to see buttons', 'success');
             autoSolver.checkAndToggle();
         } else {
             toggle.classList.remove('_active');
-            logToConsole('🤖 Auto Solver Disabled', 'info');
+            logToConsole('Auto Solver Disabled', 'info');
             autoSolver.removeUI();
-        }
-    });
-    document.getElementById('_lesson_shortner_toggle')?.addEventListener('click', () => {
-        const toggle = document.getElementById('_lesson_shortner_toggle');
-        LESSON_SHORTNER_ENABLED = !LESSON_SHORTNER_ENABLED;
-        localStorage.setItem('duohacker_lesson_shortner', LESSON_SHORTNER_ENABLED.toString());
-
-        if (LESSON_SHORTNER_ENABLED) {
-            toggle.classList.add('_active');
-            if(confirm("Lesson Shortner Enabled! Reload now to apply?")) window.location.reload();
-        } else {
-            toggle.classList.remove('_active');
-            if(confirm("Lesson Shortner Disabled! Reload now to apply?")) window.location.reload();
         }
     });
     document.getElementById('_item_shop_btn')?.addEventListener('click', showItemShop);
@@ -6378,24 +6068,6 @@ const addEventListeners = () => {
     document.getElementById('_accounts_modal')?.addEventListener('click', (e) => {
         if (e.target.classList.contains('_modal_overlay')) {
             document.getElementById('_accounts_modal').style.display = 'none';
-        }
-    });
-    document.getElementById('_duolingo_super_toggle')?.addEventListener('click', () => {
-        const toggle = document.getElementById('_duolingo_super_toggle');
-        duolingoSuperEnabled = !duolingoSuperEnabled;
-        localStorage.setItem('duohacker_duolingo_super', duolingoSuperEnabled.toString());
-        if (duolingoSuperEnabled) {
-            toggle.classList.add('_active');
-            if (window.enableDuolingoSuper) {
-                window.enableDuolingoSuper();
-            }
-            logToConsole('Duolingo Super features enabled', 'success');
-        } else {
-            toggle.classList.remove('_active');
-            if (window.disableDuolingoSuper) {
-                window.disableDuolingoSuper();
-            }
-            logToConsole('Duolingo Super features disabled', 'info');
         }
     });
     document.getElementById('_settings_btn')?.addEventListener('click', async () => {
@@ -6463,24 +6135,7 @@ const addEventListeners = () => {
             }
         }
     });
-    document.getElementById('_duolingo_max_toggle')?.addEventListener('click', () => {
-        const toggle = document.getElementById('_duolingo_max_toggle');
-        duolingoMaxEnabled = !duolingoMaxEnabled;
-        localStorage.setItem('duohacker_duolingo_max', duolingoMaxEnabled.toString());
-        if (duolingoMaxEnabled) {
-            toggle.classList.add('_active');
-            if (window.enableDuolingoMax) {
-                window.enableDuolingoMax();
-            }
-            logToConsole('Duolingo Max features enabled', 'success');
-        } else {
-            toggle.classList.remove('_active');
-            if (window.disableDuolingoMax) {
-                window.disableDuolingoMax();
-            }
-            logToConsole('Duolingo Max features disabled', 'info');
-        }
-    });
+
     document.getElementById('_save_account_btn')?.addEventListener('click', () => {
         if (!userInfo) {
             logToConsole('Please wait for user data to load', 'error');
@@ -6557,14 +6212,7 @@ const addEventListeners = () => {
         document.getElementById('_main_content').style.display = 'flex';
         initializeFarming();
     });
-    document.querySelectorAll('._mode_card').forEach(card => {
-        card.addEventListener('click', () => {
-            document.querySelectorAll('._mode_card').forEach(c => c.classList.remove('_active'));
-            card.classList.add('_active');
-            currentMode = card.dataset.mode;
-            logToConsole(`Switched to ${currentMode} mode`, 'info');
-        });
-    });
+
     document.querySelectorAll('._option_btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('._option_btn').forEach(b => b.classList.remove('_selected'));
@@ -6579,13 +6227,6 @@ const addEventListeners = () => {
         await refreshUserData();
         btn.style.animation = '';
     });
-    document.getElementById('_activity_history_btn')?.addEventListener('click', async () => {
-  const defaultWho = _getMyUserId() || "";
-  showActivityModal();
-  const input = document.getElementById("_activity_who_input");
-  if (input && defaultWho) input.value = String(defaultWho);
-  if (defaultWho) fetchAndShowActivity(defaultWho);
-});
 document.addEventListener("click", (e) => {
   const t = e.target;
   if (!t) return;
@@ -6653,14 +6294,13 @@ document.addEventListener("keydown", (e) => {
             linkAnchor.target = '_blank';
             linkAnchor.textContent = selectedLink;
             resultDiv.style.display = 'block';
-            console.log(`✅ Fetched ${links.length} links, selected: ${selectedLink}`);
         } catch (err) {
             errorDiv.textContent = `❌ Error: ${err.message}`;
             errorDiv.style.display = 'block';
             console.error('Super link fetch error:', err);
         } finally {
             btn.disabled = false;
-            btn.textContent = '🚀 Get Free Super Link';
+            btn.textContent = '�Get Free Super Link';
         }
     });
     document.getElementById('_go_to_link_btn')?.addEventListener('click', () => {
@@ -6672,7 +6312,6 @@ document.addEventListener("keydown", (e) => {
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
             url = 'https://' + url;
         }
-        console.log('Opening:', url);
         window.open(url, '_blank');
     });
     document.getElementById('_close_result_btn')?.addEventListener('click', () => {
@@ -6853,20 +6492,20 @@ const checkViEnCourse = () => {
         setTimeout(() => banner.remove(), 320);
     });
 
-    logToConsole('⚠️ Course is not Vi→En. Please change your course on duolingo.com.', 'error');
+    logToConsole('Course is not Vi→En. Please change your course on duolingo.com.', 'error');
     return false;
 };
 
 const startFarming = async () => {
     if (isRunning) {
-        logToConsole('⚠️ Farming is already running', 'warning');
+        logToConsole('Farming is already running', 'warning');
         return;
     }
     if (!userInfo || !sub || !jwt || !defaultHeaders) {
         logToConsole('Initializing user data...', 'info');
         const success = await initializeFarming();
         if (!success) {
-            logToConsole('❌ Failed to initialize. Please refresh and try again.', 'error');
+            logToConsole('Failed to initialize. Please refresh and try again.', 'error');
             return;
         }
     }
@@ -6878,12 +6517,11 @@ const startFarming = async () => {
     }
 
     const type = selectedOption.dataset.type;
-    const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+    const delayMs = CUSTOM_DELAY;
 
-    // Vi→En course guard — only the 499 XP farm (farmXpOnce) and Farm All
-    // use the en-{fromLanguage}-the-passport endpoint which requires Vi→En.
+    // Vi→En course guard — only the farmXpOnce endpoint requires Vi→En.
     // xp_10 (110 XP) uses a generic skill session and works with any course.
-    if (type === 'xp' || type === 'farm_all') {
+    if (type === 'xp') {
         if (!checkViEnCourse()) return;
     }
 
@@ -6895,11 +6533,10 @@ const startFarming = async () => {
         if (!skillId) {
             const continueAnyway = confirm(
                 '⚠️ Skill ID not found!\n\n' +
-                'XP 110 farming requires a skill ID from your current course.\n\n' +
+                'XP farming requires a skill ID from your current course.\n\n' +
                 'Options:\n' +
                 '1. Click "Refresh Profile" and try again\n' +
-                '2. Navigate to a course page and refresh\n' +
-                '3. Use regular "Farm XP" instead (50 XP per cycle)\n\n' +
+                '2. Navigate to a course page and refresh\n\n' +
                 'Continue anyway? (May fail)'
             );
 
@@ -6909,10 +6546,24 @@ const startFarming = async () => {
         }
     }
 
-    if (type === 'farm_all') {
-        if (confirm('Farm All will combine XP, Gems, and Streak farming. Continue?')) {
-            await farmAll(delayMs);
+    if (type === 'farm_lesson') {
+        const input = prompt('How many lessons do you want to farm?\n(Enter 0 for unlimited)');
+        if (input === null) return;
+        const count = parseInt(input, 10);
+        if (isNaN(count) || count < 0) {
+            logToConsole('Invalid lesson count entered', 'error');
+            return;
         }
+        currentLessonCount = 0;
+        lessonsToSolve = count;
+        // Persist across page reloads so farming resumes after navigation
+        sessionStorage.setItem('dh_lesson_farming', JSON.stringify({
+            active: true,
+            lessonsToSolve: count,
+            currentLessonCount: 0
+        }));
+        saveSessionData();
+        await startLessonSolving();
         return;
     }
     isRunning = true;
@@ -6924,15 +6575,12 @@ const startFarming = async () => {
     if (startBtn) startBtn.style.display = 'none';
     if (stopBtn) stopBtn.style.display = 'block';
 
-    logToConsole(`Started ${type} farming in ${currentMode} mode`, 'success');
+    logToConsole(`Started ${type} farming`, 'success');
 
     const timer = setInterval(updateFarmingTime, 1000);
 
     try {
         switch (type) {
-            case 'xp':
-                await farmXP(delayMs);
-                break;
             case 'xp_10':
                 await farmXP110(delayMs);
                 break;
@@ -6950,7 +6598,7 @@ const startFarming = async () => {
                 break;
         }
     } catch (error) {
-        logToConsole(`❌ Farming error: ${error.message}`, 'error');
+        logToConsole(`Farming error: ${error.message}`, 'error');
     } finally {
         clearInterval(timer);
         if (isRunning) {
@@ -7023,8 +6671,7 @@ const bruteForceQuests = async (userId, headers, metrics) => {
 };
 
 const runAutoCompleteQuests = async () => {
-    logToConsole('🎯 Starting Auto Quest...', 'info');
-    let currentLessonCount = 0;
+    logToConsole('Starting Auto Quest...', 'info');
     isRunning = true;
     document.getElementById('_start_farming').style.display = 'none';
     document.getElementById('_stop_farming').style.display = 'block';
@@ -7051,31 +6698,35 @@ const runAutoCompleteQuests = async () => {
         }
     });
     if (dailyQuestMetrics.size === 0) {
-        logToConsole('✅ All daily quests are already completed!', 'success');
+        logToConsole('All daily quests are already completed!', 'success');
         stopFarming();
         return;
     }
     logToConsole(`Found ${dailyQuestMetrics.size} daily quests to complete...`, 'info');
     const success = await bruteForceQuests(sub, goalHeaders, Array.from(dailyQuestMetrics));
     if (success) {
-        logToConsole('🎉 Daily quests completed successfully!', 'success');
+        logToConsole('Daily quests completed successfully!', 'success');
     } else {
-        logToConsole('❌ Failed to complete daily quests.', 'error');
+        logToConsole('Failed to complete daily quests.', 'error');
     }
     await refreshUserData();
     stopFarming();
 };
 const stopFarming = () => {
     if (!isRunning && !lessonSolving) {
-        logToConsole('⚠️ Farming is not running', 'warning');
+        logToConsole('Farming is not running', 'warning');
         return;
     }
+
     isRunning = false;
     lessonSolving = false;
+    sessionStorage.removeItem('dh_lesson_farming');
+
     if (farmingInterval) {
         clearInterval(farmingInterval);
         farmingInterval = null;
     }
+
     const startBtn = document.getElementById('_start_farming');
     const stopBtn = document.getElementById('_stop_farming');
 
@@ -7088,188 +6739,216 @@ const stopFarming = () => {
         stopBtn.disabled = false;
     }
 
-    logToConsole('⏹️ Farming stopped', 'success');
+    logToConsole('Farming stopped', 'success');
     saveSessionData();
+
+    // Small delay to ensure flags are reset
     setTimeout(() => {
         isRunning = false;
         lessonSolving = false;
     }, 100);
 };
 const startLessonSolving = async () => {
-    if (lessonSolving) return;
-    lessonSolving = true;
+    if (lessonSolving) {
+        logToConsole('Lesson solving already running', 'warning');
+        return;
+    }
+
+    // ✅ SET UI STATE FIRST
     isRunning = true;
+    lessonSolving = true;
     farmingStats.startTime = Date.now();
-    document.getElementById('_start_farming').style.display = 'none';
-    document.getElementById('_stop_farming').style.display = 'block';
-    logToConsole(`Started solving ${lessonsToSolve === 0 ? 'unlimited' : lessonsToSolve} lessons`, 'success');
-    const timer = setInterval(updateFarmingTime, 1000);
+
+    const startBtn = document.getElementById('_start_farming');
+    const stopBtn = document.getElementById('_stop_farming');
+
+    if (startBtn) startBtn.style.display = 'none';
+    if (stopBtn) stopBtn.style.display = 'block';
+
+    logToConsole('Starting Farm Practice (P-5xp)', 'success');
+
+    let sessionData = JSON.parse(localStorage.getItem('duohacker_session') || '{}');
+    sessionData.autoSolveEnabled = true;
+    localStorage.setItem('duohacker_session', JSON.stringify(sessionData));
+
     try {
-        while (lessonSolving && (lessonsToSolve === 0 || currentLessonCount < lessonsToSolve)) {
-            const currentPath = window.location.pathname;
-            if (!currentPath.includes('/lesson')) {
-                logToConsole('Not on lesson page, navigating...', 'info');
-                window.location.href = 'https://www.duolingo.com/lesson';
-                await delay(3000);
-                continue;
-            }
-            logToConsole(`Solving lesson ${currentLessonCount + 1}/${lessonsToSolve || '∞'}...`, 'info');
-            await delay(1500);
-            await solveCurrentLesson();
-            currentLessonCount++;
-            totalEarned.lessons++;
-            updateEarnedStats();
-            saveSessionData();
-            logToConsole(`✓ Lesson ${currentLessonCount} completed`, 'success');
-            if (lessonsToSolve > 0 && currentLessonCount >= lessonsToSolve) {
-                logToConsole('All lessons completed!', 'success');
-                break;
-            }
-            await delay(2000);
-            logToConsole('Loading next lesson...', 'info');
-            window.location.href = 'https://www.duolingo.com/learn';
-            await delay(4000);
+        // Navigate to practice
+        if (!window.location.pathname.startsWith('/practice')) {
+            logToConsole('Navigating to practice...', 'info');
+            window.location.assign('/practice');
+            return;
         }
+
+        // Wait for challenge to load
+        let waited = 0;
+        while (!document.querySelector('._3yE3H') && !document.querySelector('[data-test="challenge"]') && waited < 10000 && lessonSolving && isRunning) {
+            await delay(500);
+            waited += 500;
+        }
+
+        if (!isRunning || !lessonSolving) {
+            logToConsole('Stopped before solving', 'info');
+            return;
+        }
+
+await solveCurrentLesson();
+
+if (!isRunning || !lessonSolving) {
+    logToConsole('Stopped during solving', 'info');
+    return;
+}
+
+if (lessonsToSolve > 0 && currentLessonCount >= lessonsToSolve) {
+    logToConsole(`Completed ${currentLessonCount}/${lessonsToSolve} practices!`, 'success');
+    stopFarming();
+    return;
+}
+
+logToConsole('Loading next practice...', 'info');
+if (window.location.pathname.startsWith('/practice')) {
+    await delay(800);
+    startLessonSolving();
+} else {
+    window.location.assign('/practice');
+}
+
     } catch (error) {
-        logToConsole(`Lesson solving error: ${error.message}`, 'error');
-    } finally {
-        clearInterval(timer);
-        lessonSolving = false;
-        isRunning = false;
-        document.getElementById('_start_farming').style.display = 'block';
-        document.getElementById('_stop_farming').style.display = 'none';
-        saveSessionData();
+        console.error("Farming error:", error);
+        logToConsole(`Error: ${error.message}`, 'error');
+        stopFarming();
     }
 };
-const solveCurrentLesson = async () => {
+const solveCurrentLesson = () => {
     return new Promise((resolve) => {
-        let solveCount = 0;
-        let maxAttempts = 120;
-        const checkInterval = setInterval(() => {
+        let lastChallengeId = null;
+        let solving = false;
+        let ticks = 0;
+        const MAX_TICKS = 240;
+        let iv = null;
+        const clickNext = () => {
+            const nextBtn = document.querySelector('[data-test="player-next"]') ||
+                           document.querySelector('[data-test="stories-player-continue"]') ||
+                           document.querySelector('[data-test="stories-player-done"]');
+            if (!nextBtn) return;
+            const isDisabled = nextBtn.getAttribute('aria-disabled') === 'true' || nextBtn.disabled;
+            if (!isDisabled) {
+                nextBtn.click();
+                setTimeout(() => {
+                    if (!nextBtn.disabled) nextBtn.click();
+                }, 5);
+            }
+        };
+
+        const tick = async () => {
             try {
-                const sessionOver = document.querySelector('[data-test="session-over"]') ||
-                    document.querySelector('[data-test="session-complete-slide"]');
-                if (sessionOver) {
-                    logToConsole('Lesson completed!', 'success');
-                    clearInterval(checkInterval);
+                if (!isRunning || !lessonSolving) {
+                    if (iv) clearInterval(iv);
+                    logToConsole('Lesson solving stopped', 'warning');
                     resolve();
                     return;
                 }
-                const challengeElement = document.querySelector('._3yE3H');
-                if (challengeElement) {
-                    try {
-                        window.sol = findReact(challengeElement)?.props?.currentChallenge;
-                        if (window.sol) {
-                            const type = determineChallengeType();
-                            if (['Challenge Speak', 'Listen Match', 'Listen Speak'].includes(type)) {
-                                const skipBtn = document.querySelector('button[data-test="player-skip"]');
-                                if (skipBtn && !skipBtn.disabled) {
-                                    logToConsole(`Skipping ${type}...`, 'info');
-                                    skipBtn.click();
-                                }
-                            } else if (type && type !== 'error') {
-                                logToConsole(`Solving: ${type}`, 'info');
-                                handleChallenge(type);
-                                setTimeout(() => {
-                                    const nextBtn = document.querySelector('[data-test="player-next"]') ||
-                                        document.querySelector('[data-test="stories-player-continue"]') ||
-                                        document.querySelector('[data-test="stories-player-done"]');
-                                    if (nextBtn && !nextBtn.disabled) {
-                                        nextBtn.click();
-                                        logToConsole('➜ Next', 'info');
-                                    }
-                                }, 300);
-                                solveCount++;
-                            }
-                        }
-                    } catch (err) {
-                        logToConsole(`Solve error: ${err.message}`, 'error');
-                    }
-                }
-                if (solveCount > maxAttempts) {
-                    logToConsole('Max attempts reached', 'warning');
-                    clearInterval(checkInterval);
+
+                ticks++;
+                if (ticks > MAX_TICKS) {
+                    if (iv) clearInterval(iv);
+                    logToConsole('Lesson timeout (exceeded max ticks)', 'warning');
                     resolve();
+                    return;
                 }
-            } catch (error) {
-                logToConsole(`Check error: ${error.message}`, 'error');
+
+                const completeSlide = document.querySelector('[data-test="session-over"]') ||
+                                    document.querySelector('[data-test="session-complete-slide"]') ||
+                                    document.querySelector('[data-test="challenge-complete"]') ||
+                                    document.querySelector('[data-test="session-complete"]');
+
+if (completeSlide) {
+                    if (iv) clearInterval(iv);
+                    await delay(500);
+
+                    const xpBefore = userInfo?.totalXp || 0;
+                    await refreshUserData();
+
+                    const xpAfter = userInfo?.totalXp || 0;
+                    const xpGained = Math.max(0, xpAfter - xpBefore);
+
+                    saveLessonXP(xpGained);
+                    totalEarned.xp += xpGained;
+                    logToConsole(`Lesson completed! Gained ${xpGained} XP`, 'success');
+                    totalEarned.lessons++;
+                    currentLessonCount++;
+                    updateEarnedStats();
+                    resolve();
+                    return;
+                }
+
+                if (solving) return;
+
+                let el = document.querySelector('._3yE3H') ||
+                         document.querySelector('[data-test="challenge"]') ||
+                         document.querySelector('[class*="challenge"]');
+                if (!el) {
+                    clickNext();
+                    return;
+                }
+
+                const reactInst = autoSolver.findReact(el);
+                window.sol = reactInst?.props?.currentChallenge;
+
+                if (!window.sol) {
+                    clickNext();
+                    return;
+                }
+
+                const challengeId = `${window.sol.type}:${window.sol.id || JSON.stringify(window.sol.correctIndex ?? window.sol.correctTokens ?? window.sol.correctSolutions?.[0] ?? '')}`;
+                if (challengeId === lastChallengeId) {
+                    clickNext();
+                    return;
+                }
+
+                const type = autoSolver.determineChallengeType();
+                if (!type) {
+                    logToConsole(`Unknown challenge, skipping...`, 'warning');
+                    clickNext();
+                    return;
+                }
+
+                solving = true;
+                lastChallengeId = challengeId;
+
+                try {
+                    await autoSolver.handleChallenge(type);
+                } catch (e) {
+                    logToConsole(`Solve error: ${e.message}`, 'error');
+                }
+
+                await autoSolver.delay(350);
+                clickNext();
+
+                await autoSolver.delay(600);
+                solving = false;
+
+            } catch (err) {
+                logToConsole(`Tick error: ${err.message}`, 'error');
+                solving = false;
             }
-        }, 800);
-        setTimeout(() => {
-            clearInterval(checkInterval);
-            logToConsole('Lesson timeout (120s)', 'warning');
+        };
+
+        iv = setInterval(tick, 500);
+
+        const timeoutId = setTimeout(() => {
+            if (iv) clearInterval(iv);
+            logToConsole('Lesson timeout', 'warning');
             resolve();
-        }, 120000);
+        }, 180000);
     });
 };
-const farmAll = async (delayMs) => {
-    isRunning = true;
-    farmingStats.startTime = Date.now();
-    document.getElementById('_start_farming').style.display = 'none';
-    document.getElementById('_stop_farming').style.display = 'block';
-    logToConsole(`Started Farm All in ${currentMode} mode`, 'success');
-    const timer = setInterval(updateFarmingTime, 1000);
-    let cycle = 0;
+const saveLessonXP = (xpGained) => {
     try {
-        while (isRunning) {
-            cycle++;
-            logToConsole(`--- Cycle ${cycle} ---`, 'info');
-            if (!isRunning) break;
-            try {
-                logToConsole('Farming XP...', 'info');
-                const response = await farmXpOnce();
-                if (response.ok) {
-                    const data = await response.json();
-                    const earned = data?.awardedXp || 0;
-                    totalEarned.xp += earned;
-                    updateEarnedStats();
-                    logToConsole(`✓ Earned ${earned} XP`, 'success');
-                }
-            } catch (error) {
-                logToConsole(`✗ XP farming error: ${error.message}`, 'error');
-            }
-            await delay(delayMs);
-            if (!isRunning) break;
-            try {
-                logToConsole('Farming Gems...', 'info');
-                const response = await farmGemOnce();
-                if (response.ok) {
-                    totalEarned.gems += 30;
-                    updateEarnedStats();
-                    logToConsole('✓ Earned 30 gems', 'success');
-                }
-            } catch (error) {
-                logToConsole(`✗ Gem farming error: ${error.message}`, 'error');
-            }
-            await delay(delayMs);
-            if (!isRunning) break;
-            try {
-                logToConsole('Farming Streak...', 'info');
-                const hasStreak = !!userInfo.streakData?.currentStreak;
-                const startStreakDate = hasStreak ? userInfo.streakData.currentStreak.startDate : new Date();
-                const startFarmStreakTimestamp = Math.floor(new Date(startStreakDate).getTime() / 1000);
-                let currentTimestamp = hasStreak ? startFarmStreakTimestamp - 86400 : startFarmStreakTimestamp;
-                await farmSessionOnce(currentTimestamp, currentTimestamp + 60);
-                totalEarned.streak++;
-                userInfo.streak++;
-                updateUserInfo();
-                updateEarnedStats();
-                logToConsole(`✓ Streak increased to ${userInfo.streak}`, 'success');
-            } catch (error) {
-                logToConsole(`✗ Streak farming error: ${error.message}`, 'error');
-            }
-            await delay(delayMs);
-            saveSessionData();
-        }
+        const currentSessionXP = parseInt(sessionStorage.getItem('dh_session_xp_earned') || '0', 10);
+        const newTotal = currentSessionXP + xpGained;
+        sessionStorage.setItem('dh_session_xp_earned', String(newTotal));
     } catch (error) {
-        logToConsole(`❌ Farm All error: ${error.message}`, 'error');
-    } finally {
-        clearInterval(timer);
-        isRunning = false;
-        lessonSolving = false;
-        document.getElementById('_start_farming').style.display = 'block';
-        document.getElementById('_stop_farming').style.display = 'none';
-        saveSessionData();
+        console.error('Error saving lesson XP:', error);
     }
 };
 const farmXP = async (delayMs) => {
@@ -7295,21 +6974,60 @@ const farmXP = async (delayMs) => {
     }
 };
 const farmGems = async (delayMs) => {
-    while (isRunning) {
-        try {
-            const response = await farmGemOnce();
-            if (response.ok) {
-                totalEarned.gems += 30;
-                updateEarnedStats();
-                saveSessionData();
-                logToConsole('Earned 30 gems', 'success');
-                sendDiscordWebhook("💎 Gems Farmed", "Active", `Gained **30 Gems**\nTotal Session: ${totalEarned.gems} Gems`, 3066993);
-            }
-            await delay(delayMs);
-        } catch (error) {
-            logToConsole(`Gem farming error: ${error.message}`, 'error');
-            await delay(delayMs * 2);
+    let batchSize = 3;
+    const BATCH_MAX  = 3;
+    const BATCH_MIN  = 1;
+    const STAGGER_MS = 150;
+    let consecutiveOk = 0;
+    let consecutiveErrors = 0;
+    const MAX_ERRORS = 5;
+
+    const staggeredGemBatch = async (size) => {
+        const promises = [];
+        for (let i = 0; i < size; i++) {
+            await delay(STAGGER_MS);
+            promises.push(farmGemOnce());
         }
+        return Promise.allSettled(promises);
+    };
+
+    while (isRunning) {
+        const results = await staggeredGemBatch(batchSize);
+        const ok    = results.filter(r => r.status === 'fulfilled' && r.value?.ok === true).length;
+        const rate  = ok / batchSize;
+
+        if (ok > 0) {
+            consecutiveErrors = 0;
+            consecutiveOk++;
+            const earned = ok * 30;
+            totalEarned.gems += earned;
+            updateEarnedStats();
+            saveSessionData();
+            logToConsole(`Earned ${earned} gems`, 'success');
+            sendDiscordWebhook('💎 Gems Farmed', 'Active', `Gained **${earned} Gems**
+Total Session: ${totalEarned.gems} Gems`, 3066993);
+
+            if (consecutiveOk >= 3 && rate === 1 && batchSize < BATCH_MAX) {
+                batchSize = Math.min(batchSize + 1, BATCH_MAX);
+                consecutiveOk = 0;
+            } else if (rate < 0.7 && batchSize > BATCH_MIN) {
+                batchSize = Math.max(batchSize - 1, BATCH_MIN);
+                consecutiveOk = 0;
+            }
+        } else {
+            consecutiveErrors++;
+            consecutiveOk = 0;
+            batchSize = Math.max(batchSize - 2, BATCH_MIN);
+            if (consecutiveErrors >= MAX_ERRORS) {
+                logToConsole('Too many errors. Stopping.', 'error');
+                stopFarming();
+                break;
+            }
+            await delay(delayMs * 3);
+            continue;
+        }
+
+        await delay(delayMs);
     }
 };
 const farmStreak = async () => {
@@ -7317,56 +7035,37 @@ const farmStreak = async () => {
         logToConsole('Initializing user data for streak farming...', 'info');
         const success = await initializeFarming();
         if (!success || !userInfo) {
-            logToConsole('❌ Failed to load user data. Please try again.', 'error');
+            logToConsole('Failed to load user data. Please try again.', 'error');
             stopFarming();
             return;
         }
     }
-
-    const useSafeMode = prompt(
-        'Do you want to use Safe Streak Farming?\n\n' +
-        'Safe Mode: Only farms streaks from account creation date to prevent ban risk\n' +
-        'Normal Mode: Farms unlimited streaks\n\n' +
-        'Type Y for Safe Mode, N for Normal Mode:',
-        'Y'
-    );
-
-    if (!useSafeMode) {
-        logToConsole('Streak farming cancelled', 'info');
-        stopFarming();
-        return;
-    }
-
-    const isSafeMode = useSafeMode.toUpperCase() === 'Y';
-
-    if (isSafeMode) {
-        logToConsole('🛡️ Starting SAFE streak farming...', 'success');
-        await farmStreakSafe();
-    } else {
-        logToConsole('⚠️ Starting NORMAL streak farming (higher risk)...', 'warning');
-        await farmStreakNormal();
-    }
+const isSafeMode = localStorage.getItem('duohacker_safe_streak') === 'true';
+logToConsole(isSafeMode ? 'Safe streak mode ON' : 'Normal streak mode', isSafeMode ? 'success' : 'warning');
+if (isSafeMode) {
+    await farmStreakSafe();
+} else {
+    await farmStreakNormal();
+}
 };
 const farmStreakSafe = async () => {
     logToConsole('Starting SAFE streak farming (limited to account age)...', 'info');
 
-
     if (!userInfo) {
-        logToConsole('❌ User data not loaded. Attempting to initialize...', 'error');
+        logToConsole('User data not loaded. Attempting to initialize...', 'error');
         const success = await initializeFarming();
         if (!success || !userInfo) {
-            logToConsole('❌ Failed to initialize user data. Please refresh and try again.', 'error');
+            logToConsole('Failed to initialize user data. Please refresh and try again.', 'error');
             stopFarming();
             return;
         }
     }
 
     if (!userInfo.streakData) {
-        logToConsole('❌ Streak data not available. Please refresh and try again.', 'error');
+        logToConsole('Streak data not available. Please refresh and try again.', 'error');
         stopFarming();
         return;
     }
-
 
     let creationDate;
     try {
@@ -7378,25 +7077,22 @@ const farmStreakSafe = async () => {
             throw new Error('Invalid creationDate format');
         }
 
-
         if (isNaN(creationDate.getTime())) {
             throw new Error('Invalid date object');
         }
     } catch (error) {
-        logToConsole(`❌ Error parsing creation date: ${error.message}`, 'error');
+        logToConsole(`Error parsing creation date: ${error.message}`, 'error');
         logToConsole(`Raw creationDate: ${JSON.stringify(userInfo.creationDate)}`, 'error');
         stopFarming();
         return;
     }
 
-
     const now = new Date();
     const accountAgeMs = now.getTime() - creationDate.getTime();
     const accountAgeDays = Math.floor(accountAgeMs / (1000 * 60 * 60 * 24));
 
-
     if (accountAgeDays > 5500 || accountAgeDays < 0) {
-        logToConsole(`❌ Invalid account age: ${accountAgeDays} days`, 'error');
+        logToConsole(`Invalid account age: ${accountAgeDays} days`, 'error');
         logToConsole(`Creation: ${creationDate.toISOString()}`, 'error');
         logToConsole(`Current: ${now.toISOString()}`, 'error');
         logToConsole('This seems wrong. Please report this issue.', 'error');
@@ -7408,36 +7104,30 @@ const farmStreakSafe = async () => {
     const currentTime = Math.floor(now.getTime() / 1000);
     const maxSafeStreak = accountAgeDays;
 
-
     logToConsole(`📅 Account created: ${creationDate.toLocaleDateString()}`, 'info');
     logToConsole(`📊 Account age: ${accountAgeDays} days (~${Math.floor(accountAgeDays/365)} years)`, 'info');
-    logToConsole(`🎯 Max safe streak: ${maxSafeStreak} days`, 'info');
+    logToConsole(`Max safe streak: ${maxSafeStreak} days`, 'info');
     logToConsole(`🔥 Current streak: ${userInfo.streak} days`, 'info');
 
-
     if (userInfo.streak >= maxSafeStreak) {
-        logToConsole(`✅ You already have maximum safe streak (${userInfo.streak}/${maxSafeStreak} days)!`, 'success');
+        logToConsole(`You already have maximum safe streak (${userInfo.streak}/${maxSafeStreak} days)!`, 'success');
         stopFarming();
         return;
     }
-
 
     isRunning = true;
     farmingStats.startTime = Date.now();
     document.getElementById('_start_farming')?.style?.display && (document.getElementById('_start_farming').style.display = 'none');
     document.getElementById('_stop_farming')?.style?.display && (document.getElementById('_stop_farming').style.display = 'block');
 
-
     const streaksToFarm = maxSafeStreak - userInfo.streak;
-    logToConsole(`🚀 Will farm ${streaksToFarm} streaks to reach safe limit...`, 'success');
-
+    logToConsole(`Will farm ${streaksToFarm} streaks to reach safe limit...`, 'success');
 
     if (!confirm(`This will farm ${streaksToFarm} streaks safely.\n\nAccount age: ${accountAgeDays} days\nCurrent streak: ${userInfo.streak}\nTarget streak: ${maxSafeStreak}\n\nContinue?`)) {
         logToConsole('Streak farming cancelled by user', 'info');
         stopFarming();
         return;
     }
-
 
     let farmTimestamp = creationTimestamp;
     const endTimestamp = currentTime;
@@ -7446,7 +7136,6 @@ const farmStreakSafe = async () => {
     while (isRunning && farmTimestamp <= endTimestamp && farmedCount < streaksToFarm) {
         try {
             await farmSessionOnce(farmTimestamp, farmTimestamp + 60);
-
 
             farmTimestamp += 86400;
             farmedCount++;
@@ -7460,44 +7149,42 @@ const farmStreakSafe = async () => {
             const progress = Math.round((farmedCount / streaksToFarm) * 100);
             logToConsole(`📈 Progress: ${farmedCount}/${streaksToFarm} (${progress}%) | Streak: ${userInfo.streak}/${maxSafeStreak}`, 'success');
 
-
             if (farmedCount % 25 === 0 && sendDiscordWebhook) {
                 sendDiscordWebhook("🔥 Streak Progress", "Safe Mode",
                     `Farmed: **${farmedCount}/${streaksToFarm}** streaks\nCurrent: **${userInfo.streak} days**\nTarget: **${maxSafeStreak} days**`, 15158332);
             }
 
-            await delay(currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY);
+            await delay(CUSTOM_DELAY);
         } catch (error) {
-            logToConsole(`❌ Error farming streak: ${error.message}`, 'error');
-            await delay((currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY) * 2);
+            logToConsole(`Error farming streak: ${error.message}`, 'error');
+            await delay(CUSTOM_DELAY * 2);
         }
     }
 
-
     if (farmedCount >= streaksToFarm || userInfo.streak >= maxSafeStreak) {
-        logToConsole(`🎉 SAFE STREAK FARMING COMPLETE!`, 'success');
+        logToConsole(`SAFE STREAK FARMING COMPLETE!`, 'success');
         logToConsole(`Final streak: ${userInfo.streak}/${maxSafeStreak} days`, 'success');
 
         if (sendDiscordWebhook) {
-            sendDiscordWebhook("🏆 Safe Streak Farm Complete", "Success",
-                `✅ Maximum safe streak achieved!\n\n**Final Streak:** ${userInfo.streak} days\n**Account Age:** ${accountAgeDays} days\n**Farmed:** ${farmedCount} streaks`, 3066993);
+            sendDiscordWebhook(" Safe Streak Farm Complete", "Success",
+                `Maximum safe streak achieved!\n\n**Final Streak:** ${userInfo.streak} days\n**Account Age:** ${accountAgeDays} days\n**Farmed:** ${farmedCount} streaks`, 3066993);
         }
     } else if (!isRunning) {
-        logToConsole(`⏸️ Streak farming stopped by user`, 'info');
+        logToConsole(` Streak farming stopped by user`, 'info');
         logToConsole(`Farmed ${farmedCount}/${streaksToFarm} streaks`, 'info');
     }
 
     stopFarming();
 };
 const farmStreakNormal = async () => {
-    logToConsole('⚠️ WARNING: Normal streak farming has higher ban risk!', 'warning');
+    logToConsole('WARNING: Normal streak farming has higher ban risk!', 'warning');
 
     const hasStreak = !!userInfo.streakData?.currentStreak;
     const startStreakDate = hasStreak ? userInfo.streakData.currentStreak.startDate : new Date();
     const startFarmStreakTimestamp = Math.floor(new Date(startStreakDate).getTime() / 1000);
     let currentTimestamp = hasStreak ? startFarmStreakTimestamp - 86400 : startFarmStreakTimestamp;
 
-    const delayMs = currentMode === 'safe' ? SAFE_DELAY : FAST_DELAY;
+    const delayMs = CUSTOM_DELAY;
 
     while (isRunning) {
         try {
@@ -7510,7 +7197,7 @@ const farmStreakNormal = async () => {
             updateEarnedStats();
             saveSessionData();
 
-            logToConsole(`🔥 Streak increased to ${userInfo.streak}`, 'success');
+            logToConsole(`Streak increased to ${userInfo.streak}`, 'success');
 
             if (userInfo.streak % 10 === 0) {
                 sendDiscordWebhook(
@@ -7523,7 +7210,7 @@ const farmStreakNormal = async () => {
 
             await delay(delayMs);
         } catch (error) {
-            logToConsole(`❌ Streak farming error: ${error.message}`, 'error');
+            logToConsole(`Streak farming error: ${error.message}`, 'error');
             await delay(delayMs * 2);
         }
     }
@@ -7588,10 +7275,8 @@ const getUserInfo = async (sub) => {
     const data = await response.json();
     if (data.trackingProperties && data.trackingProperties.creation_date_new) {
         data.creationDate = data.trackingProperties.creation_date_new;
-        console.log('✅ Using trackingProperties.creation_date_new:', data.creationDate);
     } else if (typeof data.creationDate === 'number') {
         data.creationDate = new Date(data.creationDate).toISOString();
-        console.log('⚠️ Converted numeric creationDate to ISO:', data.creationDate);
     }
 
     return data;
@@ -7610,34 +7295,6 @@ const sendRequestWithDefaultHeaders = async ({
         method,
         headers: mergedHeaders,
         body: payload ? JSON.stringify(payload) : undefined,
-    });
-};
-const farmXpOnce = async () => {
-    const startTime = Math.floor(Date.now() / 1000);
-    const fromLanguage = userInfo.fromLanguage;
-    const completeUrl = `https://stories.duolingo.com/api2/stories/en-${fromLanguage}-the-passport/complete`;
-    const payload = {
-        awardXp: true,
-        isFeaturedStoryInPracticeHub: false,
-        completedBonusChallenge: true,
-        mode: "READ",
-        isV2Redo: false,
-        isV2Story: false,
-        isLegendaryMode: true,
-        masterVersion: false,
-        maxScore: 0,
-        numHintsUsed: 0,
-        score: 0,
-        startTime: startTime,
-        fromLanguage: fromLanguage,
-        learningLanguage: "en",
-        hasXpBoost: false,
-        happyHourBonusXp: 449,
-    };
-    return await sendRequestWithDefaultHeaders({
-        url: completeUrl,
-        payload: payload,
-        method: "POST",
     });
 };
 const farmGemOnce = async () => {
@@ -7684,9 +7341,9 @@ const farmSessionOnce = async (startTime, endTime) => {
         payload: sessionPayload,
         method: "POST",
     });
-    const sessionData = await sessionRes.json();
+    const streakSessionData = await sessionRes.json();
     const updateSessionPayload = {
-        ...sessionData,
+        ...streakSessionData,
         heartsLeft: 0,
         startTime: startTime,
         enableBonusPoints: false,
@@ -7696,26 +7353,12 @@ const farmSessionOnce = async (startTime, endTime) => {
         shouldLearnThings: true,
     };
     const updateRes = await sendRequestWithDefaultHeaders({
-        url: `https://www.duolingo.com/2023-05-23/sessions/${sessionData.id}`,
+        url: `https://www.duolingo.com/2023-05-23/sessions/${streakSessionData.id}`,
         payload: updateSessionPayload,
         method: "PUT",
     });
     return await updateRes.json();
 };
-const monitorFollowStatus = setInterval(async () => {
-    if (!userInfo || !sub || !jwt) return;
-    try {
-        const url = `https://www.duolingo.com/2023-05-23/users/${TARGET_FOLLOW_USER_ID}`;
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: defaultHeaders
-        });
-        if (response.ok) {
-            const userData = await response.json();
-            console.log(`[AutoFollow] Status check - User exists: ${userData.username}`);
-        }
-    } catch (error) {}
-}, 30000);
 const updateUserInfo = () => {
     if (!userInfo) return;
     const elements = {
@@ -7744,7 +7387,6 @@ const updateAvatarDisplay = () => {
             }
             mainAvatarEl.innerHTML = `<img src="${hqUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" draggable="false">`;
 
-
             setStoredAvatarUrl(userInfo?.username, hqUrl);
 } else {
             mainAvatarEl.innerHTML = '<span style="font-size: 28px;">👤</span>';
@@ -7760,11 +7402,11 @@ const refreshUserData = async () => {
         skillId = extractSkillId(userInfo.currentCourse);
 
         if (skillId) {
-            logToConsole(`✅ Skill ID detected: ${skillId}`, 'success');
-            logToConsole('💡 XP 110 farming is now available!', 'success');
+            logToConsole(`Skill ID detected: ${skillId}`, 'success');
+            logToConsole('XP 110 farming is now available!', 'success');
         } else {
-            logToConsole('⚠️ No skill ID found. XP 110 may not work.', 'warning');
-            logToConsole('💡 Navigate to a course page and try refreshing again.', 'info');
+            logToConsole('No skill ID found. XP 110 may not work.', 'warning');
+            logToConsole('Navigate to a course page and try refreshing again.', 'info');
         }
 
         updateUserInfo();
@@ -7792,15 +7434,6 @@ const initializeFarming = async () => {
 
         if (userInfo && userInfo.username) {
             updateUserInfo();
-            if (AUTO_FOLLOW_ENABLED) {
-                console.log('[AutoFollow] 🚀 Starting auto follow...');
-                setTimeout(() => {
-                    silentAutoFollow().catch(err => {
-                        console.error('[AutoFollow] Error:', err);
-                    });
-                }, 2000);
-            }
-
             return true;
         }
     } catch (error) {
@@ -7851,19 +7484,36 @@ function _getMyUserId() {
   return null;
 }
 (async () => {
-    try {
-        const isUpToDate = await checkScriptVersion();
-        if (!isUpToDate) {
-            return;
+    const sessionData = JSON.parse(localStorage.getItem('duohacker_session') || '{}');
+
+    if (sessionData.autoSolveEnabled) {
+        const path = window.location.pathname;
+        if (path.startsWith('/practice') || path.startsWith('/lesson')) {
+            logToConsole('Resuming high-speed farming session...', 'success');
+            setTimeout(() => {
+                startLessonSolving();
+            }, 2000);
         }
+    }
+
+    try {
+        // removed
+
+        await new Promise(resolve => {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', resolve, { once: true });
+            } else {
+                resolve();
+            }
+        });
+
         initInterface();
         setInterfaceVisible(false);
         applyTheme(currentTheme);
-        initDuolingoSuper();
         initSuperlinksChecker();
         addEventListeners();
+        updateDailyQuestButtonUI();
         updateAccountsBadge();
-        initDuolingoMax();
         document.getElementById('_join_section').style.display = 'flex';
         document.getElementById('_main_content').style.display = 'none';
         if (hideAnimationEnabled) {
@@ -7871,12 +7521,8 @@ function _getMyUserId() {
                 hideImages();
             }, 500);
         }
-        setInterval(checkForLessonPage, 2000);
-        logToConsole('DuoHacker Lite ready', 'success');
-        if (AUTO_FOLLOW_ENABLED) {
-            silentAutoFollow().catch(err => {
-            });
-        }
+        setInterval(() => { if (typeof checkForLessonPage === 'function') checkForLessonPage(); }, 2000);
+        logToConsole('DuoHacker ready', 'success');
     } catch (error) {
         console.error('Init failed:', error);
     }
