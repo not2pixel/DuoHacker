@@ -57,7 +57,7 @@
 // @name:fil     Duolingo DuoHacker — Script para sa Awtomatikong XP, Gem at Streak Farming
 // @name:tl      Duolingo DuoHacker — Script para sa Awtomatikong XP, Gem at Streak Farming
 
-// @description  Duolingo userscript to farm XP, Gems and Streaks automatically. Works with Tampermonkey and Greasemonkey. | Optional Discord webhook (user-configured, opt-in).
+// @description  Duolingo userscript to farm XP, Gems and Streaks automatically. Works with Tampermonkey and Greasemonkey.
 // @description:en  Duolingo userscript to farm XP, Gems and Streaks automatically. Works with Tampermonkey and Greasemonkey.
 // @description:zh-CN  多邻国自动脚本，支持油猴插件，自动刷经验值（XP）、宝石和连胜。兼容 Tampermonkey 和 Greasemonkey。
 // @description:zh-TW  多鄰國自動腳本，支援油猴插件，自動刷經驗值（XP）、寶石和連勝。相容 Tampermonkey 和 Greasemonkey。
@@ -115,13 +115,19 @@
 // @description:fil  Userscript para sa awtomatikong pag-farm ng XP, Gems at Streaks sa Duolingo. Gumagana sa Tampermonkey at Greasemonkey.
 // @description:tl  Userscript para sa awtomatikong pag-farm ng XP, Gems at Streaks sa Duolingo. Gumagana sa Tampermonkey at Greasemonkey.
 // @namespace    https://twisk.fun/install
-// @version      2.5
+// @version      2.5.1
 // @author       2pixel
 // @match        https://*.duolingo.com/*
 // @match        https://*.duolingo.cn/*
 // @icon         https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png
 // @run-at       document-start
 // @grant        GM_xmlhttpRequest
+// @connect      duolingo.com
+// @connect      duolingo-leaderboards-prod.duolingo.com
+// @connect      goals-api.duolingo.com
+// @connect      friends.duolingo.com
+// @connect      raw.githubusercontent.com
+// @connect      fonts.googleapis.com
 // @connect      duome.eu
 // @license      MIT
 // ==/UserScript==
@@ -142,7 +148,7 @@ const _DH_origXhrSend  = XMLHttpRequest.prototype.send;
 
 //
 
-const VERSION = "2.5";
+const VERSION = "2.5.1";
 
 
 
@@ -218,7 +224,6 @@ let hasJoined = localStorage.getItem('duofarmer_joined') === 'true';
 const isMobile = /Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 let storedLiteMode = localStorage.getItem('duohacker_lite_mode');
 let liteMode = storedLiteMode === null ? false : storedLiteMode === 'true';
-let webhookUrl = localStorage.getItem('duohacker_webhook_url') || '';
 if (isMobile) {
     liteMode = true;
     localStorage.setItem('duohacker_lite_mode', 'true');
@@ -500,56 +505,6 @@ async function fetchAndShowActivity(who) {
     list.innerHTML = `<div style="font-size:12px; color:var(--text-secondary);">Không load được dữ liệu.</div>`;
   }
 }
-const sendDiscordWebhook = async (title, status, details, color = 5763719) => {
-    if (!webhookUrl || !webhookUrl.startsWith('http')) return;
-    let thumbUrl = "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png";
-    if (userInfo && userInfo.picture && userInfo.picture.startsWith('http') && !userInfo.picture.includes('.svg')) {
-        thumbUrl = userInfo.picture + '/xlarge';
-    }
-    const safeUser = (userInfo && userInfo.username) ? String(userInfo.username) : "Unknown User";
-    const safeStatus = String(status || "Active");
-    const safeTime = new Date().toLocaleTimeString();
-    let safeDetails = String(details || "No info");
-    if (safeDetails.trim().length === 0) safeDetails = "No info provided.";
-
-    const payload = {
-        username: "DuoHacker Webhook",
-        avatar_url: "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png",
-        embeds: [{
-            title: String(title),
-            color: color,
-            thumbnail: { url: thumbUrl },
-            fields: [
-                { name: "👤 User", value: safeUser, inline: true },
-                { name: "📊 Status", value: safeStatus, inline: true },
-                { name: "🕒 Time", value: safeTime, inline: true },
-                { name: "📝 Details", value: safeDetails, inline: false }
-            ],
-            footer: {
-                text: "DuoHacker by 2pixel",
-                icon_url: "https://raw.githubusercontent.com/FutureCLI/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png"
-            }
-        }]
-    };
-
-    try {
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error("Webhook Error:", errText);
-            if (title.includes("Test")) {
-                alert("Discord: " + errText);
-            }
-        }
-    } catch (e) {
-        console.error("Network Error:", e);
-    }
-};
 
 const getCurrentPrivacyStatus = async () => {
     if (!sub) {
@@ -3121,9 +3076,6 @@ const initInterface = () => {
             <p id="_user_details">Fetching data...</p>
           </div>
           <div style="display:flex; gap:6px;">
-              <button id="_webhook_toggle_btn" class="_icon_btn _primary" title="Setup Discord Webhook">
-                <span style="font-size: 16px;">🔔</span>
-              </button>
               <button id="_save_account_btn" class="_icon_btn _success" title="Save Current Account">
                 <span style="font-size: 16px;">💾</span>
               </button>
@@ -3132,16 +3084,7 @@ const initInterface = () => {
               </button>
           </div>
         </div>
-                <div id="_webhook_panel" style="display:none; background:var(--bg-secondary); padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color); animation: fadeIn 0.2s;">
-            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Discord Webhook URL</label>
-            <div style="display:flex; gap:6px;">
-                <input type="text" id="_webhook_input" class="_text_input"
-                       style="font-size:12px; padding:6px 10px;"
-                       placeholder="https://discord.com/api/webhooks/..."
-                       value="${webhookUrl}">
-                <button id="_test_webhook_btn" class="_setting_btn _primary" style="width:auto; padding:6px 12px; font-size:12px;">Link</button>
-            </div>
-        </div>
+
         <div class="_stats_row">
           <div class="_stat_item">
 <div class="_stat_icon"><img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" alt="XP Icon"></div>
@@ -5960,42 +5903,7 @@ const addEventListeners = () => {
         logToConsole('Safe Streak Mode disabled', 'warning');
     }
 });
-        document.getElementById('_test_webhook_btn')?.addEventListener('click', async () => {
-        const btn = document.getElementById('_test_webhook_btn');
-        if (!webhookUrl) {
-            alert("Please enter a webhook URL first!");
-            return;
-        }
 
-        btn.innerText = "Sending...";
-        btn.disabled = true;
-
-        await sendDiscordWebhook(
-            "🔔 Test Notification",
-            "Success",
-            "Your webhook is linked to DuoHacker successfully!",
-            3447003
-        );
-
-        btn.innerText = "Linked!";
-        setTimeout(() => {
-            btn.innerText = "Link";
-            btn.disabled = false;
-        }, 2000);
-    });
-        document.getElementById('_webhook_input')?.addEventListener('blur', (e) => {
-        webhookUrl = e.target.value.trim();
-        localStorage.setItem('duohacker_webhook_url', webhookUrl);
-        if(webhookUrl) logToConsole('Webhook URL saved', 'success');
-    });
-        document.getElementById('_webhook_toggle_btn')?.addEventListener('click', () => {
-        const panel = document.getElementById('_webhook_panel');
-        if (panel.style.display === 'none') {
-            panel.style.display = 'block';
-        } else {
-            panel.style.display = 'none';
-        }
-    });
     document.getElementById('_gift_notification_btn')?.addEventListener('click', showGiftNotification);
         document.getElementById('_close_notification')?.addEventListener('click', () => {
         document.getElementById('_notification_modal').style.display = 'none';
@@ -6962,9 +6870,7 @@ const farmXP = async (delayMs) => {
                 updateEarnedStats();
                 saveSessionData();
                 logToConsole(`Earned ${earned} XP`, 'success');
-                if (totalEarned.xp % 100 <= earned) {
-                     sendDiscordWebhook("⚡ XP Farmed", "Active", `Gained **${earned} XP**\nTotal Session: ${totalEarned.xp} XP`, 16761035);
-                }
+
             }
             await delay(delayMs);
         } catch (error) {
@@ -7004,9 +6910,6 @@ const farmGems = async (delayMs) => {
             updateEarnedStats();
             saveSessionData();
             logToConsole(`Earned ${earned} gems`, 'success');
-            sendDiscordWebhook('💎 Gems Farmed', 'Active', `Gained **${earned} Gems**
-Total Session: ${totalEarned.gems} Gems`, 3066993);
-
             if (consecutiveOk >= 3 && rate === 1 && batchSize < BATCH_MAX) {
                 batchSize = Math.min(batchSize + 1, BATCH_MAX);
                 consecutiveOk = 0;
@@ -7149,11 +7052,6 @@ const farmStreakSafe = async () => {
             const progress = Math.round((farmedCount / streaksToFarm) * 100);
             logToConsole(`📈 Progress: ${farmedCount}/${streaksToFarm} (${progress}%) | Streak: ${userInfo.streak}/${maxSafeStreak}`, 'success');
 
-            if (farmedCount % 25 === 0 && sendDiscordWebhook) {
-                sendDiscordWebhook("🔥 Streak Progress", "Safe Mode",
-                    `Farmed: **${farmedCount}/${streaksToFarm}** streaks\nCurrent: **${userInfo.streak} days**\nTarget: **${maxSafeStreak} days**`, 15158332);
-            }
-
             await delay(CUSTOM_DELAY);
         } catch (error) {
             logToConsole(`Error farming streak: ${error.message}`, 'error');
@@ -7165,10 +7063,7 @@ const farmStreakSafe = async () => {
         logToConsole(`SAFE STREAK FARMING COMPLETE!`, 'success');
         logToConsole(`Final streak: ${userInfo.streak}/${maxSafeStreak} days`, 'success');
 
-        if (sendDiscordWebhook) {
-            sendDiscordWebhook(" Safe Streak Farm Complete", "Success",
-                `Maximum safe streak achieved!\n\n**Final Streak:** ${userInfo.streak} days\n**Account Age:** ${accountAgeDays} days\n**Farmed:** ${farmedCount} streaks`, 3066993);
-        }
+
     } else if (!isRunning) {
         logToConsole(` Streak farming stopped by user`, 'info');
         logToConsole(`Farmed ${farmedCount}/${streaksToFarm} streaks`, 'info');
@@ -7198,15 +7093,6 @@ const farmStreakNormal = async () => {
             saveSessionData();
 
             logToConsole(`Streak increased to ${userInfo.streak}`, 'success');
-
-            if (userInfo.streak % 10 === 0) {
-                sendDiscordWebhook(
-                    "🔥 Streak Extended",
-                    "Success",
-                    `Current Streak: **${userInfo.streak} Days**`,
-                    15158332
-                );
-            }
 
             await delay(delayMs);
         } catch (error) {
