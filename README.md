@@ -1,5 +1,3 @@
-
-```markdown
 # <img src="https://raw.githubusercontent.com/not2pixel/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png" width="130" height="130" alt="DuoHacker Logo"> DuoHacker — Duolingo Auto XP · Gems · Streaks
 
 <p align="center">
