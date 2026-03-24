@@ -26,12 +26,6 @@
 
 ---
 
-## Watch it in action
-
-<iframe width="100%" height="600" src="https://www.youtube.com/embed/CddgLLfPqUM" title="DuoHacker Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
----
-
 ## Screenshots
 
 | Main Dashboard | XP & Gems |
@@ -69,13 +63,7 @@ No — it works on Duolingo web only by modifying API responses in the browser.
 
 ## Community & Support
 
-* [**Discord**](https://twisk.fun/discord) — get help, follow updates, and join the community
-* [**YouTube**](https://www.youtube.com/@duohackertool) — video guides and feature demos
-* [**GitHub**](https://github.com/helloticc/DuoHacker) — source code and issue tracker
-* [**GreasyFork**](https://greasyfork.org/en/scripts/DuoHacker) — leave a review if it helped you
-
----
-
-## Installation guide
-
-<iframe width="100%" height="600" src="https://www.youtube.com/embed/y75o9f5k01w" title="DuoHacker Setup Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+* [**Discord**]([https://twisk.fun/discord](https://discord.com/invite/Gvmd7deFtS)) — get help, follow updates, and join the community
+* [**YouTube**](https://www.youtube.com/@duohacker-hack-cheat) — video guides and feature demos
+* [**GitHub**](https://github.com/not2pixel/DuoHacker) — source code and issue tracker
+* [**GreasyFork**](https://greasyfork.org/en/scripts/561041-duolingo-duohacker) — leave a review if it helped you
