@@ -1,4 +1,7 @@
-# <img src="https://raw.githubusercontent.com/not2pixel/DuoHacker/main/images/Logo_TypePNG_DuoHacker.png" width="130" height="130" alt="DuoHacker Logo"> DuoHacker — Duolingo Auto XP · Gems · Streaks
+<p align="center">
+  <img src="https://raw.githubusercontent.com/not2pixel/DuoHacker/refs/heads/main/images/DuoHacker_Logo_NoBG_PNG.png" width="120" height="120" alt="DuoHacker Logo">
+</p>
+<h1>DuoHacker — The #1 Duolingo Auto Tool</h1>
 
 <p align="center">
   <a href="https://github.com/not2pixel/DuoHacker/raw/main/DuoHacker.user.js">
@@ -100,4 +103,3 @@ The DuoHacker panel will load automatically. Select a mode and start!
   <p>Made with ❤️ by the DuoHacker team</p>
   <p><em>This project is not affiliated with Duolingo, Inc.</em></p>
 </div>
-```
