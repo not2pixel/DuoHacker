@@ -1,1 +1,95 @@
-
+{
+  "versions": [
+    {
+      "id": "2.7.0",
+      "name": "v2.7.0 - Performance Plus",
+      "releaseDate": "2026-04-05",
+      "downloadUrl": "https://raw.githubusercontent.com/not2pixel/DuoHacker/refs/heads/main/v2/2.7.0.user.js",
+      "changes": [
+        "⚡ 30% faster XP farming with new slug algorithm",
+        "🔧 Fixed version system page navigation",
+        "🐛 Patched memory leak in streak counter",
+        "✨ Added dynamic version patches"
+      ],
+      "features": [
+        "XP Farm (Stories 499 + UNIT_TEST 110)",
+        "Gem Collector (150 per run)",
+        "Streak Manager",
+        "Auto Settings",
+        "Live Stats"
+      ],
+      "downloadCount": 1542,
+      "rating": 4.8,
+      "compatibility": "All languages, all devices"
+    },
+    {
+      "id": "2.6.0",
+      "name": "v2.6.0 - Stable Release",
+      "releaseDate": "2026-03-28",
+      "downloadUrl": "https://raw.githubusercontent.com/not2pixel/DuoHacker/refs/heads/main/v2/2.6.0.user.js",
+      "changes": [
+        "✅ Stable XP farming system",
+        "✅ Improved UI responsiveness",
+        "✅ Better error handling",
+        "✅ Updated metadata for 50+ locales"
+      ],
+      "features": [
+        "XP Farm (Stories 499 + UNIT_TEST 110)",
+        "Gem Collector (150 per run)",
+        "Streak Manager",
+        "Auto Settings"
+      ],
+      "downloadCount": 3240,
+      "rating": 4.7,
+      "compatibility": "All languages, all devices"
+    },
+    {
+      "id": "2.5.1",
+      "name": "v2.5.1 - Hotfix",
+      "releaseDate": "2026-03-15",
+      "downloadUrl": "https://raw.githubusercontent.com/not2pixel/DuoHacker/refs/heads/main/v2/2.5.1.user.js",
+      "changes": [
+        "🔧 Fixed Duolingo API timeout issue",
+        "🐛 Patched farming loop freeze",
+        "⚠️ Deprecated old XP method"
+      ],
+      "features": [
+        "XP Farm",
+        "Gem Collector",
+        "Streak Manager"
+      ],
+      "downloadCount": 2156,
+      "rating": 4.6,
+      "compatibility": "All languages, all devices"
+    },
+    {
+      "id": "2.5.0",
+      "name": "v2.5.0 - Gem Overhaul",
+      "releaseDate": "2026-03-01",
+      "downloadUrl": "https://raw.githubusercontent.com/not2pixel/DuoHacker/refs/heads/main/v2/2.5.0.user.js",
+      "changes": [
+        "💎 New gem farming algorithm",
+        "🎨 Redesigned V1 UI",
+        "📊 Added live farming stats",
+        "🔐 Enhanced security checks"
+      ],
+      "features": [
+        "XP Farm",
+        "Gem Collector (NEW)",
+        "Streak Manager",
+        "Settings Page"
+      ],
+      "downloadCount": 1845,
+      "rating": 4.5,
+      "compatibility": "All languages, all devices"
+    }
+  ],
+  "metadata": {
+    "latestVersion": "2.7.0",
+    "minSupportedVersion": "2.5.0",
+    "totalDownloads": 8783,
+    "lastUpdated": "2026-04-05T10:30:00Z",
+    "repositoryUrl": "https://github.com/not2pixel/DuoHacker",
+    "discordUrl": "https://discord.gg/Gvmd7deFtS"
+  }
+}
