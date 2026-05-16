@@ -95,18 +95,14 @@ function prepareScript(raw) {
 
 function get169Size() {
   const { width: sw, height: sh } = screen.getPrimaryDisplay().workAreaSize;
-
   let w = Math.min(1920, sw);
   let h = Math.round(w * 9 / 16);
-
   if (h > sh) {
     h = sh;
     w = Math.round(h * 16 / 9);
   }
-
   const x = Math.round((sw - w) / 2);
   const y = Math.round((sh - h) / 2);
-
   return { w, h, x, y };
 }
 
@@ -128,9 +124,7 @@ async function createWindow() {
     height: h,
     x,
     y,
-    minWidth:  w,
-    minHeight: h,
-    aspectRatio: 16 / 9,
+    resizable: true,
     title: "DuoHacker",
     icon: path.join(__dirname, "icon.png"),
     backgroundColor: "#1cb0f6",
@@ -142,11 +136,14 @@ async function createWindow() {
       backgroundThrottling: false,
       enableWebSQL: false,
       spellcheck: false,
-      disableHtmlFullscreenWindowResize: false,
     },
   });
 
   win.setMenuBarVisibility(false);
+
+  win.on("close", (e) => {
+    win.destroy();
+  });
 
   win.once("ready-to-show", () => win.show());
 
@@ -162,10 +159,10 @@ async function createWindow() {
     });
   }
 
-  win.on("hide",    () => win.webContents.setFrameRate(1));
-  win.on("minimize",() => win.webContents.setFrameRate(1));
-  win.on("show",    () => win.webContents.setFrameRate(60));
-  win.on("restore", () => win.webContents.setFrameRate(60));
+  win.on("minimize", () => win.webContents.setFrameRate(1));
+  win.on("restore",  () => win.webContents.setFrameRate(60));
+  win.on("hide",     () => win.webContents.setFrameRate(1));
+  win.on("show",     () => win.webContents.setFrameRate(60));
 
   if (process.env.DUOHACKER_DEV === "1") {
     win.webContents.openDevTools({ mode: "detach" });
@@ -179,7 +176,7 @@ async function createWindow() {
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+  app.quit();
 });
 
 app.on("activate", () => {
