@@ -1,0 +1,46 @@
+{
+  "name": "duohacker",
+  "version": "1.0.0",
+  "description": "DuoHacker – Duolingo with DuoHacker userscript injected",
+  "main": "main.js",
+  "author": "DuoHacker",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "set DUOHACKER_DEV=1 && electron .",
+    "build": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.duohacker.app",
+    "productName": "DuoHacker",
+    "copyright": "DuoHacker",
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "icon": "icon.png",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DuoHacker",
+      "runAfterFinish": true
+    },
+    "files": [
+      "main.js",
+      "icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}
