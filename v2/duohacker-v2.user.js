@@ -52,7 +52,7 @@
 // @name:ur             Duolingo DuoHacker
 
 // @namespace           https://github.com/not2pixel/DuoHacker
-// @version             2026.05.03
+// @version             2026.05.10
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 // @description:vi      Công cụ hack Duolingo #1 - Farm XP, Gems, Streaks và mở khóa Duolingo Max miễn phí.
 // @description:zh-CN   最强 Duolingo 辅助工具 - 自动刷 XP、宝石、连胜，免费解锁 Duolingo Max。
@@ -699,7 +699,7 @@ _wrap.innerHTML = `
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">twisk.fun</p>
-                <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">v2026.05.03</p>
+                <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">v2026.05.10</p>
             </div>
         </div>
 
@@ -2007,7 +2007,7 @@ function _setBtnDone(btnId, label){
 }
 
 const _GF_SCRIPT_URL='https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-const _CURRENT_VER='2026.05.03';
+const _CURRENT_VER='2026.05.10';
 
 function _setConn(state, label){
         if (state === 'connected' && _isOutdated) {
@@ -2418,7 +2418,7 @@ async function _getGemCount(){
     }
 }
 
-const THREADS=3;
+const THREADS=4;
 
 async function _farmGems(){
     _setBtnState('DH_Gem_Btn', _C_RED, 'STOP');
@@ -2446,7 +2446,7 @@ async function _farmGems(){
 
             const batch = rewards.slice(i, i + THREADS);
             await Promise.all(batch.map(r => _exploitGemReward(r.id)));
-            await _sleep(200);
+            await _sleep(150);
 
             const now = await _getGemCount();
             if(now !== null){
@@ -2457,7 +2457,7 @@ async function _farmGems(){
                 if(_user){ _user.gems = now; _renderUser(_user); }
             }
 
-            await _sleep(Math.max(100, _delay));
+            await _sleep(Math.max(50, _delay - 50));
         }
 
         // Pass done — loop back to fetch fresh rewards (runs until user stops)
